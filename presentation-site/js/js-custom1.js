@@ -1,28 +1,28 @@
 // Custom Scripts for Primal Template //
 
 jQuery(function ($) {
-  "use strict";
+  'use strict';
 
   // get the value of the bottom of the #main element by adding the offset of that element plus its height, set it as a variable
-  var mainbottom = $("#main").offset().top;
+  var mainbottom = $('#main').offset().top;
 
   // on scroll,
-  $(window).on("scroll", function () {
+  $(window).on('scroll', function () {
     // we round here to reduce a little workload
     stop = Math.round($(window).scrollTop());
     if (stop > mainbottom) {
-      $(".navbar").addClass("past-main");
-      $(".navbar").addClass("effect-main");
+      $('.navbar').addClass('past-main');
+      $('.navbar').addClass('effect-main');
     } else {
-      $(".navbar").removeClass("past-main");
+      $('.navbar').removeClass('past-main');
     }
   });
 
   // Collapse navbar on click
 
-  $(document).on("click.nav", ".navbar-collapse.in", function (e) {
-    if ($(e.target).is("a")) {
-      $(this).removeClass("in").addClass("collapse");
+  $(document).on('click.nav', '.navbar-collapse.in', function (e) {
+    if ($(e.target).is('a')) {
+      $(this).removeClass('in').addClass('collapse');
     }
   });
 
@@ -32,15 +32,15 @@ jQuery(function ($) {
 
   $(window).scroll(function () {
     if ($(this).scrollTop() > 1000) {
-      $("#back-top").fadeIn();
+      $('#back-top').fadeIn();
     } else {
-      $("#back-top").fadeOut();
+      $('#back-top').fadeOut();
     }
   });
   // scroll body to 0px on click
-  $("#back-top").on("click", function () {
-    $("#back-top").tooltip("hide");
-    $("body,html").animate(
+  $('#back-top').on('click', function () {
+    $('#back-top').tooltip('hide');
+    $('body,html').animate(
       {
         scrollTop: 0,
       },
@@ -50,7 +50,7 @@ jQuery(function ($) {
   });
 
   /*-------- Owl Carousel ---------- */
-  $(".reviews").owlCarousel({
+  $('.reviews').owlCarousel({
     slideSpeed: 200,
     items: 1,
     singleItem: true,
@@ -59,7 +59,7 @@ jQuery(function ($) {
   });
 
   /*-------- Owl Carousel ---------- */
-  $(".review-cards").owlCarousel({
+  $('.review-cards').owlCarousel({
     slideSpeed: 200,
     items: 1,
     singleItem: true,
@@ -70,17 +70,17 @@ jQuery(function ($) {
   /* ------ jQuery for Easing min -- */
 
   // Smooth scrolling using jQuery easing
-  $('a.js-scroll-trigger[href*="#"]:not([href="#"])').on("click", function () {
-    if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") && location.hostname == this.hostname) {
+  $('a.js-scroll-trigger[href*="#"]:not([href="#"])').on('click', function () {
+    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       var target = $(this.hash);
-      target = target.length ? target : $("[name=" + this.hash.slice(1) + "]");
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
       if (target.length) {
-        $("html, body").animate(
+        $('html, body').animate(
           {
             scrollTop: target.offset().top - 54,
           },
           1000,
-          "easeInOutExpo"
+          'easeInOutExpo'
         );
         return false;
       }
@@ -93,15 +93,15 @@ jQuery(function ($) {
 
   /* ------ Countdown ----- */
 
-  $("#countdown").countdown(
+  $('#countdown').countdown(
     {
-      date: "12/12/2021 12:00:00",
+      date: '12/12/2021 12:00:00',
       offset: +2,
-      day: "Day",
-      days: "Days",
+      day: 'Day',
+      days: 'Days',
     },
     function () {
-      alert("Done!");
+      alert('Done!');
     }
   );
 
@@ -109,35 +109,55 @@ jQuery(function ($) {
 
   $(window).load(function () {
     setTimeout(function () {
-      $("#loading").fadeOut("slow", function () {});
+      $('#loading').fadeOut('slow', function () {});
     }, 3000);
   });
 
   /*----- Subscription Form ----- */
 
-  $(document).ready(function () {
-    // jQuery Validation
-    $("#chimp-form").validate({
-      // if valid, post data via AJAX
-      submitHandler: function (form) {
-        $.post("https://api.touchfreemenus.com/subscribe.php", { email: $("#chimp-email").val() }, function (data) {
-          $("#response").html(data);
-        });
-      },
-      // all fields are required
-      rules: {
-        email: {
-          required: true,
-          email: true,
-        },
-      },
-    });
-  });
+  $('#submitButton').on('click', requestDemo);
+  async function requestDemo() {
+    console.log('Requesting demo');
 
-  // Accordion //
+    const email = $('#emailInput').val();
+
+    if (!validateEmail(email)) {
+      $('#error').html('Te rog introdu o adresă validă.');
+      setTimeout(() => {
+        $('#error').html('');
+      }, 4000);
+      return;
+    }
+
+    const response = await (
+      await fetch('/api/request-demo', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email }),
+      })
+    ).json();
+
+    if (response.succesfullyRequested) {
+      $('#emailInput').remove();
+      $('#submitButton').remove();
+      $('#error').remove();
+      $('#success').html('Am primit cererea! Te contactăm în cel mai scurt timp posibil!');
+    }
+
+    console.log('response', response);
+  }
 
   function toggleChevron(e) {
-    $(e.target).prev(".panel-heading").find("span.glyphicon").toggleClass("glyphicon-chevron-down glyphicon-chevron-right");
+    $(e.target).prev('.panel-heading').find('span.glyphicon').toggleClass('glyphicon-chevron-down glyphicon-chevron-right');
   }
-  $("#accordion").on("hide.bs.collapse show.bs.collapse", toggleChevron);
+
+  function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  $('#accordion').on('hide.bs.collapse show.bs.collapse', toggleChevron);
 });

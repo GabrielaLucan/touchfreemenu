@@ -884,17 +884,6 @@ body {
   color: #ff3333;
 }
 
-#response {
-  position: absolute;
-  left: 0;
-  bottom: -45%;
-  vertical-align: middle;
-  font-family: 'Montserrat';
-  font-size: 13px !important;
-  font-weight: 500;
-  color: #15ccbe;
-}
-
 #chimp-email-error {
   position: absolute;
   left: 0;
@@ -1272,7 +1261,7 @@ ul#countdown li {
   border-radius: 30px;
   background-color: #efefef;
   outline: none;
-  padding: 0 100px 0 20px;
+  padding: 0 50px 0 20px;
   box-shadow: 0 5px 30px rgba(255, 255, 255, 0.1);
 }
 
@@ -1313,16 +1302,19 @@ ul#countdown li {
   color: #ff3333;
 }
 
-#response {
-  position: absolute;
-  left: 20%;
-  bottom: -90%;
-  vertical-align: middle;
+#error {
   font-family: 'Montserrat';
   font-size: 13px !important;
   font-weight: 500 !important;
-  margin: 0 !important;
-  color: #15ccbe;
+  color: #ff5722;
+  margin: 10px 0;
+}
+
+#success {
+  font-family: 'Montserrat';
+  font-size: 17px !important;
+  color: #7ac944;
+  margin-top: 8px;
 }
 
 #response h4 {
@@ -1520,7 +1512,6 @@ ul#countdown li {
   padding: 35px 0;
   border-top: 2px solid rgba(255, 255, 255, 0.1);
 }
-
 
 .footer p {
   color: #e5e5e5;

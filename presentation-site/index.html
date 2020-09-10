@@ -72,23 +72,10 @@
                             <h2>Aplică pentru un demo gratuit!</h2>
                             <p>Află cum se integrează Touch-Free Menu™ în restaurantul tău! Lasă-ne o adresă de e-mail și te contactăm noi!</p>
                             <div class="form">
-                              <form
-                                id="chimp-form"
-                                class="subscribe-form"
-                                action="https://api.touchfreemenus.com/subscribe.php"
-                                method="post"
-                                accept-charset="UTF-8"
-                                enctype="application/x-www-form-urlencoded"
-                                autocomplete="off"
-                                novalidate
-                              >
-                                <input class="mail" id="chimp-email" type="email" name="email" placeholder="Adresa ta de e-mail" autocomplete="off" /><input
-                                  class="submit-button"
-                                  type="submit"
-                                  value="Aplică!"
-                                />
-                              </form>
-                              <div id="response"></div>
+                              <input id="emailInput" style="width: 280px" class="mail" type="email" name="email" placeholder="Adresa ta de e-mail" autocomplete="off" />
+                              <div id="error"></div>
+                              <input id="submitButton" class="submit-button" type="button" value="Aplică!" />
+                              <div id="success"></div>
                             </div>
                           </div>
                         </div>

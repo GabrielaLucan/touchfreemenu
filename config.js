@@ -1,8 +1,8 @@
 module.exports = {
   port: process.env.PORT || 3000,
   db: {
-    prod: process.env.DATABASE_URL || 'mongodb://localhost/reddit',
-    test: 'mongodb://localhost/reddit_test',
+    prod: process.env.DATABASE_URL || 'mongodb://localhost/touchfreemenu',
+    test: 'mongodb://localhost/touchfreemenu_test',
     options: {
       useNewUrlParser: true,
       useCreateIndex: true,
