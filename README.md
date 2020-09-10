@@ -1,6 +1,6 @@
-# lynd
+# touchfreemenu
 
-Lynd is an experimental step towards a non-us-b(i)ased Internet.
+Touch-Free Menu™ e alternativa sigură la meniurile clasice
 
 ## Installation
 
