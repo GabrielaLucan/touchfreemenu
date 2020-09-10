@@ -2,10 +2,19 @@ const users = require('./controllers/users');
 const posts = require('./controllers/posts');
 const comments = require('./controllers/comments');
 const { jwtAuth, postAuth, commentAuth } = require('./auth');
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 
-router.post('/request-sms-code', users.validate('request-sms-code'), users.requestSmsCode);
-router.post('/test-sms-code', users.validate('test-sms-code'), users.testSmsCode);
+router.post(
+  '/request-sms-code',
+  users.validate('request-sms-code'),
+  users.requestSmsCode
+);
+router.post(
+  '/test-sms-code',
+  users.validate('test-sms-code'),
+  users.testSmsCode
+);
 router.post('/register', users.validate('register'), users.register);
 router.post('/login', users.validate(), users.login);
 
@@ -25,6 +34,8 @@ router.post('/post/:post', [jwtAuth, comments.validate], comments.create);
 router.delete('/post/:post/:comment', [jwtAuth, commentAuth], comments.destroy);
 
 module.exports = app => {
+  app.use(express.static('presentation-site'));
+
   app.use('/api', router);
 
   app.get('*', (req, res) => {
