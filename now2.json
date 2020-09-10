@@ -4,12 +4,10 @@
   "env": {
     "DATABASE_URL": "@database-url"
   },
-  "builds": [
-    { "src": "server/index.js", "use": "@now/node-server@0.4.24" }
-  ],
+  "builds": [{ "src": "server/index.js", "use": "@now/node-server@0.4.24" }],
   "routes": [
-    { "src": "/api/?(.*)", "dest": "/server"},
+    { "src": "/api/?(.*)", "dest": "/" },
     { "src": "/static/(.*)", "dest": "/client/static/$1" },
-    { "src": "/.*", "dest": "/client" }
+    { "src": "/.*", "dest": "/presentation-site" }
   ]
 }
