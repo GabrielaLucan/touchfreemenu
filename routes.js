@@ -21,7 +21,9 @@ router.post('/request-demo', demoRequests.requestDemo);
 // router.delete('/post/:post/:comment', [jwtAuth, commentAuth], comments.destroy);
 
 module.exports = (app) => {
-  app.use(express.static('presentation-site'));
+  // app.use(express.static('presentation-site'));
+  // app.use(express.static('client/public'));
+  app.use(express.static('admin/build'));
 
   app.use('/api', router);
 
