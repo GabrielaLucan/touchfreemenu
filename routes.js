@@ -36,6 +36,10 @@ module.exports = (app) => {
     }
   });
 
+  app.get('/yourname', (req, res) => {
+    res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
+  });
+
   app.use('/api', router);
 
   app.get('*', (req, res, next) => {
