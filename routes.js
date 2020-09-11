@@ -1,5 +1,6 @@
 const demoRequests = require('./controllers/demoRequests');
 const express = require('express');
+const subdomain = require('express-subdomain');
 const router = express.Router();
 
 router.post('/request-demo', demoRequests.requestDemo);
@@ -21,13 +22,19 @@ router.post('/request-demo', demoRequests.requestDemo);
 // router.delete('/post/:post/:comment', [jwtAuth, commentAuth], comments.destroy);
 
 module.exports = (app) => {
-  // app.use(express.static('presentation-site'));
   // app.use(express.static('client/public'));
-  app.use(express.static('admin/build'));
+
+  app.use((req, res, next) => {
+    if (req.headers.host.includes('admin.')) {
+      express.static('admin/build')(req, res, next);
+    } else {
+      express.static('presentation-site')(req, res, next);
+    }
+  });
 
   app.use('/api', router);
 
-  app.get('*', (req, res) => {
+  app.get('*', (req, res, next) => {
     res.status(404).json({ message: 'not found' });
   });
 
