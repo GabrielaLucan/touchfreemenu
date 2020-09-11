@@ -29,20 +29,20 @@ class LoginForm extends React.Component {
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <Field
-          name='username'
-          label='username'
+          name='id restaurant'
+          label='id restaurant'
           type='text'
           component={renderField}
           validate={usernameValidator}
         />
         <Field
-          name='password'
-          label='password'
+          name='parolă'
+          label='parolă'
           type='password'
           component={renderField}
           validate={passwordValidator}
         />
-        <SubmitButton type='submit'>log in</SubmitButton>
+        <SubmitButton type='submit'>Intră</SubmitButton>
       </Form>
     );
   }

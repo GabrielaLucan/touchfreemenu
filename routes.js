@@ -26,7 +26,8 @@ module.exports = (app) => {
 
   app.use((req, res, next) => {
     if (req.headers.host.includes('admin.')) {
-      express.static('admin/build')(req, res, next);
+      // express.static('admin/build')(req, res, next);
+      express.static('admin/public')(req, res, next);
     } else {
       express.static('presentation-site')(req, res, next);
     }

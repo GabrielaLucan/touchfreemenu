@@ -21,20 +21,19 @@ const Logo = styled(Link)`
 const LogoImgDark = styled.img`
   height: 28px;
   margin-left: -8px;
-  display: ${props => props.theme.darkLogoDisplay};
 `;
 
-const LogoImgLight = styled.img`
-  height: 28px;
-  margin-left: -8px;
-  display: ${props => props.theme.lightLogoDisplay};
+const AdminText = styled.div`
+  margin-left: 10px;
+  margin-bottom: 2px;
 `;
+ 
 
 export default props => {
   return (
     <Logo to='/'>
       <LogoImgDark src='/logo.svg' alt='Logo' />
-      <LogoImgLight src='/logo-white.svg' alt='Logo' />
+      <AdminText>admin</AdminText>
     </Logo>
   );
 };

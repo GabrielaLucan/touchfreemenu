@@ -42,8 +42,6 @@ const Header = ({ user, logout, theme }) => (
       </>
     ) : (
       <>
-        <HeaderNavLink to='/login'>log in</HeaderNavLink>
-        <HeaderNavLink to='/signup'>sign up</HeaderNavLink>
       </>
     )}
   </Wrapper>
