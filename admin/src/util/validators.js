@@ -32,7 +32,7 @@ const validChars = value => checkValidChars(value);
 const validPhoneChars = value => checkValidPhoneChars(value);
 const trimmed = value => checkIfTrimmed(value);
 
-export const required = value => (value ? undefined : 'required');
+export const required = value => (value ? undefined : 'obligatoriu');
 export const postType = value =>
   value === 'link' || value === 'text'
     ? undefined
