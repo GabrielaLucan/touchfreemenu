@@ -1,28 +1,28 @@
 export const checkMaxLength = (value, len) =>
   value && value.length <= len
     ? undefined
-    : `must be less than ${len} characters`;
+    : `trebuie să fie mai scurtă de ${len} caractere`;
 
 export const checkMinLength = (value, len) =>
   value && value.length >= len
     ? undefined
-    : `must be more than ${len} characters`;
+    : `trebuie să fie mai lungă de ${len} caractere`;
 
 export const checkValidChars = value =>
-  /^[a-zA-Z0-9_-]+$/.test(value) ? undefined : 'contains invalid characters';
+  /^[a-zA-Z0-9_-]+$/.test(value) ? undefined : 'conține caractere invalide';
 
 export const checkValidPhoneChars = value =>
-  /^[0-9+]+$/.test(value) ? undefined : 'contains invalid characters';
+  /^[0-9+]+$/.test(value) ? undefined : 'cconține caractere invalide';
 
 export const checkIfTrimmed = value =>
-  value.trim() === value ? undefined : 'cannot start or end with whitespace';
+  value.trim() === value ? undefined : 'nu poate începe sau termina cu whitespace';
 
 export const validUrl = value => {
   try {
     new URL(value);
     return undefined;
   } catch (error) {
-    return 'must be a valid url';
+    return 'trebuie să fie un url valid';
   }
 };
 
@@ -40,7 +40,7 @@ export const postType = value =>
 export const countryValidator = [required];
 export const phoneNumberValidator = [required, min(7), max(20), validPhoneChars];
 export const usernameValidator = [required, max(32), validChars, trimmed];
-export const passwordValidator = [required, min(6), max(72)];
+export const passwordValidator = [required, min(4), max(72)];
 export const titleValidator = value =>
   required(value) || checkMaxLength(value, 100);
 export const textPostValidator = value =>

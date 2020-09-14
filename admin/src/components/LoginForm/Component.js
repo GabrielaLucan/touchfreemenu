@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'redux-form';
 import Form from '../shared/form/Form';
 import renderField from '../shared/form/renderField';
-import { usernameValidator, passwordValidator } from '../../util/validators';
+import { usernameValidator as slugValidator, passwordValidator } from '../../util/validators';
 import SubmitButton from '../shared/form/SubmitButton';
 
 class LoginForm extends React.Component {
@@ -29,14 +29,14 @@ class LoginForm extends React.Component {
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <Field
-          name='id restaurant'
+          name='username'
           label='id restaurant'
           type='text'
           component={renderField}
-          validate={usernameValidator}
+          validate={slugValidator}
         />
         <Field
-          name='parolă'
+          name='password'
           label='parolă'
           type='password'
           component={renderField}

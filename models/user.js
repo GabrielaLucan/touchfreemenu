@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  admin: Boolean
+  restaurant: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' },
 }, { collation: { locale: 'en', strength: 1 } });
 
 userSchema.set('toJSON', { getters: true });

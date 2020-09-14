@@ -1,4 +1,4 @@
-const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:80/api" : `https://${window.location.hostname}/api`;
+const baseUrl = process.env.NODE_ENV === "development" ? "http://admin.localhost:3000/api" : `https://${window.location.hostname}/api`;
 
 const methods = {
   get: async function(endpoint, token = null) {
@@ -67,6 +67,10 @@ const methods = {
 export async function login(username, password) {
   const json = await methods.post("login", { username, password });
   return json.token;
+}
+
+export async function getLoggedUser(token) {
+  return await methods.get(`get-current-user`, token);
 }
 
 export async function signup(username, password) {

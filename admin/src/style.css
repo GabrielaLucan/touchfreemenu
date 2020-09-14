@@ -16,3 +16,9 @@ body {
   font-family: 'IBM Plex Sans', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+::placeholder {
+  color: #BDBDBD;
+  opacity: 1; 
+}
+

@@ -1,11 +1,14 @@
 const demoRequests = require('./controllers/demoRequests');
 const restaurants = require('./controllers/restaurants');
+const users = require('./controllers/users');
 const express = require('express');
 const router = express.Router();
 
 router.post('/request-demo', demoRequests.requestDemo);
 router.post('/restaurant', restaurants.createRestaurant);
-// router.post('/login', users.validate(), users.login);
+router.post('/login', users.validate(), users.login);
+router.post('/register', users.validate(), users.register);
+router.get('/get-current-user', users.getCurrentUser);
 
 // router.param('post', posts.load);
 // router.get('/posts', posts.list);
@@ -23,25 +26,26 @@ router.post('/restaurant', restaurants.createRestaurant);
 // router.delete('/post/:post/:comment', [jwtAuth, commentAuth], comments.destroy);
 
 module.exports = (app) => {
-  // app.use(express.static('client/public'));
+  app.use('/api', router);
 
-  app.use((req, res, next) => {
-    if (req.headers.host.includes('admin.')) {
-      if (process.env.IS_PROD) {
-        express.static('admin/build')(req, res, next);
-      } else {
-        express.static('admin/public')(req, res, next);
-      }
-    } else {
-      express.static('presentation-site')(req, res, next);
-    }
-  });
+  // app.use((req, res, next) => {
+  //   console.log('req', req);
+
+  //   if (req.headers.host.includes('admin.')) {
+  //     if (process.env.IS_PROD) {
+  //       express.static('admin/build')(req, res, next);
+  //     } else {
+  //       express.static('admin/public')(req, res, next);
+  //     }
+  //   } else {
+  //     express.static('presentation-site')(req, res, next);
+  //   }
+  //   next();
+  // });
 
   app.get('/yourname', (req, res) => {
     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
   });
-
-  app.use('/api', router);
 
   app.get('/:restaurantSlug', restaurants.goToMenu);
 
