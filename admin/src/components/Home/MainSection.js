@@ -7,6 +7,7 @@ const HomeMainSection = styled.main`
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding-top: 24px;
 `;
 
 export default HomeMainSection;

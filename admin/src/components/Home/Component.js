@@ -6,7 +6,7 @@ import CategoryMenuContainer from '../CategoryMenu/Container';
 import PostListContainer from '../PostList/Container';
 import PostDetailContainer from '../PostDetail/Container';
 import SidebarContainer from '../Sidebar/Container';
-import Button from './Button';
+import Button from '../shared/Button';
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,8 +52,8 @@ export default class Home extends Component {
     return (
       <Wrapper>
         <HomeMainSection>
-          <Button text='Încarcă meniu nou (PDF)' />
-          <Button text='Vezi meniul curent (PDF)' />
+          <Button>Încarcă meniu nou (PDF)</Button>
+          <Button>Vezi meniul curent (PDF)</Button>
           {/* <Route component={CategoryMenuContainer} />
           <Route exact path='/' component={PostListContainer} />
           <Route exact path='/a/:category' render={({ match }) => <PostListContainer category={match.params.category} />} />
