@@ -38,7 +38,6 @@ module.exports = (app) => {
     } else {
       express.static('presentation-site')(req, res, next);
     }
-    next();
   });
 
   app.get('/yourname', (req, res) => {
