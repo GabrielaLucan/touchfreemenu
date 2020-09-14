@@ -1,9 +1,10 @@
 const demoRequests = require('./controllers/demoRequests');
+const restaurants = require('./controllers/restaurants');
 const express = require('express');
-const subdomain = require('express-subdomain');
 const router = express.Router();
 
 router.post('/request-demo', demoRequests.requestDemo);
+router.post('/restaurant', restaurants.createRestaurant);
 // router.post('/login', users.validate(), users.login);
 
 // router.param('post', posts.load);
@@ -41,6 +42,8 @@ module.exports = (app) => {
   });
 
   app.use('/api', router);
+
+  app.get('/:restaurantSlug', restaurants.goToMenu);
 
   app.get('*', (req, res, next) => {
     res.status(404).json({ message: 'not found' });
