@@ -9,6 +9,7 @@ router.post('/restaurant', restaurants.createRestaurant);
 router.post('/login', users.validate(), users.login);
 router.post('/register', users.validate(), users.register);
 router.get('/get-current-user', users.getCurrentUser);
+router.get('/pdf-menu', restaurants.uploadPdfMenu);
 
 // router.param('post', posts.load);
 // router.get('/posts', posts.list);

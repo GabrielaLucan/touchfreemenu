@@ -27,3 +27,19 @@ exports.goToMenu = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.uploadPdfMenu = async (req, res, next) => {
+  try {
+    const { restaurantSlug } = req.params;
+
+    const restaurant = await Restaurant.findOne({ slug: restaurantSlug });
+
+    if (restaurant) {
+      return res.redirect(restaurant.pdfUrl);
+    } else {
+      return res.redirect('/');
+    }
+  } catch (err) {
+    next(err);
+  }
+};
