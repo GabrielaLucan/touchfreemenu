@@ -6,6 +6,7 @@ import CategoryMenuContainer from '../CategoryMenu/Container';
 import PostListContainer from '../PostList/Container';
 import PostDetailContainer from '../PostDetail/Container';
 import SidebarContainer from '../Sidebar/Container';
+import Button from './Button';
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,8 +45,6 @@ export default class Home extends Component {
   }
 
   render() {
-    return null;
-
     if (!this.props.token) {
       return null;
     }
@@ -53,13 +52,15 @@ export default class Home extends Component {
     return (
       <Wrapper>
         <HomeMainSection>
-          <Route component={CategoryMenuContainer} />
+          <Button text='Încarcă meniu nou (PDF)' />
+          <Button text='Vezi meniul curent (PDF)' />
+          {/* <Route component={CategoryMenuContainer} />
           <Route exact path='/' component={PostListContainer} />
           <Route exact path='/a/:category' render={({ match }) => <PostListContainer category={match.params.category} />} />
           <Route exact path='/u/:username' render={({ match }) => <PostListContainer username={match.params.username} />} />
-          <Route exact path='/a/:category/:post' render={({ match, history }) => <PostDetailContainer id={match.params.post} history={history} />} />
+          <Route exact path='/a/:category/:post' render={({ match, history }) => <PostDetailContainer id={match.params.post} history={history} />} /> */}
         </HomeMainSection>
-        <Route component={SidebarContainer} />
+        {/* <Route component={SidebarContainer} /> */}
       </Wrapper>
     );
   }
