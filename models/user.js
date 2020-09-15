@@ -1,11 +1,23 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  restaurant: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' },
-}, { collation: { locale: 'en', strength: 1 } });
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    logoUrl: String,
+    pdfUrl: String,
+    joinDate: Date,
+    city: String,
+    coords: {
+      latitude: Number,
+      longitude: Number,
+    },
+  },
+  { collation: { locale: 'en', strength: 1 } }
+);
 
 userSchema.set('toJSON', { getters: true });
 userSchema.options.toJSON.transform = (doc, ret) => {

@@ -3,8 +3,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const expressValidator = require('express-validator');
 const passport = require('passport');
-const localStrategy = require('./auth/local');
-const jwtStrategy = require('./auth/jwt');
+const localStrategy = require('./services/auth/local');
+const jwtStrategy = require('./services/auth/jwt');
 
 const app = express();
 

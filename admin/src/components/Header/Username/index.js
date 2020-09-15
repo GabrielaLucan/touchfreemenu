@@ -13,7 +13,7 @@ const Wrapper = styled(HeaderNavLink)`
 
 const HeaderUsername = ({ restaurant }) => (
   <Wrapper to='/'>
-    <img src={(restaurant || {}).logoUrl} style={{ width: '43px', marginLeft: '-15px', marginRight: '15px' }}></img>
+    <img src={(restaurant || {}).logoUrl} style={{ width: '43px', marginLeft: '-5px', marginRight: '15px' }}></img>
     <HeaderUsernameText>{(restaurant || {}).name}</HeaderUsernameText>
   </Wrapper>
 );

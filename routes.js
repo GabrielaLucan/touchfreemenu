@@ -1,15 +1,17 @@
 const demoRequests = require('./controllers/demoRequests');
-const restaurants = require('./controllers/restaurants');
 const users = require('./controllers/users');
+const auth = require('./services/auth');
 const express = require('express');
 const router = express.Router();
 
+const multer = require('multer');
+const upload = multer({ dest: 'services/object-storage/uploads' });
+
 router.post('/request-demo', demoRequests.requestDemo);
-router.post('/restaurant', restaurants.createRestaurant);
 router.post('/login', users.validate(), users.login);
 router.post('/register', users.validate(), users.register);
-router.get('/get-current-user', users.getCurrentUser);
-router.get('/pdf-menu', restaurants.uploadPdfMenu);
+router.get('/get-current-user', auth.withCurrentUser, users.getCurrentUser);
+router.post('/pdf-menu', auth.withCurrentUser, upload.single('menu'), users.uploadPdfMenu);
 
 // router.param('post', posts.load);
 // router.get('/posts', posts.list);
@@ -45,7 +47,7 @@ module.exports = (app) => {
     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
   });
 
-  app.get('/:restaurantSlug', restaurants.goToMenu);
+  app.get('/:restaurantSlug', users.goToMenu);
 
   app.get('*', (req, res, next) => {
     res.status(404).json({ message: 'not found' });

@@ -15,5 +15,10 @@ module.exports = {
     secret: process.env.JWT_SECRET || 'development_secret',
     expiry: '7d'
   },
+  aws: {
+    accessKey: 'AKIAJMNYQZCBF3CC7ABA',
+    secretKey: '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',
+    bucketName: 'touchfreemenu',
+  },
   registrationSecret: process.env.REGISTRATION_SECRET || 'dev'
 };

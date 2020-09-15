@@ -1,8 +1,8 @@
 const { body, validationResult } = require('express-validator/check');
-const { login, createAuthToken, getCurrentUser } = require('../auth');
+const { login, createAuthToken, withCurrentUser: getCurrentUser } = require('../services/auth');
 const User = require('../models/user');
-const Restaurant = require('../models/restaurant');
 const config = require('../config');
+const objectStorageService = require('../services/object-storage');
 
 exports.login = (req, res, next) => {
   const result = validationResult(req);
@@ -22,19 +22,13 @@ exports.register = async (req, res, next) => {
   }
 
   try {
-    const { username, password, registrationSecret, restaurantSlug } = req.body;
+    const { username, password, name, email, logoUrl, city, coords, registrationSecret } = req.body;
 
     if (registrationSecret !== config.registrationSecret) {
       return res.status(422).json({ error: 'Wrong registration secret' });
     }
 
-    if (!restaurantSlug) {
-      return res.status(422).json({ error: 'No restaurant slug' });
-    }
-
-    const restaurant = await Restaurant.findOne({ slug: restaurantSlug });
-
-    const user = await User.create({ username, password, restaurant: restaurant._id });
+    const user = await User.create({ username, password, name, email, logoUrl, city, coords, joinDate: new Date() });
 
     const token = createAuthToken(user.toJSON());
     res.status(201).json({ token });
@@ -80,7 +74,12 @@ exports.validate = (method) => {
       body('username').custom(async (username) => {
         const exists = await User.countDocuments({ username });
         if (exists) throw new Error('already exists');
-      })
+      }),
+      body('name').exists().withMessage('is required'),
+      body('email').exists().withMessage('is required'),
+      body('logoUrl').exists().withMessage('is required'),
+      body('city').exists().withMessage('is required'),
+      body('coords').exists().withMessage('is required')
     );
   }
 
@@ -88,5 +87,37 @@ exports.validate = (method) => {
 };
 
 exports.getCurrentUser = (req, res, next) => {
-  return getCurrentUser(req, res, next);
+  res.status(200).json(req.fullUser);
+};
+
+exports.goToMenu = async (req, res, next) => {
+  try {
+    const { restaurantSlug } = req.params;
+
+    const user = await User.findOne({ username: restaurantSlug });
+
+    if (user) {
+      return res.redirect(user.pdfUrl);
+    } else {
+      return res.redirect('/');
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.uploadPdfMenu = async (req, res, next) => {
+  try {
+    console.log('req.user', req.user);
+
+    const restaurant = await Restaurant.findById(req.user.restaurant);
+
+    console.log('restaurant', restaurant);
+
+    const awsPdfUrl = await objectStorageService.uploadPdf(req.file.path);
+
+    console.log('awsPdfUrl', awsPdfUrl);
+  } catch (err) {
+    next(err);
+  }
 };

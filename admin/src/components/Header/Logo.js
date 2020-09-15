@@ -24,7 +24,7 @@ const LogoImgDark = styled.img`
 `;
 
 const AdminText = styled.div`
-  margin-left: 10px;
+  margin-left: 12px;
   margin-bottom: 2px;
 `;
  
@@ -33,7 +33,7 @@ export default props => {
   return (
     <Logo to='/'>
       <LogoImgDark src='/logo.svg' alt='Logo' />
-      <AdminText>admin</AdminText>
+      <AdminText>Admin</AdminText>
     </Logo>
   );
 };

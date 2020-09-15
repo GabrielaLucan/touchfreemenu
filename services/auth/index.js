@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const config = require('../config');
-const User = require('../models/user');
+const config = require('../../config');
+const User = require('../../models/user');
 
 exports.createAuthToken = (user) => {
   return jwt.sign({ user }, config.jwt.secret, {
@@ -27,14 +27,17 @@ exports.jwtAuth = (req, res, next) => {
   })(req, res);
 };
 
-exports.getCurrentUser = (req, res, next) => {
+exports.withCurrentUser = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, async (err, user) => {
     if (err) return next(err);
     if (!user) return res.status(401).json({ message: 'unauthorized' });
-    req.user = user;
-    const fullUser = await User.findById(user.id).populate('restaurant').exec();
+    // const fullUser = (await User.findById(user.id).populate('restaurant').exec()).toObject();;
 
-    return res.status(200).json({ ...fullUser.toObject() });
+    // delete fullUser.password;
+    // delete fullUser.__v;
+
+    req.fullUser = user;
+    next();
   })(req, res);
 };
 
