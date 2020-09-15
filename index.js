@@ -1,7 +1,6 @@
 require('dotenv').config();
 const app = require('./app');
 const mongoose = require('mongoose');
-const config = require('./config');
 
 const connect = (url) => {
   return mongoose.connect(url, {

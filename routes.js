@@ -4,14 +4,13 @@ const auth = require('./services/auth');
 const express = require('express');
 const router = express.Router();
 
-const multer = require('multer');
-const upload = multer({ dest: 'services/object-storage/uploads' });
-
 router.post('/request-demo', demoRequests.requestDemo);
 router.post('/login', users.validate(), users.login);
 router.post('/register', users.validate(), users.register);
 router.get('/get-current-user', auth.withCurrentUser, users.getCurrentUser);
-router.post('/pdf-menu', auth.withCurrentUser, upload.single('menu'), users.uploadPdfMenu);
+
+
+router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updatePdfMenuUrl);
 
 // router.param('post', posts.load);
 // router.get('/posts', posts.list);

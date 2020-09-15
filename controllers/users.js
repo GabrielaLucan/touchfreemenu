@@ -1,7 +1,11 @@
 const { body, validationResult } = require('express-validator/check');
 const { login, createAuthToken } = require('../services/auth');
 const User = require('../models/user');
-const objectStorageService = require('../services/object-storage');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+// const upload = multer({ dest: 'services/object-storage/uploads' });
+const AWS = require('aws-sdk');
+AWS.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_KEY });
 
 exports.login = (req, res, next) => {
   const result = validationResult(req);
@@ -105,13 +109,27 @@ exports.goToMenu = async (req, res, next) => {
   }
 };
 
-exports.uploadPdfMenu = async (req, res, next) => {
+exports.uploadFileToS3 = multer({
+  storage: multerS3({
+    s3: new AWS.S3(),
+    acl: 'public-read',
+    bucket: process.env.AWS_BUCKET_NAME,
+    contentType: (req, file, cb) => {
+      cb(null, 'application/pdf');
+    },
+    key: (req, file, cb) => {
+      const uploadedFileName = `${req.user.username}/${new Date().toISOString()}.pdf`;
+      cb(null, uploadedFileName);
+    },
+  }),
+}).single('menu');
+
+exports.updatePdfMenuUrl = async (req, res, next) => {
   try {
-    const { Location } = await objectStorageService.uploadPdf(req.file.path, req.user.username);
+    const awsPdfUrl = req.file.location;
+    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl: awsPdfUrl, pdfUploadDate: new Date() });
 
-    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl: Location, pdfUploadDate: new Date() });
-
-    res.status(200).json({ pdfUrl: Location });
+    res.status(200).json({ pdfUrl: req.file.location });
   } catch (err) {
     next(err);
   }
