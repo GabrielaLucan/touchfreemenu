@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import HeaderNavLink from '../NavLink';
 import HeaderUsernameText from './Text';
-import HeaderUserLogo from './Logo';
 
 const Wrapper = styled(HeaderNavLink)`
   flex-shrink: 1;
@@ -11,11 +10,11 @@ const Wrapper = styled(HeaderNavLink)`
   min-width: 0;
 `;
 
-const HeaderUsername = ({ restaurant }) => (
+const HeaderUserInfo = ({ user }) => (
   <Wrapper to='/'>
-    <img src={(restaurant || {}).logoUrl} style={{ width: '43px', marginLeft: '-5px', marginRight: '15px' }}></img>
-    <HeaderUsernameText>{(restaurant || {}).name}</HeaderUsernameText>
+    <img src={user.logoUrl} style={{ width: '43px', marginLeft: '-5px', marginRight: '15px' }}></img>
+    <HeaderUsernameText>{user.name}</HeaderUsernameText>
   </Wrapper>
 );
 
-export default HeaderUsername;
+export default HeaderUserInfo;

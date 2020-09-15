@@ -36,6 +36,8 @@ exports.withCurrentUser = (req, res, next) => {
     // delete fullUser.password;
     // delete fullUser.__v;
 
+    console.log('user', user);
+
     req.fullUser = user;
     next();
   })(req, res);

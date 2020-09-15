@@ -25,15 +25,9 @@ const Wrapper = styled.div`
 
 export default class Home extends Component {
   componentDidMount() {
-    const { token, history, getCurrentUser, user } = this.props;
+    const { token, history } = this.props;
     if (!token) {
       history.push('/login');
-    } else {
-      console.log('user', user);
-
-      if (!(user.restaurant || {}).logoUrl) {
-        getCurrentUser(token);
-      }
     }
   }
 

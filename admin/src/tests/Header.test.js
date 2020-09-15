@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import Header from '../components/Header/Component';
 import HeaderLogo from '../components/Header/Logo';
 import HeaderDarkButtonContainer from '../components/Header/DarkButton/Container';
-import HeaderUsername from '../components/Header/Username';
 
 it('renders without crashing', () => {
   shallow(<Header />);
@@ -32,12 +31,4 @@ it('renders a log out link when logged in', () => {
   const wrapper = shallow(<Header user />);
   const link = wrapper.find('NavLink__HeaderNavLink');
   expect(link.text()).toEqual('log out');
-});
-
-it('renders the user\'s username when logged in', () => {
-  const username = 'deniz';
-  const wrapper = shallow(<Header user={{ username }} />);
-  expect(wrapper.contains(<HeaderUsername username={username} />)).toEqual(
-    true
-  );
 });

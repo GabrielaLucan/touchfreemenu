@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import HeaderLogo from './Logo';
 import HeaderDarkButtonContainer from './DarkButton/Container';
-import HeaderUser from './Username';
+import HeaderUserInfo from './UserInfo';
 import HeaderNavLink from './NavLink';
 
 const Wrapper = styled.header`
@@ -35,7 +35,7 @@ const Header = ({ user, logout, theme }) => (
     <HeaderDarkButtonContainer />
     {user ? (
       <>
-        <HeaderUser {...user} />
+        <HeaderUserInfo user={user} />
         <HeaderNavLink as='span' onClick={logout}>
           log out
         </HeaderNavLink>

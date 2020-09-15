@@ -110,11 +110,7 @@ exports.uploadPdfMenu = async (req, res, next) => {
   try {
     console.log('req.user', req.user);
 
-    const restaurant = await Restaurant.findById(req.user.restaurant);
-
-    console.log('restaurant', restaurant);
-
-    const awsPdfUrl = await objectStorageService.uploadPdf(req.file.path);
+    const awsPdfUrl = await objectStorageService.uploadPdf(req.file.path, req.user.username);
 
     console.log('awsPdfUrl', awsPdfUrl);
   } catch (err) {
