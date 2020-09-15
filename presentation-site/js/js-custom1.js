@@ -117,8 +117,6 @@ jQuery(function ($) {
 
   $('#submitButton').on('click', requestDemo);
   async function requestDemo() {
-    console.log('Requesting demo');
-
     const email = $('#emailInput').val();
 
     if (!validateEmail(email)) {
@@ -146,8 +144,6 @@ jQuery(function ($) {
       $('#error').remove();
       $('#success').html('Am primit cererea! Te contactăm în cel mai scurt timp posibil!');
     }
-
-    console.log('response', response);
   }
 
   function toggleChevron(e) {

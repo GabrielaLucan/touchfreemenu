@@ -16,9 +16,9 @@ module.exports = {
     expiry: '7d'
   },
   aws: {
-    accessKey: 'AKIAJMNYQZCBF3CC7ABA',
-    secretKey: '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',
-    bucketName: 'touchfreemenu',
+    accessKey: process.env.AWS_ACCESS_KEY,
+    secretKey: process.env.AWS_SECRET_KEY,
+    bucketName: process.env.AWS_BUCKET_NAME || 'touchfreemenu-dev',
   },
   registrationSecret: process.env.REGISTRATION_SECRET || 'dev'
 };

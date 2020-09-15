@@ -18,27 +18,11 @@ exports.login = (req, res, next) => {
   })(req, res);
 };
 
-exports.jwtAuth = (req, res, next) => {
+exports.withCurrentUser = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user) => {
     if (err) return next(err);
     if (!user) return res.status(401).json({ message: 'unauthorized' });
     req.user = user;
-    next();
-  })(req, res);
-};
-
-exports.withCurrentUser = (req, res, next) => {
-  passport.authenticate('jwt', { session: false }, async (err, user) => {
-    if (err) return next(err);
-    if (!user) return res.status(401).json({ message: 'unauthorized' });
-    // const fullUser = (await User.findById(user.id).populate('restaurant').exec()).toObject();;
-
-    // delete fullUser.password;
-    // delete fullUser.__v;
-
-    console.log('user', user);
-
-    req.fullUser = user;
     next();
   })(req, res);
 };

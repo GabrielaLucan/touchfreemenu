@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true },
     logoUrl: String,
     pdfUrl: String,
+    pdfUploadDate: Date,
     joinDate: Date,
     city: String,
     coords: {

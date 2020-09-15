@@ -1,5 +1,5 @@
 const { body, validationResult } = require('express-validator/check');
-const { login, createAuthToken, withCurrentUser: getCurrentUser } = require('../services/auth');
+const { login, createAuthToken } = require('../services/auth');
 const User = require('../models/user');
 const config = require('../config');
 const objectStorageService = require('../services/object-storage');
@@ -108,11 +108,11 @@ exports.goToMenu = async (req, res, next) => {
 
 exports.uploadPdfMenu = async (req, res, next) => {
   try {
-    console.log('req.user', req.user);
+    const { Location } = await objectStorageService.uploadPdf(req.file.path, req.user.username);
 
-    const awsPdfUrl = await objectStorageService.uploadPdf(req.file.path, req.user.username);
+    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl: Location, pdfUploadDate: new Date() });
 
-    console.log('awsPdfUrl', awsPdfUrl);
+    res.status(200).json({ pdfUrl: Location });
   } catch (err) {
     next(err);
   }
