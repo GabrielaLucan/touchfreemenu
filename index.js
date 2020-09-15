@@ -14,8 +14,8 @@ const connect = (url) => {
 };
 
 if (require.main === module) {
-  app.listen(config.port);
-  connect(config.db.prod);
+  app.listen(process.env.PORT);
+  connect(process.env.DATABASE_URL);
   mongoose.connection.on('error', console.log);
 }
 

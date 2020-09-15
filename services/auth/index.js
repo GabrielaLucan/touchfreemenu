@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const config = require('../../config');
 
 exports.createAuthToken = (user) => {
-  return jwt.sign({ user }, config.jwt.secret, {
+  return jwt.sign({ user }, process.env.JWT_SECRET, {
     expiresIn: '7d',
   });
 };

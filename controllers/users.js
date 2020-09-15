@@ -1,7 +1,6 @@
 const { body, validationResult } = require('express-validator/check');
 const { login, createAuthToken } = require('../services/auth');
 const User = require('../models/user');
-const config = require('../config');
 const objectStorageService = require('../services/object-storage');
 
 exports.login = (req, res, next) => {
@@ -24,7 +23,7 @@ exports.register = async (req, res, next) => {
   try {
     const { username, password, name, email, logoUrl, city, coords, registrationSecret } = req.body;
 
-    if (registrationSecret !== config.registrationSecret) {
+    if (registrationSecret !== process.env.REGISTRATION_SECRET) {
       return res.status(422).json({ error: 'Wrong registration secret' });
     }
 
