@@ -35,13 +35,13 @@ export default class Home extends Component {
     }
   }
 
-  uploadSelectedFile(event) {
+  uploadSelectedFile = (event) => {
     const file = event.target.files[0];
     const data = new FormData();
-    data.append('file', file);
+    data.append('menu', file);
 
-    this.props.uploadFile(data);
-  }
+    this.props.uploadPdf(data);
+  };
 
   render() {
     if (!this.props.token) {

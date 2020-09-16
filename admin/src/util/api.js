@@ -18,13 +18,15 @@ const methods = {
   },
 
   post: async function (endpoint, body, token = null) {
+    const isFormData = body instanceof FormData;
+
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        [!isFormData ? 'Content-Type' : 'balauca']: 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }),
       },
-      body: JSON.stringify(body),
+      body: isFormData ? body : JSON.stringify(body),
     };
 
     const response = await fetch(`${baseUrl}/${endpoint}`, options);
@@ -70,5 +72,5 @@ export async function login(username, password) {
 }
 
 export async function uploadPdfMenu(data) {
-  return await methods.post(`pdf-menu`, localStorage.token);
+  return await methods.post(`pdf-menu`, data, localStorage.token);
 }
