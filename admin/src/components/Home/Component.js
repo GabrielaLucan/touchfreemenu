@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/macro';
-import { Route } from 'react-router-dom';
 import HomeMainSection from './MainSection';
-import CategoryMenuContainer from '../CategoryMenu/Container';
-import PostListContainer from '../PostList/Container';
-import PostDetailContainer from '../PostDetail/Container';
-import SidebarContainer from '../Sidebar/Container';
+import FileUploadButton from '../shared/FileUploadButton';
 import Button from '../shared/Button';
 
 const Wrapper = styled.div`
@@ -25,17 +21,26 @@ const Wrapper = styled.div`
 
 export default class Home extends Component {
   componentDidMount() {
+    this.redirectIfNotLoggedIn();
+  }
+
+  componentDidUpdate() {
+    this.redirectIfNotLoggedIn();
+  }
+
+  redirectIfNotLoggedIn() {
     const { token, history } = this.props;
     if (!token) {
       history.push('/login');
     }
   }
 
-  componentDidUpdate() {
-    const { token, history } = this.props;
-    if (!token) {
-      history.push('/login');
-    }
+  uploadSelectedFile(event) {
+    const file = event.target.files[0];
+    const data = new FormData();
+    data.append('file', file);
+
+    this.props.uploadFile(data);
   }
 
   render() {
@@ -46,15 +51,9 @@ export default class Home extends Component {
     return (
       <Wrapper>
         <HomeMainSection>
-          <Button>Încarcă meniu nou (PDF)</Button>
+          <FileUploadButton onFileSelected={this.uploadSelectedFile} text='Încarcă meniu nou (PDF)' />
           <Button>Vezi meniul curent (PDF)</Button>
-          {/* <Route component={CategoryMenuContainer} />
-          <Route exact path='/' component={PostListContainer} />
-          <Route exact path='/a/:category' render={({ match }) => <PostListContainer category={match.params.category} />} />
-          <Route exact path='/u/:username' render={({ match }) => <PostListContainer username={match.params.username} />} />
-          <Route exact path='/a/:category/:post' render={({ match, history }) => <PostDetailContainer id={match.params.post} history={history} />} /> */}
         </HomeMainSection>
-        {/* <Route component={SidebarContainer} /> */}
       </Wrapper>
     );
   }

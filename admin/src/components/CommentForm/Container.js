@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { attemptCreateComment } from '../../actions/posts';
 import CommentForm from './Component';
 
 const mapDispatchToProps = { attemptCreateComment };

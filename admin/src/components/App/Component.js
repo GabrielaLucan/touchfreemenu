@@ -7,7 +7,6 @@ import GlobalStyle from '../../globalStyle';
 import HeaderContainer from '../Header/Container';
 import ErrorNotificationContainer from '../ErrorNotification/Container';
 import LoginFormContainer from '../LoginForm/Container';
-import CreatePostFormContainer from '../CreatePostForm/Container';
 import Home from '../Home/Container';
 
 const App = (props) => (
@@ -19,7 +18,6 @@ const App = (props) => (
         <Route component={ErrorNotificationContainer} />
         <Switch>
           <Route path='/login' component={LoginFormContainer} />
-          <Route path='/createpost' component={CreatePostFormContainer} />
           <Route path='/' component={Home} />
         </Switch>
       </>
