@@ -1,4 +1,4 @@
-const baseUrl = process.env.NODE_ENV === 'development' ? 'http://admin.localhost:3000/api' : `https://${window.location.hostname}/api`;
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://admin.localhost:3001/api' : `https://${window.location.hostname}/api`;
 
 const methods = {
   get: async function (endpoint, token = null) {
