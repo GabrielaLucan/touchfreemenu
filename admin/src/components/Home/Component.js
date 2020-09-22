@@ -123,7 +123,7 @@ export default class Home extends Component {
             <Panel>
               <InfoLineTitle>Data încărcării ultimului meniu</InfoLineTitle>
               <InfoLineValue>{user.pdfUploadDate ? moment(user.pdfUploadDate).format('DD MMM @ HH:mm') : '-'}</InfoLineValue>
-              <InfoLineTitle>Numele fișierului </InfoLineTitle>
+              <InfoLineTitle>Nume fișier</InfoLineTitle>
               <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
               <InfoLineTitle>Mărime fișier</InfoLineTitle>
               <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
