@@ -33,7 +33,6 @@ const CustomLabel = styled.label`
   outline: none;
   box-shadow: 0 5px 30px rgba(255, 255, 255, 0.05);
   transition: 200ms;
-  margin-bottom: 16px;
   white-space: nowrap;
 
   :hover {

@@ -3,7 +3,6 @@ import styled from 'styled-components/macro';
 import HomeMainSection from './MainSection';
 import FileUploadButton from '../shared/FileUploadButton';
 import Button from '../shared/Button';
-import QRCode from 'react-qr-code';
 import moment from 'moment';
 import { faExternalLinkAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
@@ -66,7 +65,7 @@ const InfoLineTitle = styled.span`
 `;
 
 const InfoLineValue = styled.span`
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   word-break: break-all;
 `;
 
