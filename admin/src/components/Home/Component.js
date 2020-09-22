@@ -109,7 +109,7 @@ export default class Home extends Component {
       return null;
     }
 
-    const origin = window.location.origin.includes('localhost') ? window.location.origin.replace('3000', '3001') : window.location.origin;
+    const origin = window.location.origin.includes('localhost') ? window.location.origin.replace('3000', '3001') : window.location.origin.replace('admin.', 'www.');
 
     return (
       <Wrapper>
