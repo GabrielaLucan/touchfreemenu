@@ -104,8 +104,6 @@ exports.uploadFileToS3 = multer({
       cb(null, 'application/pdf');
     },
     key: (req, file, cb) => {
-      console.log('file', file);
-
       if (file.mimetype != 'application/pdf') {
         cb({ type: 'invalidFileName', message: 'Te rog alege un fișier în format PDF.' });
       } else {
@@ -151,8 +149,6 @@ exports.showMenu = async (req, res, next) => {
           });
           return res.send(data.Body);
         } else {
-          console.log('err', error);
-
           return res.status(500).send(error);
         }
       }
