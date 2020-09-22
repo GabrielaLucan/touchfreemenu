@@ -45,7 +45,8 @@ module.exports = (app) => {
     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
   });
 
-  app.get('/:restaurantSlug', users.goToMenu);
+  app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
+  app.get('/:restaurantSlug', users.showMenu);
 
   app.get('*', (req, res, next) => {
     res.status(404).json({ message: 'not found' });

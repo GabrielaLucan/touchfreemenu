@@ -5,6 +5,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const moment = require('moment');
+var QRCode = require('qrcode');
 moment.locale('ro');
 AWS.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_KEY });
 
@@ -94,22 +95,6 @@ exports.getCurrentUser = (req, res, next) => {
   res.status(200).json(req.fullUser);
 };
 
-exports.goToMenu = async (req, res, next) => {
-  try {
-    const { restaurantSlug } = req.params;
-
-    const user = await User.findOne({ username: restaurantSlug });
-
-    if (user) {
-      return res.redirect(user.pdfUrl);
-    } else {
-      return res.redirect('/');
-    }
-  } catch (err) {
-    next(err);
-  }
-};
-
 exports.uploadFileToS3 = multer({
   storage: multerS3({
     s3: new AWS.S3(),
@@ -124,8 +109,11 @@ exports.uploadFileToS3 = multer({
       if (file.mimetype != 'application/pdf') {
         cb({ type: 'invalidFileName', message: 'Te rog alege un fișier în format PDF.' });
       } else {
-        const uploadedFileName = `${req.user.username}/${file.originalname + '-' + new Date().toISOString()}.pdf`;
-        cb(null, uploadedFileName);
+        const pdfKey = `${req.user.username}/${file.originalname + '-' + new Date().toISOString()}.pdf`;
+
+        req.uploadedPdfKey = pdfKey;
+
+        cb(null, pdfKey);
       }
     },
   }),
@@ -135,9 +123,56 @@ exports.updatePdfMenuUrl = async (req, res, next) => {
   try {
     const { location: pdfUrl, originalname: pdfOriginalName, size: pdfSize } = req.file;
 
-    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl, pdfOriginalName, pdfSize, pdfUploadDate: new Date() });
+    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl, pdfOriginalName, pdfSize, pdfKey: req.uploadedPdfKey, pdfUploadDate: new Date() });
 
     res.status(200).json({ pdfUrl });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.showMenu = async (req, res, next) => {
+  try {
+    const { restaurantSlug } = req.params;
+
+    const user = await User.findOne({ username: restaurantSlug });
+
+    var s3 = new AWS.S3();
+
+    s3.getObject(
+      {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: user.pdfKey,
+      },
+      (error, data) => {
+        if (error === null) {
+          res.set({
+            'Content-Type': 'application/pdf',
+          });
+          return res.send(data.Body);
+        } else {
+          console.log('err', error);
+
+          return res.status(500).send(error);
+        }
+      }
+    );
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.downloadQrCode = async (req, res, next) => {
+  try {
+    const { restaurantSlug } = req.params;
+
+    QRCode.toString(`touchfreemenu.ro/${restaurantSlug}`, { type: 'svg' }, function (err, xml) {
+      res.set({
+        'Content-Type': 'image/svg+xml',
+        'Content-Disposition': 'attachment',
+      });
+      res.send(xml);
+    });
   } catch (err) {
     next(err);
   }

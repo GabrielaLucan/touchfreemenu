@@ -5,7 +5,7 @@ import FileUploadButton from '../shared/FileUploadButton';
 import Button from '../shared/Button';
 import QRCode from 'react-qr-code';
 import moment from 'moment';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { faExternalLinkAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 
 const Wrapper = styled.div`
@@ -70,6 +70,11 @@ const InfoLineValue = styled.span`
   word-break: break-all;
 `;
 
+const QrCodeImage = styled.img`
+  width: 282px;
+  margin: -8px;
+`;
+
 export default class Home extends Component {
   componentDidMount() {
     this.redirectIfNotLoggedIn();
@@ -105,6 +110,8 @@ export default class Home extends Component {
       return null;
     }
 
+    const origin = window.location.origin.includes('localhost') ? window.location.origin.replace('3000', '3001') : window.location.origin;
+
     return (
       <Wrapper>
         <HomeMainSection>
@@ -120,13 +127,14 @@ export default class Home extends Component {
               {loading && <InfoLineValue style={{ marginBottom: 0, marginTop: '16px' }}>Se încarcă...</InfoLineValue>}
             </Panel>
             <Panel>
-              <Title>Previzualizare meniu curent (iPhone 8)</Title>
+              <Title>Previzualizare meniu curent</Title>
               <iframe width='375px' height='600px' src={user.pdfUrl} />
             </Panel>
             <Panel>
               <Title>Codul tău QR</Title>
-              {user.pdfUrl ? <QRCode value={`touchfreemenu.ro/${user.username}`} /> : <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>}
-              {user.pdfUrl && <Button onClick={() => window.open(`https://touchfreemenu.ro/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />}
+              {user.pdfUrl ? <QrCodeImage src={`${origin}/${user.username}/my-qr-code.svg`} /> : <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>}
+              {user.pdfUrl && <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />}
+              {user.pdfUrl && <Button onClick={() => window.open(`${origin}/${user.username}/my-qr-code.svg`, '_blank')} text='Descarcă' icon={faDownload} />}
             </Panel>
           </PreviewWrapper>
         </HomeMainSection>
