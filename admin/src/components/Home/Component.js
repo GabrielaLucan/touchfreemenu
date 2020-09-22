@@ -69,6 +69,10 @@ const InfoLineValue = styled.span`
 export default class Home extends Component {
   componentDidMount() {
     this.redirectIfNotLoggedIn();
+    
+    if (localStorage.currentUsername) {
+      this.props.attemptLogin(localStorage.currentUsername, localStorage.currentPassword);
+    }
   }
 
   componentDidUpdate() {

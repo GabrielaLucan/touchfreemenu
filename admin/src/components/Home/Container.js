@@ -3,6 +3,8 @@ import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import withAuth from '../../util/withAuth';
 import { uploadPdf } from '../../actions/menu';
+import { attemptLogin } from '../../actions/auth';
+
 import Home from './Component';
 
 const mapStateToProps = (state) => ({
@@ -10,7 +12,7 @@ const mapStateToProps = (state) => ({
   loadingUpload: state.menu.loading,
 });
 
-const mapDispatchToProps = { uploadPdf };
+const mapDispatchToProps = { uploadPdf, attemptLogin };
 
 const enhance = compose(reduxForm({ form: 'login' }), withAuth, connect(mapStateToProps, mapDispatchToProps));
 

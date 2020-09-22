@@ -15,7 +15,14 @@ class LoginForm extends React.Component {
   }
 
   redirectIfLoggedIn() {
-    if (this.props.token) this.props.history.push('/');
+    if (this.props.token) {
+      this.props.history.push({
+        pathname: '/',
+        state: {
+          from: this.props.location.pathname,
+        },
+      });
+    }
   }
 
   onSubmit = ({ username, password }) => {

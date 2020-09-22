@@ -7,7 +7,7 @@ import GlobalStyle from '../../globalStyle';
 import HeaderContainer from '../Header/Container';
 import ErrorNotificationContainer from '../ErrorNotification/Container';
 import LoginFormContainer from '../LoginForm/Container';
-import Home from '../Home/Container';
+import HomeComponent from '../Home/Container';
 
 const App = (props) => (
   <ThemeProvider theme={theme(props.dark)}>
@@ -18,7 +18,7 @@ const App = (props) => (
         <Route component={ErrorNotificationContainer} />
         <Switch>
           <Route path='/login' component={LoginFormContainer} />
-          <Route path='/' component={Home} />
+          <Route path='/' component={HomeComponent} />
         </Switch>
       </>
     </Router>
