@@ -10,7 +10,7 @@
     "dev": "nodemon ./index.js",
     "start": "node index.js",
     "test": "jest",
-    "heroku-prebuild": "npm install --only=dev && cd admin && npm install && npm run build"
+    "heroku-prebuild": "cd admin && npm install && npm run build"
   },
   "dependencies": {
     "aws-sdk": "^2.752.0",
@@ -29,7 +29,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "qrcode": "^1.4.4"
+    "qrcode": "^1.4.4",
+    "react-scripts": "^2.1.5"
   },
   "devDependencies": {
     "faker": "^4.1.0",
