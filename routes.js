@@ -56,6 +56,6 @@ module.exports = (app) => {
     if (err.type === 'entity.parse.failed') {
       return res.status(400).json({ message: 'bad request' });
     }
-    next(err);
+    return res.status(500).json(err);
   });
 };
