@@ -39,6 +39,7 @@ const Panel = styled.div`
   align-items: flex-start;
   margin-right: 32px;
   margin-bottom: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 `;
 
 const Title = styled.span`
@@ -104,11 +105,11 @@ export default class Home extends Component {
           <PreviewWrapper>
             <Panel style={{ opacity: loadingUpload ? 0.3 : 1 }}>
               <InfoLineTitle>Data încărcării ultimului meniu</InfoLineTitle>
-              <InfoLineValue>{moment(user.pdfUploadDate).format('DD MMM @ HH:mm')}</InfoLineValue>
+              <InfoLineValue>{user.pdfUploadDate ? moment(user.pdfUploadDate).format('DD MMM @ HH:mm') : '-'}</InfoLineValue>
               <InfoLineTitle>Numele fișierului </InfoLineTitle>
-              <InfoLineValue>{user.pdfOriginalName}</InfoLineValue>
+              <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
               <InfoLineTitle>Mărime fișier</InfoLineTitle>
-              <InfoLineValue style={{ marginBottom: 0 }}>{(user.pdfSize / (1024 * 1000)).toFixed(2)}MB</InfoLineValue>
+              <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
               {loadingUpload && <InfoLineValue style={{ marginBottom: 0, marginTop: '16px' }}>Se încarcă...</InfoLineValue>}
             </Panel>
             <Panel style={{ opacity: loadingUpload ? 0.3 : 1 }}>
@@ -118,8 +119,8 @@ export default class Home extends Component {
             </Panel>
             <Panel style={{ opacity: loadingUpload ? 0.3 : 1 }}>
               <Title>Codul tău QR</Title>
-              <QRCode value={`touchfreemenu.ro/${user.username}`} />
-              <Button onClick={() => window.open(`https://touchfreemenu.ro/${user.username}`, '_blank')} text='Deschide' icon={faCamera} />
+              {user.pdfUrl ? <QRCode value={`touchfreemenu.ro/${user.username}`} /> : <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>}
+              {user.pdfUrl && <Button onClick={() => window.open(`https://touchfreemenu.ro/${user.username}`, '_blank')} text='Deschide' icon={faCamera} />}
             </Panel>
           </PreviewWrapper>
         </HomeMainSection>
