@@ -9,8 +9,7 @@
   "scripts": {
     "dev": "nodemon ./index.js",
     "start": "node index.js",
-    "test": "jest",
-    "heroku-prebuild": "cd admin && npm install && npm run build"
+    "test": "jest"
   },
   "dependencies": {
     "aws-sdk": "^2.752.0",
