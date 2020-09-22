@@ -13,10 +13,13 @@ export const uploadPdf = (data) => async (dispatch) => {
     const { pdfUrl } = await uploadPdfMenu(data);
 
     attemptLogin(localStorage.currentUsername, localStorage.currentPassword)(dispatch);
-    alert('Noul meniu a fost încărcat cu succes!');
+    setTimeout(() => {
+      alert('Noul meniu a fost încărcat cu succes!');
+    }, 500);
     dispatch({ type: UPLOAD_PDF_SUCCESS, pdfUrl });
   } catch (error) {
-    alert('A apărut o eroare la încărcarea noului meniu!');
+    console.log('error', error);
+
     dispatch({ type: UPLOAD_PDF_ERROR, error });
   }
 };

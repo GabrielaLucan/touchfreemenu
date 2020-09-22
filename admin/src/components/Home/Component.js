@@ -6,6 +6,7 @@ import Button from '../shared/Button';
 import QRCode from 'react-qr-code';
 import moment from 'moment';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,6 +27,8 @@ const PreviewWrapper = styled.div`
   display: flex;
   flex: 1;
   align-items: flex-start;
+
+  ${(props) => props.loading && 'filter: grayscale(0.5) blur(5px) opacity(0.6); pointer-events: none'};
 `;
 
 const Panel = styled.div`
@@ -64,12 +67,13 @@ const InfoLineTitle = styled.span`
 
 const InfoLineValue = styled.span`
   margin-bottom: 16px;
+  word-break: break-all;
 `;
 
 export default class Home extends Component {
   componentDidMount() {
     this.redirectIfNotLoggedIn();
-    
+
     if (localStorage.currentUsername) {
       this.props.attemptLogin(localStorage.currentUsername, localStorage.currentPassword);
     }
@@ -95,7 +99,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { user, token, loadingUpload } = this.props;
+    const { user, token, loading } = this.props;
 
     if (!token) {
       return null;
@@ -104,28 +108,29 @@ export default class Home extends Component {
     return (
       <Wrapper>
         <HomeMainSection>
-          <PreviewWrapper>
-            <Panel style={{ opacity: loadingUpload ? 0.3 : 1 }}>
+          <PreviewWrapper {...this.props}>
+            <Panel>
               <InfoLineTitle>Data încărcării ultimului meniu</InfoLineTitle>
               <InfoLineValue>{user.pdfUploadDate ? moment(user.pdfUploadDate).format('DD MMM @ HH:mm') : '-'}</InfoLineValue>
               <InfoLineTitle>Numele fișierului </InfoLineTitle>
               <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
               <InfoLineTitle>Mărime fișier</InfoLineTitle>
               <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
-              {loadingUpload && <InfoLineValue style={{ marginBottom: 0, marginTop: '16px' }}>Se încarcă...</InfoLineValue>}
+              {loading && <InfoLineValue style={{ marginBottom: 0, marginTop: '16px' }}>Se încarcă...</InfoLineValue>}
             </Panel>
-            <Panel style={{ opacity: loadingUpload ? 0.3 : 1 }}>
+            <Panel>
               <Title>Previzualizare meniu curent (iPhone 8)</Title>
               <iframe width='375px' height='600px' src={user.pdfUrl} />
-              <FileUploadButton disabled={loadingUpload} onFileSelected={this.uploadSelectedFile} text={loadingUpload ? 'Se incarcă...' : 'Încarcă meniu nou (PDF)'} />
+              <FileUploadButton onFileSelected={this.uploadSelectedFile} text={loading ? 'Se incarcă...' : 'Încarcă meniu nou (PDF)'} />
             </Panel>
-            <Panel style={{ opacity: loadingUpload ? 0.3 : 1 }}>
+            <Panel>
               <Title>Codul tău QR</Title>
               {user.pdfUrl ? <QRCode value={`touchfreemenu.ro/${user.username}`} /> : <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>}
               {user.pdfUrl && <Button onClick={() => window.open(`https://touchfreemenu.ro/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />}
             </Panel>
           </PreviewWrapper>
         </HomeMainSection>
+        {loading && <LoadingIndicatorSpinner />}
       </Wrapper>
     );
   }

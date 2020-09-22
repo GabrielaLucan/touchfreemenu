@@ -5,10 +5,9 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/request-demo', demoRequests.requestDemo);
-router.post('/login', users.validate(), users.login);
+router.post('/login', users.login);
 router.post('/register', users.validate(), users.register);
 router.get('/get-current-user', auth.withCurrentUser, users.getCurrentUser);
-
 
 router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updatePdfMenuUrl);
 
@@ -55,6 +54,9 @@ module.exports = (app) => {
   app.use((err, req, res, next) => {
     if (err.type === 'entity.parse.failed') {
       return res.status(400).json({ message: 'bad request' });
+    }
+    if (err.type === 'invalidFileName') {
+      return res.status(400).json({ message: err.message });
     }
     return res.status(500).json(err);
   });

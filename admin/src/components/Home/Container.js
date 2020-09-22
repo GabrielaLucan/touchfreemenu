@@ -8,8 +8,7 @@ import { attemptLogin } from '../../actions/auth';
 import Home from './Component';
 
 const mapStateToProps = (state) => ({
-  loading: state.auth.loading,
-  loadingUpload: state.menu.loading,
+  loading: state.auth.loading || state.menu.loading,
 });
 
 const mapDispatchToProps = { uploadPdf, attemptLogin };

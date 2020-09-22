@@ -119,8 +119,14 @@ exports.uploadFileToS3 = multer({
       cb(null, 'application/pdf');
     },
     key: (req, file, cb) => {
-      const uploadedFileName = `${req.user.username}/${file.originalname + '-' + new Date().toISOString()}.pdf`;
-      cb(null, uploadedFileName);
+      console.log('file', file);
+
+      if (file.mimetype != 'application/pdf') {
+        cb({ type: 'invalidFileName', message: 'Te rog alege un fișier în format PDF.' });
+      } else {
+        const uploadedFileName = `${req.user.username}/${file.originalname + '-' + new Date().toISOString()}.pdf`;
+        cb(null, uploadedFileName);
+      }
     },
   }),
 }).single('menu');

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   ${transition('opacity', 'transform')};
 
   position: fixed;
-  top: 16px;
+  top: 32px;
   left: 0;
   right: 0;
   z-index: 100;
