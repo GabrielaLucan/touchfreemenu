@@ -119,7 +119,7 @@ exports.uploadFileToS3 = multer({
       cb(null, 'application/pdf');
     },
     key: (req, file, cb) => {
-      const uploadedFileName = `${req.user.username}/${moment().format('DD MMMM HH:mm')}.pdf`;
+      const uploadedFileName = `${req.user.username}/${file.originalname + '-' + new Date().toISOString()}.pdf`;
       cb(null, uploadedFileName);
     },
   }),

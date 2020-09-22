@@ -5,7 +5,7 @@ import FileUploadButton from '../shared/FileUploadButton';
 import Button from '../shared/Button';
 import QRCode from 'react-qr-code';
 import moment from 'moment';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
   display: flex;
@@ -97,8 +97,6 @@ export default class Home extends Component {
       return null;
     }
 
-    console.log('user', user);
-
     return (
       <Wrapper>
         <HomeMainSection>
@@ -120,7 +118,7 @@ export default class Home extends Component {
             <Panel style={{ opacity: loadingUpload ? 0.3 : 1 }}>
               <Title>Codul tău QR</Title>
               {user.pdfUrl ? <QRCode value={`touchfreemenu.ro/${user.username}`} /> : <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>}
-              {user.pdfUrl && <Button onClick={() => window.open(`https://touchfreemenu.ro/${user.username}`, '_blank')} text='Deschide' icon={faCamera} />}
+              {user.pdfUrl && <Button onClick={() => window.open(`https://touchfreemenu.ro/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />}
             </Panel>
           </PreviewWrapper>
         </HomeMainSection>
