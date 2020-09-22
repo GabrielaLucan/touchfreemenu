@@ -21,7 +21,6 @@ const Wrapper = styled.header`
 
   @media (max-width: 425px) {
     margin-bottom: 16px;
-    height: 40px;
   }
 
   @media (max-width: 768px) {

@@ -28,6 +28,12 @@ const PreviewWrapper = styled.div`
   align-items: flex-start;
 
   ${(props) => props.loading && 'filter: grayscale(0.5) blur(5px) opacity(0.6); pointer-events: none'};
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Panel = styled.div`
@@ -41,6 +47,10 @@ const Panel = styled.div`
   margin-right: 32px;
   margin-bottom: 32px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
 `;
 
 const Title = styled.span`
@@ -69,14 +79,21 @@ const InfoLineValue = styled.span`
   max-width: 246px;
 `;
 
-const QrCodeImage = styled.img`
-  width: 319px;
-  margin: -8px;
-`;
 const ActionsWrapper = styled.div`
   display: flex;
   width: 310px;
   justify-content: space-between;
+`;
+
+const QrCodeImage = styled.img`
+  width: 319px;
+  margin: -32px;
+`;
+
+const QrCodeWrapper = styled.div`
+  overflow: hidden;
+  align-self: center;
+  margin-top: 8px;
 `;
 
 export default class Home extends Component {
@@ -119,7 +136,7 @@ export default class Home extends Component {
     return (
       <Wrapper>
         <HomeMainSection>
-          <PreviewWrapper {...this.props}>
+          <PreviewWrapper loading={this.props.loading}>
             <Panel>
               <InfoLineTitle>Data încărcării ultimului meniu</InfoLineTitle>
               <InfoLineValue>{user.pdfUploadDate ? moment(user.pdfUploadDate).format('DD MMM @ HH:mm') : '-'}</InfoLineValue>
@@ -132,11 +149,17 @@ export default class Home extends Component {
             </Panel>
             <Panel>
               <Title>Previzualizare meniu curent</Title>
-              <iframe width='375px' height='600px' src={user.pdfUrl} />
+              <iframe width='355px' height='600px' src={user.pdfUrl} />
             </Panel>
             <Panel>
               <Title>Codul tău QR</Title>
-              {user.pdfUrl ? <QrCodeImage src={`${origin}/${user.username}/my-qr-code.svg`} /> : <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>}
+              {user.pdfUrl ? (
+                <QrCodeWrapper>
+                  <QrCodeImage title={`touchfreemenu.ro/${user.username}`} src={`${origin}/${user.username}/my-qr-code.svg`} />
+                </QrCodeWrapper>
+              ) : (
+                <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>
+              )}
               {user.pdfUrl && (
                 <ActionsWrapper>
                   <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />
