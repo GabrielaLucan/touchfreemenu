@@ -10,7 +10,7 @@
     "dev": "nodemon ./index.js",
     "start": "node index.js",
     "test": "jest",
-    "heroku-prebuild": "cd admin && npm run build"
+    "heroku-prebuild": "npm install --only=dev && cd admin && npm install && npm run build"
   },
   "dependencies": {
     "aws-sdk": "^2.752.0",
