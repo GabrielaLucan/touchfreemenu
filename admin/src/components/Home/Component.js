@@ -36,7 +36,6 @@ const Panel = styled.div`
   background-color: #fff;
   border-radius: 8px;
   padding: 16px;
-  padding-right: 26px;
   flex-direction: column;
   align-items: flex-start;
   margin-right: 32px;
@@ -67,11 +66,17 @@ const InfoLineTitle = styled.span`
 const InfoLineValue = styled.span`
   margin-bottom: 24px;
   word-break: break-all;
+  max-width: 246px;
 `;
 
 const QrCodeImage = styled.img`
-  width: 282px;
+  width: 319px;
   margin: -8px;
+`;
+const ActionsWrapper = styled.div`
+  display: flex;
+  width: 310px;
+  justify-content: space-between;
 `;
 
 export default class Home extends Component {
@@ -132,8 +137,12 @@ export default class Home extends Component {
             <Panel>
               <Title>Codul tău QR</Title>
               {user.pdfUrl ? <QrCodeImage src={`${origin}/${user.username}/my-qr-code.svg`} /> : <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>}
-              {user.pdfUrl && <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />}
-              {user.pdfUrl && <Button onClick={() => window.open(`${origin}/${user.username}/my-qr-code.svg`, '_blank')} text='Descarcă' icon={faDownload} />}
+              {user.pdfUrl && (
+                <ActionsWrapper>
+                  <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />
+                  <Button onClick={() => window.open(`${origin}/${user.username}/my-qr-code.svg`, '_blank')} text='Descarcă' icon={faDownload} />
+                </ActionsWrapper>
+              )}
             </Panel>
           </PreviewWrapper>
         </HomeMainSection>
