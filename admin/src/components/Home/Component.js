@@ -116,12 +116,12 @@ export default class Home extends Component {
               <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
               <InfoLineTitle>Mărime fișier</InfoLineTitle>
               <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
+              <FileUploadButton onFileSelected={this.uploadSelectedFile} text={loading ? 'Se incarcă...' : 'Încarcă meniu nou (PDF)'} />
               {loading && <InfoLineValue style={{ marginBottom: 0, marginTop: '16px' }}>Se încarcă...</InfoLineValue>}
             </Panel>
             <Panel>
               <Title>Previzualizare meniu curent (iPhone 8)</Title>
               <iframe width='375px' height='600px' src={user.pdfUrl} />
-              <FileUploadButton onFileSelected={this.uploadSelectedFile} text={loading ? 'Se incarcă...' : 'Încarcă meniu nou (PDF)'} />
             </Panel>
             <Panel>
               <Title>Codul tău QR</Title>

@@ -18,8 +18,6 @@ export const uploadPdf = (data) => async (dispatch) => {
     }, 500);
     dispatch({ type: UPLOAD_PDF_SUCCESS, pdfUrl });
   } catch (error) {
-    console.log('error', error);
-
     dispatch({ type: UPLOAD_PDF_ERROR, error });
   }
 };
