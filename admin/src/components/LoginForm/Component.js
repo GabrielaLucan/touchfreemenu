@@ -24,25 +24,10 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <Form
-        loading={this.props.loading}
-        onSubmit={this.props.handleSubmit(this.onSubmit)}
-      >
-        <Field
-          name='username'
-          label='id restaurant'
-          type='text'
-          component={renderField}
-          validate={slugValidator}
-        />
-        <Field
-          name='password'
-          label='parolă'
-          type='password'
-          component={renderField}
-          validate={passwordValidator}
-        />
-        <SubmitButton type='submit'>Intră</SubmitButton>
+      <Form loading={this.props.loading} onSubmit={this.props.handleSubmit(this.onSubmit)}>
+        <Field name='username' label='id restaurant' type='text' component={renderField} validate={slugValidator} />
+        <Field name='password' label='parolă' type='password' component={renderField} validate={passwordValidator} />
+        <SubmitButton type='submit' text='Intră'></SubmitButton>
       </Form>
     );
   }

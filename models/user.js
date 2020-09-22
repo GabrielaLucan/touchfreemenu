@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
     logoUrl: String,
     pdfUrl: String,
     pdfUploadDate: Date,
+    pdfOriginalName: String,
+    pdfSize: Number,
     joinDate: Date,
     city: String,
     coords: {

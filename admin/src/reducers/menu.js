@@ -20,8 +20,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        token: action.token,
-        user: { ...user, pdfUrl: action.pdfUrl },
       };
 
     //errors

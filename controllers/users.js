@@ -3,8 +3,9 @@ const { login, createAuthToken } = require('../services/auth');
 const User = require('../models/user');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-// const upload = multer({ dest: 'services/object-storage/uploads' });
 const AWS = require('aws-sdk');
+const moment = require('moment');
+moment.locale('ro');
 AWS.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_KEY });
 
 exports.login = (req, res, next) => {
@@ -118,7 +119,7 @@ exports.uploadFileToS3 = multer({
       cb(null, 'application/pdf');
     },
     key: (req, file, cb) => {
-      const uploadedFileName = `${req.user.username}/${new Date().toISOString()}.pdf`;
+      const uploadedFileName = `${req.user.username}/${moment().format('DD MMMM HH:mm')}.pdf`;
       cb(null, uploadedFileName);
     },
   }),
@@ -126,10 +127,11 @@ exports.uploadFileToS3 = multer({
 
 exports.updatePdfMenuUrl = async (req, res, next) => {
   try {
-    const awsPdfUrl = req.file.location;
-    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl: awsPdfUrl, pdfUploadDate: new Date() });
+    const { location: pdfUrl, originalname: pdfOriginalName, size: pdfSize } = req.file;
 
-    res.status(200).json({ pdfUrl: req.file.location });
+    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl, pdfOriginalName, pdfSize, pdfUploadDate: new Date() });
+
+    res.status(200).json({ pdfUrl });
   } catch (err) {
     next(err);
   }

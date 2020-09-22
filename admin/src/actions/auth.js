@@ -7,6 +7,10 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export const attemptLogin = (username, password) => async (dispatch) => {
   dispatch({ type: LOGIN_PENDING });
+
+  localStorage.currentUsername = username;
+  localStorage.currentPassword = password;
+  
   try {
     const token = await login(username, password);
     dispatch({ type: LOGIN_SUCCESS, token });

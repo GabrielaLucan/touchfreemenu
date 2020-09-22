@@ -7,6 +7,7 @@ import Home from './Component';
 
 const mapStateToProps = (state) => ({
   loading: state.auth.loading,
+  loadingUpload: state.menu.loading,
 });
 
 const mapDispatchToProps = { uploadPdf };

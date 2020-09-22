@@ -1,14 +1,15 @@
+import React from 'react';
 import styled from 'styled-components/macro';
 import { transition, wideFont } from './helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Button = styled.button`
+const StyledButton = styled.button`
   ${transition('filter', 'box-shadow')};
   ${wideFont};
 
   height: 45px;
   border: 0;
   border-radius: 30px;
-  margin-left: -45px;
   padding: 0 25px 0 25px;
   background: #7ac944;
   font-size: 14px;
@@ -20,7 +21,7 @@ const Button = styled.button`
   outline: none;
   box-shadow: 0 5px 30px rgba(255, 255, 255, 0.05);
   transition: 200ms;
-  margin-bottom: 16px;
+  margin-top: 16px;
 
   :hover {
     filter: brightness(110%);
@@ -40,4 +41,15 @@ const Button = styled.button`
   }
 `;
 
-export default Button;
+export default class Button extends React.Component {
+  render() {
+    const { icon, text, onClick } = this.props;
+
+    return (
+      <StyledButton onClick={onClick}>
+        {icon && <FontAwesomeIcon color='#fff' icon={icon} />}
+        <span style={{ marginLeft: icon ? '8px' : '0' }}>{text}</span>
+      </StyledButton>
+    );
+  }
+}
