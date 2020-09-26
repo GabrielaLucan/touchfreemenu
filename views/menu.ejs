@@ -2,10 +2,11 @@
 <html lang="en">
   <head> </head>
   <body class="container">
-    <object width="400" height="500" type="application/pdf" data="<%= pdfUrl %>?#zoom=85&scrollbar=0&toolbar=0&navpanes=0">
+    <!-- <object width="400" height="500" type="application/pdf" data="<%= pdfUrl %>?#zoom=85&scrollbar=0&toolbar=0&navpanes=0">
       <p>PDF cannot be displayed</p>
-    </object>
+    </object> -->
     <!-- <iframe src="https://docs.google.com/gview?url=<%= pdfUrl %>&embedded=true" style="width: 100vw; height: 100vh" frameborder="0"></iframe> -->
+    <iframe src="https://drive.google.com/viewerng/viewer?embedded=true&url=<%= pdfUrl %>" style="width: 100vw; height: 100vh" frameborder="0"></iframe>
     <footer></footer>
   </body>
   <script
