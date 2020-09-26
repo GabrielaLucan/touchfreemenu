@@ -8,6 +8,8 @@ const jwtStrategy = require('./services/auth/jwt');
 
 const app = express();
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 app.use(cors());
 app.use(express.json());
 app.use(expressValidator());

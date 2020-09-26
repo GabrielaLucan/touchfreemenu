@@ -131,28 +131,33 @@ exports.updatePdfMenuUrl = async (req, res, next) => {
 
 exports.showMenu = async (req, res, next) => {
   try {
-    const { restaurantSlug } = req.params;
+    // const { restaurantSlug } = req.params;
 
-    const user = await User.findOne({ username: restaurantSlug });
+    // const user = await User.findOne({ username: restaurantSlug });
 
-    var s3 = new AWS.S3();
+    // var s3 = new AWS.S3();
 
-    s3.getObject(
-      {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: user.pdfKey,
-      },
-      (error, data) => {
-        if (error === null) {
-          res.set({
-            'Content-Type': 'application/pdf',
-          });
-          return res.send(data.Body);
-        } else {
-          return res.status(500).send(error);
-        }
-      }
-    );
+    // s3.getObject(
+    //   {
+    //     Bucket: process.env.AWS_BUCKET_NAME,
+    //     Key: user.pdfKey,
+    //   },
+    //   (error, data) => { 
+    //     if (error === null) {
+    //       res.set({
+    //         'Content-Type': 'application/pdf',
+    //       });
+    //       return res.send(data.Body);
+    //     } else {
+    //       return res.status(500).send(error);
+    //     }
+    //   }
+    // );
+
+    res.render('views/menu', {
+      mascots: mascots,
+      tagline: tagline
+  });
   } catch (err) {
     next(err);
   }
