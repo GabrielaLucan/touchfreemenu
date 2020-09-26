@@ -131,29 +131,6 @@ exports.updatePdfMenuUrl = async (req, res, next) => {
 
 exports.showMenu = async (req, res, next) => {
   try {
-    // const { restaurantSlug } = req.params;
-
-    // const user = await User.findOne({ username: restaurantSlug });
-
-    // var s3 = new AWS.S3();
-
-    // s3.getObject(
-    //   {
-    //     Bucket: process.env.AWS_BUCKET_NAME,
-    //     Key: user.pdfKey,
-    //   },
-    //   (error, data) => {
-    //     if (error === null) {
-    //       res.set({
-    //         'Content-Type': 'application/pdf',
-    //       });
-    //       return res.send(data.Body);
-    //     } else {
-    //       return res.status(500).send(error);
-    //     }
-    //   }
-    // );
-
     const { restaurantSlug } = req.params;
 
     const user = await User.findOne({ username: restaurantSlug });
@@ -162,9 +139,33 @@ exports.showMenu = async (req, res, next) => {
       return res.redirect('https://touchfreemenu.ro/');
     }
 
-    return res.render('menu', {
-      pdfUrl: user.pdfUrl,
-    });
+    const isIphone = req.headers['user-agent'].includes('(iPhone;');
+
+    if (isIphone) {
+      var s3 = new AWS.S3();
+
+      s3.getObject(
+        {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: user.pdfKey,
+        },
+        (error, data) => {
+          if (error === null) {
+            res.set({
+              'Content-Type': 'application/pdf',
+            });
+
+            return res.send(data.Body);
+          } else {
+            return res.status(500).send(error);
+          }
+        }
+      );
+    } else {
+      return res.render('menu', {
+        pdfUrl: user.pdfUrl,
+      });
+    }
   } catch (err) {
     next(err);
   }
