@@ -154,7 +154,13 @@ exports.showMenu = async (req, res, next) => {
     //   }
     // );
 
-    return res.render('menu');
+    const { restaurantSlug } = req.params;
+
+    const user = await User.findOne({ username: restaurantSlug });
+
+    return res.render('menu', {
+      pdfUrl: user.pdfUrl,
+    });
   } catch (err) {
     next(err);
   }
