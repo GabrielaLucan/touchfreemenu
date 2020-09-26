@@ -86,14 +86,13 @@ const ActionsWrapper = styled.div`
 `;
 
 const QrCodeImage = styled.img`
-  width: 319px;
-  margin: -32px;
+  width: 410px;
+  margin: -49px;
 `;
 
 const QrCodeWrapper = styled.div`
   overflow: hidden;
   align-self: center;
-  margin-top: 8px;
 `;
 
 export default class Home extends Component {
@@ -144,11 +143,12 @@ export default class Home extends Component {
               <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
               <InfoLineTitle>Mărime fișier</InfoLineTitle>
               <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
-              <FileUploadButton onFileSelected={this.uploadSelectedFile} text="Încarcă meniu nou (PDF)" />
+              <FileUploadButton onFileSelected={this.uploadSelectedFile} text='Încarcă meniu nou (PDF)' />
+              <Button icon={faDownload} downloadUrl={user.pdfUrl} downloadName={user.pdfOriginalName} text='Descarcă meniul curent' />
             </Panel>
             <Panel>
               <Title>Previzualizare meniu curent</Title>
-              <iframe width='355px' height='600px' src={user.pdfUrl} />
+              <iframe width='355px' height='600px' src={`http://docs.google.com/gview?url=${user.pdfUrl}&embedded=true`} frameborder='0' />
             </Panel>
             <Panel>
               <Title>Codul tău QR</Title>

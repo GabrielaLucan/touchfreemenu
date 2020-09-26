@@ -43,12 +43,12 @@ const StyledButton = styled.button`
 
 export default class Button extends React.Component {
   render() {
-    const { icon, text, onClick } = this.props;
+    const { icon, text, onClick, downloadUrl = '#', downloadName } = this.props;
 
     return (
       <StyledButton onClick={onClick}>
         {icon && <FontAwesomeIcon color='#fff' icon={icon} />}
-        <span style={{ marginLeft: icon ? '8px' : '0' }}>{text}</span>
+        <a href={downloadUrl} download={downloadName} style={{ marginLeft: icon ? '8px' : '0', textDecoration: 'none', color: '#fff' }}>{text}</a>
       </StyledButton>
     );
   }
