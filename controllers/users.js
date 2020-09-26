@@ -142,7 +142,7 @@ exports.showMenu = async (req, res, next) => {
     //     Bucket: process.env.AWS_BUCKET_NAME,
     //     Key: user.pdfKey,
     //   },
-    //   (error, data) => { 
+    //   (error, data) => {
     //     if (error === null) {
     //       res.set({
     //         'Content-Type': 'application/pdf',
@@ -154,10 +154,7 @@ exports.showMenu = async (req, res, next) => {
     //   }
     // );
 
-    res.render('views/menu', {
-      mascots: mascots,
-      tagline: tagline
-  });
+    return res.render('menu');
   } catch (err) {
     next(err);
   }
