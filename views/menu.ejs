@@ -1,27 +1,28 @@
-<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Meniu</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <style>
+      .iframe {
+        display: none;
+      }
 
-<head>
-  <title>Meniu</title>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
+      @media (min-width: 411px) and (min-height: 767px) {
+        #show414736 {
+          display: block;
+        }
+      }
+    </style> -->
+  </head>
 
-<body class="container" style="margin: 0; overflow: hidden;">
-  <!-- <object width="400" height="500" type="application/pdf" data="<%= pdfUrl %>?#zoom=85&scrollbar=0&toolbar=0&navpanes=0">
-      <p>PDF cannot be displayed</p>
-    </object> -->
-  <!-- <iframe src="https://docs.google.com/gview?url=<%= pdfUrl %>&embedded=true" style="width: 100vw; height: 100vh" frameborder="0"></iframe> -->
-  <iframe width="414px" height="736px" src="https://docs.google.com/gview?url=<%= pdfUrl %>&embedded=true" frameborder='0' />
-  <!-- <object data="<%= pdfUrl %>" type="application/pdf" width="750px" height="750px">
-    <embed src="<%= pdfUrl %>" type="application/pdf">
-    <p>This browser does not support PDFs. Please download the PDF to view it:</p>
-    </embed>
-  </object> -->
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
-  integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
-  crossorigin="anonymous"></script>
-
+  <body class="container" style="margin: 0">
+    <iframe id="show414736" class="iframe" width="411px" height="767px" src="https://docs.google.com/gview?url=<%= pdfUrl %>&embedded=true" frameborder="0"></iframe>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"
+      integrity="sha512-Z8CqofpIcnJN80feS2uccz+pXWgZzeKxDsDNMD/dJ6997/LSRY+W4NmEt9acwR+Gt9OHN0kkI1CTianCwoqcjQ=="
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
