@@ -158,6 +158,10 @@ exports.showMenu = async (req, res, next) => {
 
     const user = await User.findOne({ username: restaurantSlug });
 
+    if (!user) {
+      return res.redirect('https://touchfreemenu.ro/');
+    }
+
     return res.render('menu', {
       pdfUrl: user.pdfUrl,
     });
