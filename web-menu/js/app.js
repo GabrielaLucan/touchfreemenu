@@ -1,4 +1,4 @@
-// polyfill();
+polyfill();
 
 document.querySelectorAll('.category-button').forEach((x) => {
   x.addEventListener('click', function () {
@@ -11,7 +11,9 @@ document.querySelectorAll('.category-button').forEach((x) => {
 });
 
 document.querySelectorAll('input[type=text]').forEach((x) => {
-  x.addEventListener('focus', function () {
-    window.scrollTo({ top: 198, behavior: 'smooth' });
-  });
+  setTimeout(() => {
+    x.addEventListener('focus', function () {
+      window.scrollTo({ top: 198, behavior: 'smooth' });
+    });
+  }, 300);
 });
