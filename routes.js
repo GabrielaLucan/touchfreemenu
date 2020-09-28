@@ -29,6 +29,10 @@ router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updat
 module.exports = (app) => {
   app.use('/api', router);
 
+  app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
+  // app.get('/:restaurantSlug', users.showPdfMenu);
+  app.get('/:restaurantSlug', users.showWebMenu);
+
   app.use((req, res, next) => {
     if (req.headers.host.includes('admin.')) {
       if (process.env.IS_PROD) {
@@ -41,12 +45,13 @@ module.exports = (app) => {
     }
   });
 
+  app.use(express.static('web-menu'));
+
   app.get('/yourname', (req, res) => {
     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
   });
 
-  app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
-  app.get('/:restaurantSlug', users.showMenu);
+
 
   app.get('*', (req, res, next) => {
     res.status(404).json({ message: 'not found' });

@@ -129,7 +129,7 @@ exports.updatePdfMenuUrl = async (req, res, next) => {
   }
 };
 
-exports.showMenu = async (req, res, next) => {
+exports.showPdfMenu = async (req, res, next) => {
   try {
     const { restaurantSlug } = req.params;
 
@@ -162,7 +162,7 @@ exports.showMenu = async (req, res, next) => {
         }
       );
     } else {
-      return res.render('menu', {
+      return res.render('pdf-menu', {
         pdfUrl: user.pdfUrl,
       });
     }
@@ -185,4 +185,8 @@ exports.downloadQrCode = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.showWebMenu = async (req, res, next) => {
+  return res.render('web-menu');
 };
