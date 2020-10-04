@@ -33,6 +33,8 @@ module.exports = (app) => {
       if (process.env.IS_PROD) {
         express.static('admin/build')(req, res, next);
       } else {
+        console.log('Got here');
+        
         express.static('admin/public')(req, res, next);
       }
     } else {
@@ -48,7 +50,7 @@ module.exports = (app) => {
 
       //These won't be called if e.g. /nuka
 
-      app.use(express.static('presentation-site'));
+      express.static('presentation-site')(req, res, next);
 
       app.get('*', (req, res, next) => {
         res.status(404).json({ message: 'not found' });
