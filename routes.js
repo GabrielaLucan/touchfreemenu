@@ -33,10 +33,17 @@ module.exports = (app) => {
   app.use((req, res, next) => {
     if (req.headers.host.includes('admin.')) {
       express.static('admin/build')(req, res, next);
-
-      res.sendFile('admin/build/index.html', { root: __dirname });
     } else {
-      express.static('presentation-site')(req, res, next);
+      const lastIndexOfSlash = (req.headers.referer || '').lastIndexOf('/');
+      const requestedPath = (req.headers.referer || '').slice(lastIndexOfSlash + 1);
+
+      if ([...(req.headers.referer || '')].filter((x) => x === '/').length == 3 && requestedPath.length > 0) {
+        console.log('Am intrat pe if');
+
+        express.static('web-menu')(req, res, next);
+      } else {
+        express.static('presentation-site')(req, res, next);
+      }
 
       app.get('/yourname', (req, res) => {
         res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
@@ -55,6 +62,14 @@ module.exports = (app) => {
     }
   });
 
+  app.use((req, res, next) => {
+    if (req.headers.host.includes('admin.')) {
+      res.sendFile('admin/build/index.html', { root: __dirname });
+    } else {
+      next();
+    }
+  });
+
   app.use((err, req, res, next) => {
     if (err.type === 'entity.parse.failed') {
       return res.status(400).json({ message: 'bad request' });
@@ -62,6 +77,8 @@ module.exports = (app) => {
     if (err.type === 'invalidFileName') {
       return res.status(400).json({ message: err.message });
     }
+    console.log('err', err);
+
     return res.status(500).json(err);
   });
 };
