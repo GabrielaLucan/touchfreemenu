@@ -5,6 +5,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const moment = require('moment');
+const bcrypt = require('bcryptjs');
 var QRCode = require('qrcode');
 moment.locale('ro');
 AWS.config.update({ accessKeyId: process.env.AWS_ACCESS_KEY, secretAccessKey: process.env.AWS_SECRET_KEY });
@@ -19,6 +20,19 @@ exports.login = (req, res, next) => {
   login(req, res, next);
 };
 
+exports.changePassword = async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+
+  const { password: currentPassword } = await User.findById(req.user.id);
+
+  if (currentPassword !== oldPassword) {
+    return res.status(422).json({ message: 'Ai introdus greșit parola curentă' });
+  } else {
+    await User.findOneAndUpdate({ _id: req.user.id }, { password: newPassword });
+    return res.status(200).json({ success: newPassword });
+  }
+};
+
 exports.register = async (req, res, next) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
@@ -30,7 +44,7 @@ exports.register = async (req, res, next) => {
     const { username, password, name, email, logoUrl, city, coords, registrationSecret } = req.body;
 
     if (registrationSecret !== process.env.REGISTRATION_SECRET) {
-      return res.status(422).json({ error: 'Wrong registration secret' });
+      return res.status(422).json({ message: 'Wrong registration secret' });
     }
 
     const user = await User.create({ username, password, name, email, logoUrl, city, coords, joinDate: new Date() });

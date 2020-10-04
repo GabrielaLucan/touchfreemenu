@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/request-demo', demoRequests.requestDemo);
 router.post('/login', users.login);
+router.post('/change-password', auth.withCurrentUser, users.changePassword);
 router.post('/register', users.validate(), users.register);
 router.get('/get-current-user', auth.withCurrentUser, users.getCurrentUser);
 
@@ -50,8 +51,6 @@ module.exports = (app) => {
   app.get('/yourname', (req, res) => {
     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
   });
-
-
 
   app.get('*', (req, res, next) => {
     res.status(404).json({ message: 'not found' });

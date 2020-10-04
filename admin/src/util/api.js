@@ -33,10 +33,16 @@ const methods = {
     const json = await response.json();
 
     if (!response.ok) {
-      if (response.status === 422) {
-        json.errors.forEach((error) => {
-          throw Error(`${error.param} ${error.msg}`);
-        });
+      if (json.errors) {
+        if (response.status === 422) {
+          json.errors.forEach((error) => {
+            throw Error(`${error.param} ${error.msg}`);
+          });
+        }
+      }
+
+      if (json.message) {
+        throw Error(`${json.message}`);
       }
 
       throw Error(json.message);
@@ -68,6 +74,11 @@ const methods = {
 
 export async function login(username, password) {
   const json = await methods.post('login', { username, password });
+  return json.token;
+}
+
+export async function changePassword(oldPassword, newPassword) {
+  const json = await methods.post('change-password', { oldPassword, newPassword }, localStorage.token);
   return json.token;
 }
 

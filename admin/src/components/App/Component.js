@@ -4,9 +4,10 @@ import { Router, Route, Switch } from 'react-router-dom';
 import theme from '../../theme';
 import history from '../../util/history';
 import GlobalStyle from '../../globalStyle';
-import HeaderContainer from '../Header/Container';
+import Header from '../Header/Container';
 import ErrorNotificationContainer from '../ErrorNotification/Container';
-import LoginFormContainer from '../LoginForm/Container';
+import LoginScreen from '../LoginForm/Container';
+import ChangePasswordScreen from '../ChangePassword/Container';
 import HomeComponent from '../Home/Container';
 
 const App = (props) => (
@@ -14,10 +15,11 @@ const App = (props) => (
     <Router history={history}>
       <>
         <GlobalStyle />
-        <Route component={HeaderContainer} />
+        <Route component={Header} />
         <Route component={ErrorNotificationContainer} />
         <Switch>
-          <Route path='/login' component={LoginFormContainer} />
+          <Route path='/login' component={LoginScreen} />
+          <Route path='/changePassword' component={ChangePasswordScreen} />
           <Route path='/' component={HomeComponent} />
         </Switch>
       </>
