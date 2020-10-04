@@ -28,45 +28,82 @@ router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updat
 // router.delete('/post/:post/:comment', [jwtAuth, commentAuth], comments.destroy);
 
 module.exports = (app) => {
+  app.use('/api', router);
+
   app.use((req, res, next) => {
-    express.static('admin/build')(req, res, next);
+    if (req.headers.host.includes('admin.')) {
+      if (process.env.IS_PROD) {
+        express.static('admin/build')(req, res, next);
+      } else {
+        express.static('admin/public')(req, res, next);
+      }
+    } else {
+      express.static('presentation-site')(req, res, next);
+    }
+  });
 
-    // if (req.headers.host.includes('admin.')) {
-    //   if (process.env.IS_PROD) {
-    //     express.static('admin/build')(req, res, next);
-    //   } else {
-    //     console.log('Got here');
+  app.get('/yourname', (req, res) => {
+    res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
+  });
 
-    //     express.static('admin/public')(req, res, next);
-    //   }
-    // } else {
-    //   app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
-    //   app.use('/api', router);
+  app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
+  app.get('/:restaurantSlug', users.showMenuIfValidSlug);
 
-    //   app.get('/yourname', (req, res) => {
-    //     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
-    //   });
+  app.get('*', (req, res, next) => {
+    res.status(404).json({ message: 'not found' });
+  });
 
-    //   app.use(express.static('web-menu'));
-    //   app.get('/:restaurantSlug', users.showMenuIfValidSlug);
-
-    //   //These won't be called if e.g. /nuka
-
-    //   express.static('presentation-site')(req, res, next);
-
-    //   app.get('*', (req, res, next) => {
-    //     res.status(404).json({ message: 'not found' });
-    //   });
-
-    //   app.use((err, req, res, next) => {
-    //     if (err.type === 'entity.parse.failed') {
-    //       return res.status(400).json({ message: 'bad request' });
-    //     }
-    //     if (err.type === 'invalidFileName') {
-    //       return res.status(400).json({ message: err.message });
-    //     }
-    //     return res.status(500).json(err);
-    //   });
-    // }
+  app.use((err, req, res, next) => {
+    if (err.type === 'entity.parse.failed') {
+      return res.status(400).json({ message: 'bad request' });
+    }
+    if (err.type === 'invalidFileName') {
+      return res.status(400).json({ message: err.message });
+    }
+    return res.status(500).json(err);
   });
 };
+
+// module.exports = (app) => {
+//   app.use((req, res, next) => {
+//     express.static('admin/build')(req, res, next);
+
+//     // if (req.headers.host.includes('admin.')) {
+//     //   if (process.env.IS_PROD) {
+//     //     express.static('admin/build')(req, res, next);
+//     //   } else {
+//     //     console.log('Got here');
+
+//     //     express.static('admin/public')(req, res, next);
+//     //   }
+//     // } else {
+//     //   app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
+//     //   app.use('/api', router);
+
+//     //   app.get('/yourname', (req, res) => {
+//     //     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
+//     //   });
+
+//     //   app.use(express.static('web-menu'));
+//     //   app.get('/:restaurantSlug', users.showMenuIfValidSlug);
+
+//     //   //These won't be called if e.g. /nuka
+
+//     //   express.static('presentation-site')(req, res, next);
+
+//     //   app.get('*', (req, res, next) => {
+//     //     res.status(404).json({ message: 'not found' });
+//     //   });
+
+//     //   app.use((err, req, res, next) => {
+//     //     if (err.type === 'entity.parse.failed') {
+//     //       return res.status(400).json({ message: 'bad request' });
+//     //     }
+//     //     if (err.type === 'invalidFileName') {
+//     //       return res.status(400).json({ message: err.message });
+//     //     }
+//     //     return res.status(500).json(err);
+//     //   });
+//     // }
+//   });
+// };
