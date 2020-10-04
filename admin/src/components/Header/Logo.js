@@ -32,7 +32,7 @@ const AdminText = styled.div`
 export default props => {
   return (
     <Logo to='/'>
-      <LogoImgDark src='/logo.svg' alt='Logo' />
+      <LogoImgDark src='/logo2.svg' alt='Logo' />
       <AdminText>Admin</AdminText>
     </Logo>
   );
