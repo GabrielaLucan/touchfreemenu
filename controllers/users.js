@@ -209,6 +209,6 @@ exports.showMenuIfValidSlug = async (req, res, next) => {
   if (user) {
     return res.render('web-menu');
   } else {
-    next(req, res);
+    next();
   }
 };

@@ -33,20 +33,26 @@ module.exports = (app) => {
   app.use((req, res, next) => {
     if (req.headers.host.includes('admin.')) {
       express.static('admin/build')(req, res, next);
+
+      res.sendFile('admin/build/index.html', { root: __dirname });
     } else {
       express.static('presentation-site')(req, res, next);
+
+      app.get('/yourname', (req, res) => {
+        res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
+      });
+
+      app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
+      app.get('/:restaurantSlug', users.showMenuIfValidSlug);
+
+      app.get('/api/*', (req, res, next) => {
+        res.status(404).json({ message: 'not found 2' });
+      });
+
+      app.get('*', (req, res, next) => {
+        return res.redirect('https://touchfreemenu.ro/');
+      });
     }
-  });
-
-  app.get('/yourname', (req, res) => {
-    res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
-  });
-
-  app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
-  app.get('/:restaurantSlug', users.showMenuIfValidSlug);
-
-  app.get('*', (req, res, next) => {
-    res.status(404).json({ message: 'not found' });
   });
 
   app.use((err, req, res, next) => {
