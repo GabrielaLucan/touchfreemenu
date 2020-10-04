@@ -201,6 +201,14 @@ exports.downloadQrCode = async (req, res, next) => {
   }
 };
 
-exports.showWebMenu = async (req, res, next) => {
-  return res.render('web-menu');
+exports.showMenuIfValidSlug = async (req, res, next) => {
+  const { restaurantSlug } = req.params;
+
+  const user = await User.findOne({ username: restaurantSlug });
+
+  if (user) {
+    return res.render('web-menu');
+  } else {
+    next(req, res);
+  }
 };

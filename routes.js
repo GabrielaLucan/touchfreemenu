@@ -36,20 +36,19 @@ module.exports = (app) => {
         express.static('admin/public')(req, res, next);
       }
     } else {
-      express.static('presentation-site')(req, res, next);
-
-      // app.get('/:restaurantSlug', users.showPdfMenu);
-      app.get('/:restaurantSlug', users.showWebMenu);
-
-      app.use('/api', router);
-
       app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
-
-      app.use(express.static('web-menu'));
+      app.use('/api', router);
 
       app.get('/yourname', (req, res) => {
         res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
       });
+
+      app.use(express.static('web-menu'));
+      app.get('/:restaurantSlug', users.showMenuIfValidSlug);
+
+      //These won't be called if e.g. /nuka
+
+      app.use(express.static('presentation-site'));
 
       app.get('*', (req, res, next) => {
         res.status(404).json({ message: 'not found' });
