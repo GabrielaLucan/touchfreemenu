@@ -29,42 +29,44 @@ router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updat
 
 module.exports = (app) => {
   app.use((req, res, next) => {
-    if (req.headers.host.includes('admin.')) {
-      if (process.env.IS_PROD) {
-        express.static('admin/build')(req, res, next);
-      } else {
-        console.log('Got here');
-        
-        express.static('admin/public')(req, res, next);
-      }
-    } else {
-      app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
-      app.use('/api', router);
+    express.static('admin/build')(req, res, next);
 
-      app.get('/yourname', (req, res) => {
-        res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
-      });
+    // if (req.headers.host.includes('admin.')) {
+    //   if (process.env.IS_PROD) {
+    //     express.static('admin/build')(req, res, next);
+    //   } else {
+    //     console.log('Got here');
 
-      app.use(express.static('web-menu'));
-      app.get('/:restaurantSlug', users.showMenuIfValidSlug);
+    //     express.static('admin/public')(req, res, next);
+    //   }
+    // } else {
+    //   app.get('/:restaurantSlug/my-qr-code.svg', users.downloadQrCode);
+    //   app.use('/api', router);
 
-      //These won't be called if e.g. /nuka
+    //   app.get('/yourname', (req, res) => {
+    //     res.sendFile('presentation-site/scan-succesful.html', { root: __dirname });
+    //   });
 
-      express.static('presentation-site')(req, res, next);
+    //   app.use(express.static('web-menu'));
+    //   app.get('/:restaurantSlug', users.showMenuIfValidSlug);
 
-      app.get('*', (req, res, next) => {
-        res.status(404).json({ message: 'not found' });
-      });
+    //   //These won't be called if e.g. /nuka
 
-      app.use((err, req, res, next) => {
-        if (err.type === 'entity.parse.failed') {
-          return res.status(400).json({ message: 'bad request' });
-        }
-        if (err.type === 'invalidFileName') {
-          return res.status(400).json({ message: err.message });
-        }
-        return res.status(500).json(err);
-      });
-    }
+    //   express.static('presentation-site')(req, res, next);
+
+    //   app.get('*', (req, res, next) => {
+    //     res.status(404).json({ message: 'not found' });
+    //   });
+
+    //   app.use((err, req, res, next) => {
+    //     if (err.type === 'entity.parse.failed') {
+    //       return res.status(400).json({ message: 'bad request' });
+    //     }
+    //     if (err.type === 'invalidFileName') {
+    //       return res.status(400).json({ message: err.message });
+    //     }
+    //     return res.status(500).json(err);
+    //   });
+    // }
   });
 };
