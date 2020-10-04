@@ -13,11 +13,11 @@ export const PASSWORD_CHANGE_ERROR = 'PASSWORD_CHANGE_ERROR';
 export const attemptLogin = (username, password) => async (dispatch) => {
   dispatch({ type: LOGIN_PENDING });
 
-  localStorage.currentUsername = username;
-  localStorage.currentPassword = password;
-
   try {
     const token = await login(username, password);
+
+    localStorage.currentUsername = username;
+    localStorage.currentPassword = password;
     dispatch({ type: LOGIN_SUCCESS, token });
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, error });
@@ -28,7 +28,7 @@ export const attemptChangePassword = (oldPassword, newPassword) => async (dispat
   dispatch({ type: PASSWORD_CHANGE_PENDING });
 
   try {
-    const token = await changePassword(oldPassword, newPassword);
+    await changePassword(oldPassword, newPassword);
 
     localStorage.currentPassword = newPassword;
     alert('Parola a fost schimbată cu succes.');
@@ -40,4 +40,7 @@ export const attemptChangePassword = (oldPassword, newPassword) => async (dispat
 
 // #logout
 export const LOGOUT = 'LOGOUT';
-export const logout = () => ({ type: LOGOUT });
+export const logout = () => {
+  localStorage.clear();
+  return { type: LOGOUT };
+};
