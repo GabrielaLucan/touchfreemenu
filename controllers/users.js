@@ -207,7 +207,7 @@ exports.showMenuIfValidSlug = async (req, res, next) => {
   const user = await User.findOne({ username: restaurantSlug });
 
   if (user) {
-    return res.render('web-menu');
+    return res.render('web-menu', { user });
   } else {
     next();
   }

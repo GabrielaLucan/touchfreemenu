@@ -11,6 +11,7 @@
   </head>
 
   <body>
+    <% if(user.isCovidQuestionnaireEnabled) { %>
     <div class="pre-menu">
       <img src="img/restaurant-logo.jpg" alt="Restaurant Logo" class="restaurant-logo" />
       <h1>Bun venit la Deutsches Haus!</h1>
@@ -23,6 +24,7 @@
       <input disabled id="dateTime" type="text" />
       <input id="seeMenuButton" disabled="true" type="button" value="Vezi meniul" placeholder="Vezi meniul" />
     </div>
+    <% } %>
     <div class="menu">
       <div class="cover-wrapper">
         <img class="cover-photo" src="img/cover-photo.jpg" />
