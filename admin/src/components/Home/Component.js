@@ -148,7 +148,7 @@ export default class Home extends Component {
             </Panel>
             <Panel>
               <Title>Previzualizare meniu curent</Title>
-              <iframe width='355px' height='600px' src={`https://docs.google.com/gview?url=${user.pdfUrl}&embedded=true`} frameborder='0' />
+              <iframe width='355px' height='600px' src={`https://docs.google.com/gview?url=${user.pdfUrl}&embedded=true`} />
             </Panel>
             <Panel>
               <Title>Codul tău QR</Title>

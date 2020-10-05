@@ -43,12 +43,24 @@ const StyledButton = styled.button`
 
 export default class Button extends React.Component {
   render() {
-    const { icon, text, onClick, downloadUrl = '#', downloadName } = this.props;
+    const { icon, text, onClick, downloadUrl, downloadName } = this.props;
 
     return (
       <StyledButton onClick={onClick}>
         {icon && <FontAwesomeIcon color='#fff' icon={icon} />}
-        <a href={downloadUrl} download={downloadName} style={{ marginLeft: icon ? '8px' : '0', textDecoration: 'none', color: '#fff' }}>{text}</a>
+        {downloadUrl ? (
+          <a
+            href={downloadUrl}
+            download={downloadName}
+            style={{ margin: '-15px -25px', padding: '15px 25px', marginLeft: '-35px', paddingLeft: '42px', display: 'inline-block', textDecoration: 'none', color: '#fff' }}
+          >
+            {text}
+          </a>
+        ) : (
+          <span href={downloadUrl} download={downloadName} style={{ marginLeft: icon ? '8px' : '0', textDecoration: 'none', color: '#fff' }}>
+            {text}
+          </span>
+        )}
       </StyledButton>
     );
   }
