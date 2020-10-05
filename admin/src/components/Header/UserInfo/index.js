@@ -31,7 +31,7 @@ const ButtonWrapper = styled.div`
   z-index: 3;
 
   :hover {
-    background: #fafafa;
+    background: ${(props) => props.theme.activeBackground};
   }
 `;
 
@@ -39,7 +39,7 @@ const Dropdown = styled.div`
   position: absolute;
   right: 0;
   top: 57px;
-  background: #fff;
+  background: ${(props) => props.theme.foreground};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
@@ -57,7 +57,7 @@ const DropdownItem = styled.div`
   font-weight: 700;
   display: flex;
   justify-content: flex-end;
-  border-bottom: 1px solid #f4f6f8;
+  border-bottom: 1px solid ${(props) => props.theme.border};
 
   :hover {
     color: #7ac943;

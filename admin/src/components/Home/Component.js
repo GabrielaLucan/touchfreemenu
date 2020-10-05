@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/macro';
-import HomeMainSection from './MainSection';
 import FileUploadButton from '../shared/FileUploadButton';
 import Button from '../shared/Button';
 import moment from 'moment';
 import { faExternalLinkAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import Toggle from 'react-toggle';
+
+const ContentWrapper = styled.main`
+  flex: 1;
+  min-width: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+
+  @media (max-width: 768px) {
+    padding-top: 0;
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,18 +53,24 @@ const PreviewWrapper = styled.div`
 const Panel = styled.div`
   display: flex;
   flex: 1;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 16px;
   flex-direction: column;
   align-items: flex-start;
   margin-right: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
   max-width: 395px;
+  color: ${(props) => props.theme.normalText};
 
   @media (max-width: 768px) {
+    width: min(395px, calc(100vw - 32px));
     margin-right: 0;
+  }
+
+  iframe {
+    width: 100%;
   }
 
   .questionnaire-toggle.react-toggle--checked .react-toggle-track {
@@ -82,6 +101,7 @@ const InfoLineTitle = styled.span`
 
 const InfoLineValue = styled.span`
   margin-bottom: 12px;
+  margin-top: 4px;
   word-break: break-all;
   max-width: 246px;
 `;
@@ -141,7 +161,7 @@ export default class Home extends Component {
 
     return (
       <Wrapper>
-        <HomeMainSection>
+        <ContentWrapper>
           <PreviewWrapper loading={this.props.loading}>
             <div>
               <Panel>
@@ -189,7 +209,7 @@ export default class Home extends Component {
               )}
             </Panel>
           </PreviewWrapper>
-        </HomeMainSection>
+        </ContentWrapper>
         {loading && <LoadingIndicatorSpinner />}
       </Wrapper>
     );
