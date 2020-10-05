@@ -85,3 +85,7 @@ export async function changePassword(oldPassword, newPassword) {
 export async function uploadPdfMenu(data) {
   return await methods.post(`pdf-menu`, data, localStorage.token);
 }
+
+export async function toggleCovidQuestionnaire() {
+  return await methods.post(`toggle-covid-questionnaire`, {}, localStorage.token);
+}

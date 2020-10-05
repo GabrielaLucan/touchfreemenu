@@ -17,6 +17,10 @@ body {
   padding: 32px 0;
 }
 
+.pre-menu.loading > * {
+  opacity: 0.3;
+}
+
 .pre-menu h1 {
   font-size: 28px;
   padding: 0 32px;

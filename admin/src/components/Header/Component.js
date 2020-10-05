@@ -3,7 +3,6 @@ import styled from 'styled-components/macro';
 import HeaderLogo from './Logo';
 import HeaderDarkButtonContainer from './DarkButton/Container';
 import HeaderUserInfo from './UserInfo';
-import HeaderNavLink from './NavLink';
 
 const Wrapper = styled.header`
   position: sticky;
@@ -28,20 +27,11 @@ const Wrapper = styled.header`
   }
 `;
 
-const Header = ({ user, logout, theme }) => (
+const Header = ({ user, logout }) => (
   <Wrapper>
     <HeaderLogo />
     <HeaderDarkButtonContainer />
-    {user ? (
-      <>
-        <HeaderUserInfo user={user} />
-        <HeaderNavLink as='span' onClick={logout}>
-          log out
-        </HeaderNavLink>
-      </>
-    ) : (
-      <></>
-    )}
+    {user ? <HeaderUserInfo user={user} logout={logout} /> : <></>}
   </Wrapper>
 );
 

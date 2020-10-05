@@ -9,6 +9,7 @@ import ErrorNotificationContainer from '../ErrorNotification/Container';
 import LoginScreen from '../LoginForm/Container';
 import ChangePasswordScreen from '../ChangePassword/Container';
 import HomeComponent from '../Home/Container';
+import "react-toggle/style.css" // for ES6 modules
 
 const App = (props) => (
   <ThemeProvider theme={theme(props.dark)}>

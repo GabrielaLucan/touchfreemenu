@@ -1,4 +1,4 @@
-import { uploadPdfMenu } from '../util/api';
+import { uploadPdfMenu, toggleCovidQuestionnaire } from '../util/api';
 import { attemptLogin } from './auth';
 
 // #uploadPdfMenu
@@ -19,5 +19,23 @@ export const uploadPdf = (data) => async (dispatch) => {
     dispatch({ type: UPLOAD_PDF_SUCCESS, pdfUrl });
   } catch (error) {
     dispatch({ type: UPLOAD_PDF_ERROR, error });
+  }
+};
+
+// #toggleCovidQuestionnair
+export const TOGGLE_QUESTIONNAIRE_PENDING = 'TOGGLE_QUESTIONNAIRE_PENDING';
+export const TOGGLE_QUESTIONNAIRE_SUCCESS = 'TOGGLE_QUESTIONNAIRE_SUCCESS';
+export const TOGGLE_QUESTIONNAIRE_ERROR = 'TOGGLE_QUESTIONNAIRE_ERROR';
+
+export const toggleQuestionnaire = () => async (dispatch) => {
+  dispatch({ type: TOGGLE_QUESTIONNAIRE_PENDING });
+
+  try {
+    const { newValue } = await toggleCovidQuestionnaire();
+
+    attemptLogin(localStorage.currentUsername, localStorage.currentPassword)(dispatch);
+    dispatch({ type: TOGGLE_QUESTIONNAIRE_SUCCESS, newValue });
+  } catch (error) {
+    dispatch({ type: TOGGLE_QUESTIONNAIRE_ERROR, error });
   }
 };

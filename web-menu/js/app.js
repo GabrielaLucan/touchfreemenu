@@ -10,7 +10,7 @@ document.querySelectorAll('.category-button').forEach((x) => {
   });
 });
 
-document.querySelectorAll('input[type=text]').forEach((x) => {
+document.querySelectorAll('#searchInput').forEach((x) => {
   setTimeout(() => {
     x.addEventListener('focus', function () {
       window.scrollTo({ top: 198, behavior: 'smooth' });
@@ -29,7 +29,21 @@ document.querySelectorAll('.field').forEach((x) => {
 });
 
 const submitButton = document.querySelector('#seeMenuButton');
-submitButton.addEventListener('click', () => {
+submitButton.addEventListener('click', async () => {
+  document.querySelector('.pre-menu').classList.add('loading');
+
+  const suppliedName = document.querySelector('#fullName').value;
+  const suppliedPhoneNumber = document.querySelector('#phoneNumber').value;
+
+  await fetch('/api/covid-questionnaire', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: suppliedName, phoneNumber: suppliedPhoneNumber }),
+  });
+
   document.querySelector('.pre-menu').remove();
   window.scrollTo(0, 0);
 });

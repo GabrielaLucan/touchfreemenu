@@ -6,6 +6,7 @@ import Button from '../shared/Button';
 import moment from 'moment';
 import { faExternalLinkAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
+import Toggle from 'react-toggle';
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,12 +45,17 @@ const Panel = styled.div`
   padding: 16px;
   flex-direction: column;
   align-items: flex-start;
-  margin-right: 32px;
-  margin-bottom: 32px;
+  margin-right: 16px;
+  margin-bottom: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 395px;
 
   @media (max-width: 768px) {
     margin-right: 0;
+  }
+
+  .questionnaire-toggle.react-toggle--checked .react-toggle-track {
+    background-color: #7ac944;
   }
 `;
 
@@ -71,10 +77,11 @@ const InfoLineTitle = styled.span`
   font-size: 12px;
   font-weight: 600;
   overflow: hidden;
+  margin-top: 12px;
 `;
 
 const InfoLineValue = styled.span`
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   word-break: break-all;
   max-width: 246px;
 `;
@@ -136,34 +143,49 @@ export default class Home extends Component {
       <Wrapper>
         <HomeMainSection>
           <PreviewWrapper loading={this.props.loading}>
-            <Panel>
-              <InfoLineTitle>Data încărcării ultimului meniu</InfoLineTitle>
-              <InfoLineValue>{user.pdfUploadDate ? moment(user.pdfUploadDate).format('DD MMM @ HH:mm') : '-'}</InfoLineValue>
-              <InfoLineTitle>Nume fișier</InfoLineTitle>
-              <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
-              <InfoLineTitle>Mărime fișier</InfoLineTitle>
-              <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
-              <FileUploadButton onFileSelected={this.uploadSelectedFile} text='Încarcă meniu nou (PDF)' />
-              <Button icon={faDownload} downloadUrl={user.pdfUrl} downloadName={user.pdfOriginalName} text='Descarcă meniul curent' />
-            </Panel>
+            <div>
+              <Panel>
+                <Title>Meniul în format PDF</Title>
+                <InfoLineTitle>Data încărcării ultimului meniu</InfoLineTitle>
+                <InfoLineValue>{user.pdfUploadDate ? moment(user.pdfUploadDate).format('DD MMM @ HH:mm') : '-'}</InfoLineValue>
+                <InfoLineTitle>Nume fișier</InfoLineTitle>
+                <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
+                <InfoLineTitle>Mărime fișier</InfoLineTitle>
+                <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
+                <FileUploadButton onFileSelected={this.uploadSelectedFile} text='Încarcă meniu nou (PDF)' />
+                <Button icon={faDownload} downloadUrl={user.pdfUrl} downloadName={user.pdfOriginalName} text='Descarcă meniul curent' />
+              </Panel>
+              <Panel>
+                <Title>Codul tău QR</Title>
+                {user.pdfUrl ? (
+                  <QrCodeWrapper>
+                    <QrCodeImage title={`touchfreemenu.ro/${user.username}`} src={`${origin}/${user.username}/my-qr-code.svg`} />
+                  </QrCodeWrapper>
+                ) : (
+                  <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>
+                )}
+                {user.pdfUrl && (
+                  <ActionsWrapper>
+                    <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />
+                    <Button onClick={() => window.open(`${origin}/${user.username}/my-qr-code.svg`, '_blank')} text='Descarcă' icon={faDownload} />
+                  </ActionsWrapper>
+                )}
+              </Panel>
+            </div>
             <Panel>
               <Title>Previzualizare meniu curent</Title>
-              <iframe title="Meniul curent" style={{ border: 'none' }} width='355px' height='600px' src={user.pdfUrl} />
+              <iframe title='Meniul curent' style={{ border: 'none' }} width='355px' height='600px' src={user.pdfUrl} />
             </Panel>
             <Panel>
-              <Title>Codul tău QR</Title>
-              {user.pdfUrl ? (
-                <QrCodeWrapper>
-                  <QrCodeImage title={`touchfreemenu.ro/${user.username}`} src={`${origin}/${user.username}/my-qr-code.svg`} />
-                </QrCodeWrapper>
+              <Title>Chestionar COVID-19</Title>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', marginTop: '12px' }}>
+                <Toggle className='questionnaire-toggle' defaultChecked={user.isCovidQuestionnaireEnabled} onChange={this.props.toggleQuestionnaire} />
+                <div style={{ marginLeft: '8px' }}>{user.isCovidQuestionnaireEnabled ? 'Activ' : 'Inactiv'}</div>
+              </div>
+              {user.isCovidQuestionnaireEnabled ? (
+                <span>Chestionarul COVID-19 e activ și apare clienților după ce scanează codul QR, înainte de a vedea meniul.</span>
               ) : (
-                <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>
-              )}
-              {user.pdfUrl && (
-                <ActionsWrapper>
-                  <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />
-                  <Button onClick={() => window.open(`${origin}/${user.username}/my-qr-code.svg`, '_blank')} text='Descarcă' icon={faDownload} />
-                </ActionsWrapper>
+                <span>Dacă activezi chestionarul, acesta va fi afișat clienților ca un pas intermediar înainte de a accesa meniul.</span>
               )}
             </Panel>
           </PreviewWrapper>

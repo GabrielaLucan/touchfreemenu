@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import HeaderNavLink from '../NavLink';
 import HeaderUsernameText from './Text';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faKey, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../shared/Button';
 import { withRouter } from 'react-router-dom';
 
@@ -36,21 +36,39 @@ const ButtonWrapper = styled.div`
 `;
 
 const Dropdown = styled.div`
-  height: 50px;
   position: absolute;
   right: 0;
   top: 57px;
   background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  overflow: hidden;
   display: none;
 `;
 
 const DropdownItem = styled.div`
+  height: 50px;
   padding: 16px;
-  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
   z-index: 2;
+  color: ${(props) => props.theme.mutedText};
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid #f4f6f8;
 
   :hover {
-    background: #fafafa;
+    color: #7ac943;
+  }
+
+  :hover .icon {
+    color: #7ac943;
+  }
+
+  :last-of-type {
+    border-bottom-width: 0;
   }
 `;
 
@@ -69,12 +87,17 @@ class HeaderUserInfo extends Component {
     return (
       <Wrapper to='/' onClick={this.toggleMenu}>
         <ButtonWrapper>
-          <img alt="Your logo" src={user.logoUrl} style={{ width: '43px', marginLeft: '-5px', marginRight: '15px' }}></img>
+          <img alt='Your logo' src={user.logoUrl} style={{ width: '43px', marginLeft: '-5px', marginRight: '15px' }}></img>
           <HeaderUsernameText>{user.name}</HeaderUsernameText>
           <FontAwesomeIcon color='#818e99' icon={faCaretDown} style={{ marginLeft: '8px' }} />
         </ButtonWrapper>
         <Dropdown className='dropdown'>
-          <DropdownItem onClick={() => this.props.history.push('/changePassword')}>Schimbă parola </DropdownItem>
+          <DropdownItem onClick={() => this.props.history.push('/changePassword')}>
+            Schimbă parola <FontAwesomeIcon className='icon' color='#818e99' icon={faKey} style={{ marginLeft: '8px' }} />{' '}
+          </DropdownItem>
+          <DropdownItem onClick={this.props.logout}>
+            Delogare <FontAwesomeIcon className='icon' color='#818e99' icon={faSignOutAlt} style={{ marginLeft: '8px' }} />{' '}
+          </DropdownItem>
         </Dropdown>
       </Wrapper>
     );

@@ -1,4 +1,5 @@
 const demoRequests = require('./controllers/demoRequests');
+const covidQuestionnaires = require('./controllers/covidQuestionnaires');
 const users = require('./controllers/users');
 const auth = require('./services/auth');
 const express = require('express');
@@ -9,8 +10,9 @@ router.post('/login', users.login);
 router.post('/change-password', auth.withCurrentUser, users.changePassword);
 router.post('/register', users.validate(), users.register);
 router.get('/get-current-user', auth.withCurrentUser, users.getCurrentUser);
-
 router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updatePdfMenuUrl);
+router.post('/covid-questionnaire', covidQuestionnaires.submitQuestionnaire);
+router.post('/toggle-covid-questionnaire', auth.withCurrentUser, covidQuestionnaires.toggle);
 
 // router.param('post', posts.load);
 // router.get('/posts', posts.list);
