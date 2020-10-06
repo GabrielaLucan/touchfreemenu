@@ -5,7 +5,9 @@ exports.submitQuestionnaire = async (req, res, next) => {
   try {
     const { name, phoneNumber, email, tableSeated } = req.body;
 
-    const questionnaire = await CovidQuestionnaire.create({ name, phoneNumber, email, tableSeated, ip: req.ip, date: new Date() });
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+    const questionnaire = await CovidQuestionnaire.create({ name, phoneNumber, email, tableSeated, ip, date: new Date() });
 
     res.status(201).json(questionnaire);
   } catch (err) {
