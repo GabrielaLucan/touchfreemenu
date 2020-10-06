@@ -3,11 +3,11 @@ const User = require('../models/user');
 
 exports.submitQuestionnaire = async (req, res, next) => {
   try {
-    const { name, phoneNumber, email, tableSeated } = req.body;
+    const { targetRestaurant, name, phoneNumber, email, tableSeated } = req.body;
 
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
-    const questionnaire = await CovidQuestionnaire.create({ name, phoneNumber, email, tableSeated, ip, date: new Date() });
+    const questionnaire = await CovidQuestionnaire.create({ name, phoneNumber, email, tableSeated, ip, targetRestaurant, date: new Date() });
 
     res.status(201).json(questionnaire);
   } catch (err) {

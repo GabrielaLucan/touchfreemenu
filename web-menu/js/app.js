@@ -41,7 +41,7 @@ submitButton.addEventListener('click', async () => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name: suppliedName, phoneNumber: suppliedPhoneNumber }),
+    body: JSON.stringify({ name: suppliedName, phoneNumber: suppliedPhoneNumber, targetRestaurant: document.getElementById('targetRestaurant').value }),
   });
 
   document.querySelector('.pre-menu').remove();

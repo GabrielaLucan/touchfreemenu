@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const covidQuestionnaireSchema = new mongoose.Schema(
   {
+    targetRestaurant: { type: String, required: true },
     date: { type: Date, required: true },
     name: { type: String },
     phoneNumber: { type: String },

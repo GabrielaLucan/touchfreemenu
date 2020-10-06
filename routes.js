@@ -11,6 +11,7 @@ router.post('/change-password', auth.withCurrentUser, users.changePassword);
 router.post('/register', users.validate(), users.register);
 router.get('/get-current-user', auth.withCurrentUser, users.getCurrentUser);
 router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updatePdfMenuUrl);
+
 router.post('/covid-questionnaire', covidQuestionnaires.submitQuestionnaire);
 router.post('/toggle-covid-questionnaire', auth.withCurrentUser, covidQuestionnaires.toggle);
 
@@ -63,7 +64,6 @@ module.exports = (app) => {
     if (err.type === 'invalidFileName') {
       return res.status(400).json({ message: err.message });
     }
-    console.log('err', err);
 
     return res.status(500).json(err);
   });
