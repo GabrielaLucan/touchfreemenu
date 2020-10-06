@@ -92,7 +92,7 @@ class HeaderUserInfo extends Component {
           <FontAwesomeIcon color='#818e99' icon={faCaretDown} style={{ marginLeft: '8px' }} />
         </ButtonWrapper>
         <Dropdown className='dropdown'>
-          <DropdownItem onClick={() => this.props.history.push('/changePassword')}>
+          <DropdownItem onClick={() => this.props.history.push('/change-password')}>
             Schimbă parola <FontAwesomeIcon className='icon' color='#818e99' icon={faKey} style={{ marginLeft: '8px' }} />{' '}
           </DropdownItem>
           <DropdownItem onClick={this.props.logout}>

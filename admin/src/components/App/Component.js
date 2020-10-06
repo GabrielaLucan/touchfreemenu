@@ -20,7 +20,8 @@ const App = (props) => (
         <Route component={ErrorNotificationContainer} />
         <Switch>
           <Route path='/login' component={LoginScreen} />
-          <Route path='/changePassword' component={ChangePasswordScreen} />
+          <Route path='/change-password' component={ChangePasswordScreen} />
+          <Route path='/menu-builder' component={ChangePasswordScreen} />
           <Route path='/' component={HomeComponent} />
         </Switch>
       </>

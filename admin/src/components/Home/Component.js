@@ -116,12 +116,12 @@ const ButtonsWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 
-  border-top: 1px solid ${props => props.theme.border};
+  border-top: 1px solid ${(props) => props.theme.border};
   margin: 0 -16px;
   width: calc(100% + 32px);
   margin-top: 20px;
   padding-top: 8px;
-  background: ${(props) => props.theme.activeBackground}a;
+  background: ${(props) => props.theme.activeBackground};
   margin-bottom: -24px;
   padding-bottom: 16px;
 
@@ -236,7 +236,7 @@ export default class Home extends Component {
                 <Title>Menu builder</Title>
                 <span>Construiește-ți meniul și personalizează-l așa cum dorești.</span>
                 <ButtonsWrapper>
-                  <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Accesează' icon={faExternalLinkAlt} />
+                  <Button onClick={() => window.open(`${window.location.origin}/menu-builder`, '_blank')} text='Accesează' icon={faExternalLinkAlt} />
                 </ButtonsWrapper>
               </Panel>
             </div>
