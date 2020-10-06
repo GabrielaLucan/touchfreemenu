@@ -43,7 +43,8 @@ body {
 .pre-menu input {
   margin-bottom: 16px;
   padding: 7px 10px;
-  width: 50vw;
+  width: 50%;
+  max-width: 200px;
 }
 
 .pre-menu input[type='button'] {
@@ -54,6 +55,7 @@ body {
 
 .pre-menu .label {
   width: 50vw;
+  max-width: 200px;
   margin-bottom: 16px;
   padding: 5px 10px;
   font-size: 11;

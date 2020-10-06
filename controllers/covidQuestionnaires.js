@@ -5,7 +5,7 @@ exports.submitQuestionnaire = async (req, res, next) => {
   try {
     const { name, phoneNumber, email, tableSeated } = req.body;
 
-    const questionnaire = await CovidQuestionnaire.create({ name, phoneNumber, email, tableSeated, date: new Date() });
+    const questionnaire = await CovidQuestionnaire.create({ name, phoneNumber, email, tableSeated, ip: req.ip, date: new Date() });
 
     res.status(201).json(questionnaire);
   } catch (err) {

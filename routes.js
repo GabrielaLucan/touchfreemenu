@@ -14,20 +14,6 @@ router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updat
 router.post('/covid-questionnaire', covidQuestionnaires.submitQuestionnaire);
 router.post('/toggle-covid-questionnaire', auth.withCurrentUser, covidQuestionnaires.toggle);
 
-// router.param('post', posts.load);
-// router.get('/posts', posts.list);
-// router.get('/posts/:category', posts.listByCategory);
-// router.get('/post/:post', posts.show);
-// router.post('/posts', [jwtAuth, posts.validate], posts.create);
-// router.delete('/post/:post', [jwtAuth, postAuth], posts.destroy);
-// router.get('/post/:post/upvote', jwtAuth, posts.upvote);
-// router.get('/post/:post/downvote', jwtAuth, posts.downvote);
-// router.get('/post/:post/unvote', jwtAuth, posts.unvote);
-// router.get('/user/:user', posts.listByUser);
-
-// router.param('comment', comments.load);
-// router.post('/post/:post', [jwtAuth, comments.validate], comments.create);
-// router.delete('/post/:post/:comment', [jwtAuth, commentAuth], comments.destroy);
 
 module.exports = (app) => {
   app.use('/api', router);
@@ -40,8 +26,6 @@ module.exports = (app) => {
       const requestedPath = (req.headers.referer || '').slice(lastIndexOfSlash + 1);
 
       if ([...(req.headers.referer || '')].filter((x) => x === '/').length == 3 && requestedPath.length > 0) {
-        console.log('Am intrat pe if');
-
         express.static('web-menu')(req, res, next);
       } else {
         express.static('presentation-site')(req, res, next);
