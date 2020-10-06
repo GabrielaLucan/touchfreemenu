@@ -8,8 +8,9 @@ import Header from '../Header/Container';
 import ErrorNotificationContainer from '../ErrorNotification/Container';
 import LoginScreen from '../LoginForm/Container';
 import ChangePasswordScreen from '../ChangePassword/Container';
+import MenuBuilderScreen from '../MenuBuilder/Container';
 import HomeComponent from '../Home/Container';
-import "react-toggle/style.css" // for ES6 modules
+import 'react-toggle/style.css'; // for ES6 modules
 
 const App = (props) => (
   <ThemeProvider theme={theme(props.dark)}>
@@ -21,7 +22,7 @@ const App = (props) => (
         <Switch>
           <Route path='/login' component={LoginScreen} />
           <Route path='/change-password' component={ChangePasswordScreen} />
-          <Route path='/menu-builder' component={ChangePasswordScreen} />
+          <Route path='/menu-builder' component={MenuBuilderScreen} />
           <Route path='/' component={HomeComponent} />
         </Switch>
       </>
