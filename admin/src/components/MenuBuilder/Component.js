@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wrapper, Panel, Title, Category as CategoryStyle, ActionButton, EditButton, ProductCountLabel, ButtonsWrapper } from './styles';
-import { faPencilAlt, faTrash, faSpellCheck, faCheck, faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrash, faSpellCheck, faCheck, faAngleUp, faAngleDown, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const categories = ['Aperitive', 'Supe', 'Fel principal', 'Grill - Cârnați', 'Paste făcute în casă', 'Garnituri', 'Salate', 'Desert', 'Sosuri'];
@@ -62,11 +62,11 @@ const Category = ({ name, productCount = 14, inEditMode }) => {
       </div>
       {inEditMode && (
         <ButtonsWrapper>
-          <ActionButton title="Mută în sus" className='green left' onClick={removeCategory}>
-            <FontAwesomeIcon style={{ marginBottom: '-1px' }} size='lg' icon={faAngleUp} />
+          <ActionButton title='Mută în sus' className='green left' onClick={removeCategory}>
+            <FontAwesomeIcon size='md' icon={faChevronUp} />
           </ActionButton>
-          <ActionButton title="Mută în jos" className='green right' onClick={removeCategory}>
-            <FontAwesomeIcon style={{ marginBottom: '-3px' }} size='lg' icon={faAngleDown} />
+          <ActionButton title='Mută în jos' className='green right' onClick={removeCategory}>
+            <FontAwesomeIcon style={{ marginBottom: '-1px' }} size='md' icon={faChevronDown} />
           </ActionButton>
           <ActionButton onClick={removeCategory}>
             <FontAwesomeIcon style={{ marginRight: '8px' }} icon={faSpellCheck} />

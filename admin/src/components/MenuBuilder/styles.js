@@ -93,6 +93,7 @@ export const ActionButton = styled.div`
   &.right {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+    margin-left: -1px;
   }
 `;
 
