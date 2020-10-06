@@ -14,11 +14,6 @@ const ContentWrapper = styled.main`
   align-items: center;
   display: flex;
   flex-direction: column;
-  padding-top: 24px;
-
-  @media (max-width: 768px) {
-    padding-top: 0;
-  }
 `;
 
 const Wrapper = styled.div`
@@ -58,14 +53,15 @@ const Panel = styled.div`
   padding: 16px;
   flex-direction: column;
   align-items: flex-start;
-  margin-right: 16px;
-  margin-bottom: 16px;
+  margin-right: 24px;
+  margin-bottom: 24px;
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
-  max-width: 395px;
+  width: 350px;
+  overflow: hidden;
   color: ${(props) => props.theme.normalText};
 
   @media (max-width: 768px) {
-    width: min(395px, calc(100vw - 32px));
+    width: min(395px, calc(100vw - 32px)) !important;
     margin-right: 0;
   }
 
@@ -75,6 +71,11 @@ const Panel = styled.div`
 
   .questionnaire-toggle.react-toggle--checked .react-toggle-track {
     background-color: #7ac944;
+  }
+
+  &.larger {
+    width: 380px;
+    max-width: 380px;
   }
 `;
 
@@ -106,20 +107,38 @@ const InfoLineValue = styled.span`
   max-width: 246px;
 `;
 
-const ActionsWrapper = styled.div`
+const ButtonsWrapper = styled.div`
   display: flex;
-  width: 310px;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  border-top: 1px solid ${props => props.theme.border};
+  margin: 0 -16px;
+  width: calc(100% + 32px);
+  margin-top: 20px;
+  padding-top: 8px;
+  background: ${(props) => props.theme.activeBackground}a;
+  margin-bottom: -24px;
+  padding-bottom: 16px;
+
+  button {
+    margin: 8px 4px;
+  }
 `;
 
 const QrCodeImage = styled.img`
-  width: 410px;
-  margin: -49px;
+  width: 296px;
+  margin: -36px;
 `;
 
 const QrCodeWrapper = styled.div`
   overflow: hidden;
   align-self: center;
+  margin-top: 8px;
 `;
 
 export default class Home extends Component {
@@ -172,8 +191,9 @@ export default class Home extends Component {
                 <InfoLineValue>{user.pdfOriginalName || '-'}</InfoLineValue>
                 <InfoLineTitle>Mărime fișier</InfoLineTitle>
                 <InfoLineValue style={{ marginBottom: 0 }}>{user.pdfSize ? (user.pdfSize / (1024 * 1000)).toFixed(2) + 'MB' : '-'}</InfoLineValue>
-                <FileUploadButton onFileSelected={this.uploadSelectedFile} text='Încarcă meniu nou (PDF)' />
-                <Button icon={faDownload} downloadUrl={user.pdfUrl} downloadName={user.pdfOriginalName} text='Descarcă meniul curent' />
+                <ButtonsWrapper>
+                  <FileUploadButton onFileSelected={this.uploadSelectedFile} text='Încarcă meniu nou (PDF)' />
+                </ButtonsWrapper>
               </Panel>
               <Panel>
                 <Title>Codul tău QR</Title>
@@ -185,29 +205,41 @@ export default class Home extends Component {
                   <span>Încarcă prima dată un meniu pentru a putea vedea codul QR.</span>
                 )}
                 {user.pdfUrl && (
-                  <ActionsWrapper>
+                  <ButtonsWrapper>
                     <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Deschide' icon={faExternalLinkAlt} />
                     <Button onClick={() => window.open(`${origin}/${user.username}/my-qr-code.svg`, '_blank')} text='Descarcă' icon={faDownload} />
-                  </ActionsWrapper>
+                  </ButtonsWrapper>
                 )}
               </Panel>
             </div>
-            <Panel>
+            <Panel className='larger'>
               <Title>Previzualizare meniu curent</Title>
-              <iframe title='Meniul curent' style={{ border: 'none' }} width='355px' height='600px' src={user.pdfUrl} />
+              <iframe title='Meniul curent' style={{ border: 'none', marginTop: '8px' }} width='355px' height='600px' src={user.pdfUrl} />
+              <ButtonsWrapper>
+                <Button icon={faDownload} downloadUrl={user.pdfUrl} downloadName={user.pdfOriginalName} text='Descarcă (PDF)' />
+              </ButtonsWrapper>
             </Panel>
-            <Panel>
-              <Title>Chestionar COVID-19</Title>
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', marginTop: '12px' }}>
-                <Toggle className='questionnaire-toggle' defaultChecked={user.isCovidQuestionnaireEnabled} onChange={this.props.toggleQuestionnaire} />
-                <div style={{ marginLeft: '8px' }}>{user.isCovidQuestionnaireEnabled ? 'Activ' : 'Inactiv'}</div>
-              </div>
-              {user.isCovidQuestionnaireEnabled ? (
-                <span>Chestionarul COVID-19 e activ și apare clienților după ce scanează codul QR, înainte de a vedea meniul.</span>
-              ) : (
-                <span>Dacă activezi chestionarul, acesta va fi afișat clienților ca un pas intermediar înainte de a accesa meniul.</span>
-              )}
-            </Panel>
+            <div>
+              <Panel>
+                <Title>Chestionar COVID-19</Title>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', marginTop: '12px' }}>
+                  <Toggle className='questionnaire-toggle' defaultChecked={user.isCovidQuestionnaireEnabled} onChange={this.props.toggleQuestionnaire} />
+                  <div style={{ marginLeft: '8px' }}>{user.isCovidQuestionnaireEnabled ? 'Activ' : 'Inactiv'}</div>
+                </div>
+                {user.isCovidQuestionnaireEnabled ? (
+                  <span>Chestionarul COVID-19 e activ și apare clienților după ce scanează codul QR, înainte de a vedea meniul.</span>
+                ) : (
+                  <span>Dacă activezi chestionarul, acesta va fi afișat clienților ca un pas intermediar înainte de a accesa meniul.</span>
+                )}
+              </Panel>
+              <Panel>
+                <Title>Menu builder</Title>
+                <span>Construiește-ți meniul și personalizează-l așa cum dorești.</span>
+                <ButtonsWrapper>
+                  <Button onClick={() => window.open(`${origin}/${user.username}`, '_blank')} text='Accesează' icon={faExternalLinkAlt} />
+                </ButtonsWrapper>
+              </Panel>
+            </div>
           </PreviewWrapper>
         </ContentWrapper>
         {loading && <LoadingIndicatorSpinner />}

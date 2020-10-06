@@ -9,8 +9,8 @@ const CustomInput = styled.input`
 `;
 
 const ButtonWrapper = styled.div`
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const CustomLabel = styled.label`
