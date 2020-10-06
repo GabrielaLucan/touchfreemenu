@@ -9,7 +9,7 @@ const Logo = styled(Link)`
   margin-right: auto;
   font-size: 24px;
   font-weight: 500;
-  color: ${props => props.theme.normalText};
+  color: ${(props) => props.theme.normalText};
   text-decoration: none;
 
   @media (max-width: 425px) {
@@ -23,17 +23,16 @@ const LogoImgDark = styled.img`
   margin-left: -8px;
 `;
 
-const AdminText = styled.div`
+const PageName = styled.div`
   margin-left: 12px;
   margin-bottom: 2px;
 `;
- 
 
-export default props => {
+export default (props) => {
   return (
     <Logo to='/'>
       <LogoImgDark src='/logo.svg' alt='Logo' />
-      <AdminText>Admin</AdminText>
+      <PageName>{window.location.pathname == '/menu-builder' ? 'MenuBuilder' : 'Admin'}</PageName>
     </Logo>
   );
 };

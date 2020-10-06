@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import HeaderNavLink from '../NavLink';
 import HeaderUsernameText from './Text';
-import { faCaretDown, faKey, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faHome, faKey, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../shared/Button';
 import { withRouter } from 'react-router-dom';
 
@@ -92,6 +92,9 @@ class HeaderUserInfo extends Component {
           <FontAwesomeIcon color='#818e99' icon={faCaretDown} style={{ marginLeft: '8px' }} />
         </ButtonWrapper>
         <Dropdown className='dropdown'>
+          <DropdownItem onClick={() => this.props.history.push('/')}>
+            Acasă <FontAwesomeIcon className='icon' color='#818e99' icon={faHome} style={{ marginLeft: '8px' }} />{' '}
+          </DropdownItem>
           <DropdownItem onClick={() => this.props.history.push('/change-password')}>
             Schimbă parola <FontAwesomeIcon className='icon' color='#818e99' icon={faKey} style={{ marginLeft: '8px' }} />{' '}
           </DropdownItem>
