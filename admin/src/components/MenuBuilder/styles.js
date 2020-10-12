@@ -72,17 +72,17 @@ export const Title = styled.span`
 export const Category = styled.div`
   align-items: center;
   overflow: hidden;
-  box-shadow: 0 4px 12px #22181811;
-  background: #fff;
+  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
+  background: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 10px 12px;
   margin-right: 8px;
   margin-top: 16px;
-  border: 1px solid #2218181a;
-  color: #221818;
+  border: 1px solid ${(props) => props.theme.border};
   transition: all 0.2s ease-in-out;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-weight: 500;
+  color: ${(props) => props.theme.normalText};
 
   :hover span {
     width: 105px;
@@ -144,6 +144,8 @@ export const ActionButton = styled.div`
 export const ProductCountLabel = styled.div`
   font-size: 12px;
   font-weight: 100;
+  margin-top: 4px;
+  color: ${(props) => props.theme.mutedText};
 `;
 
 export const EditButton = styled.div`

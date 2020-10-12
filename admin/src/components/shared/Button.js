@@ -11,7 +11,7 @@ const StyledButton = styled.button`
   border: 0;
   border-radius: 30px;
   padding: 0 25px 0 25px;
-  background: #7ac944;
+  background: ${(props) => props.theme.accent};
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
@@ -39,25 +39,31 @@ const StyledButton = styled.button`
     opacity: 0.6;
     cursor: default;
   }
+
+  &.cancel {
+    background: transparent;
+    color: ${(props) => props.theme.accent};
+    box-shadow: none;
+  }
 `;
 
 export default class Button extends React.Component {
   render() {
-    const { icon, text, onClick, downloadUrl, downloadName } = this.props;
+    const { icon, text, onClick, downloadUrl, downloadName, type } = this.props;
 
     return (
-      <StyledButton onClick={onClick}>
-        {icon && <FontAwesomeIcon color='#fff' icon={icon} />}
+      <StyledButton className={type} onClick={onClick}>
+        {icon && <FontAwesomeIcon icon={icon} />}
         {downloadUrl ? (
           <a
             href={downloadUrl}
             download={downloadName}
-            style={{ margin: '-15px -25px', padding: '15px 25px', marginLeft: '-35px', paddingLeft: '42px', display: 'inline-block', textDecoration: 'none', color: '#fff' }}
+            style={{ margin: '-15px -25px', padding: '15px 25px', marginLeft: '-35px', paddingLeft: '42px', display: 'inline-block', textDecoration: 'none' }}
           >
             {text}
           </a>
         ) : (
-          <span href={downloadUrl} download={downloadName} style={{ marginLeft: icon ? '8px' : '0', textDecoration: 'none', color: '#fff' }}>
+          <span href={downloadUrl} download={downloadName} style={{ marginLeft: icon ? '8px' : '0', textDecoration: 'none' }}>
             {text}
           </span>
         )}

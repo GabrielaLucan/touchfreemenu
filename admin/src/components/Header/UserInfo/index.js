@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/macro';
-import HeaderNavLink from '../NavLink';
 import HeaderUsernameText from './Text';
 import { faCaretDown, faHome, faKey, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import Button from '../../shared/Button';
 import { withRouter } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

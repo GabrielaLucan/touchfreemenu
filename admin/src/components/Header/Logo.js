@@ -32,7 +32,7 @@ export default (props) => {
   return (
     <Logo to='/'>
       <LogoImgDark src='/logo.svg' alt='Logo' />
-      <PageName>{window.location.pathname == '/menu-builder' ? 'MenuBuilder' : 'Admin'}</PageName>
+      <PageName>{window.location.pathname === '/menu-builder' ? 'MenuBuilder' : 'Admin'}</PageName>
     </Logo>
   );
 };
