@@ -178,7 +178,7 @@ export const ButtonsWrapper = styled.div`
   padding: 12px;
   padding-right: 0;
   background: ${(props) => props.theme.activeBackground};
-  margin-bottom: -9px;
+  margin-bottom: -10px;
 
   div {
     display: inline-block;
