@@ -77,13 +77,13 @@ const Category = ({ name, productCount = 14, inEditMode }) => {
           <ActionButton title='Mută în jos' className='green right' onClick={removeCategory}>
             <FontAwesomeIcon style={{ marginBottom: '-1px' }} size='md' icon={faChevronDown} />
           </ActionButton>
-          <ActionButton onClick={removeCategory}>
-            <FontAwesomeIcon style={{ marginRight: '8px' }} icon={faSpellCheck} />
-            Redenumește
+          <ActionButton title='Redenumește' onClick={removeCategory}>
+            <FontAwesomeIcon icon={faSpellCheck} />
+            <span>Redenumește</span>
           </ActionButton>
-          <ActionButton className='destructive' onClick={removeCategory}>
-            <FontAwesomeIcon style={{ marginRight: '8px' }} icon={faTrash} />
-            Șterge
+          <ActionButton title='Șterge' className='destructive' onClick={removeCategory}>
+            <FontAwesomeIcon icon={faTrash} />
+            <span>Șterge</span>
           </ActionButton>
         </ButtonsWrapper>
       )}

@@ -6,7 +6,7 @@ export const EditToggleWrapper = styled.div`
   right: 12px;
 
   .react-toggle--focus .react-toggle-thumb {
-    box-shadow: none!important;
+    box-shadow: none !important;
   }
 
   .react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
@@ -45,7 +45,7 @@ export const Panel = styled.div`
   margin-right: 24px;
   margin-bottom: 24px;
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
-  width: 420px;
+  width: 520px;
   overflow: hidden;
   color: ${(props) => props.theme.normalText};
   position: relative;
@@ -83,34 +83,48 @@ export const Category = styled.div`
   transition: all 0.2s ease-in-out;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-weight: 500;
+
+  :hover span {
+    width: 105px;
+    margin-left: 8px;
+  }
 `;
 
 export const ActionButton = styled.div`
-  border: 1px solid ${(props) => props.theme.blue};
+  border: 1px solid ${(props) => props.theme.blue}44;
   color: ${(props) => props.theme.blue};
   border-radius: 8px;
-  padding: 8px;
+  padding: 8px 12px;
   cursor: pointer;
+  white-space: nowrap;
+
+  span {
+    display: inline-block;
+    width: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: -4px;
+  }
 
   :hover {
-    background: ${(props) => props.theme.blue}22;
+    background: ${(props) => props.theme.blue}44;
   }
 
   &.destructive {
     color: #ff5723;
-    border-color: #ff5723;
+    border-color: #ff572344;
 
     :hover {
-      background: #ff572322;
+      background: #ff572344;
     }
   }
 
   &.green {
     color: ${(props) => props.theme.accent};
-    border-color: ${(props) => props.theme.accent};
+    border-color: ${(props) => props.theme.accent}44;
 
     :hover {
-      background: ${(props) => props.theme.accent}22;
+      background: ${(props) => props.theme.accent}44;
     }
   }
 
