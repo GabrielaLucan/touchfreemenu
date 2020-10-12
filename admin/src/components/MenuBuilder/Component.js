@@ -1,7 +1,8 @@
 import React from 'react';
-import { Wrapper, Panel, Title, Category as CategoryStyle, ActionButton, EditButton, ProductCountLabel, ButtonsWrapper } from './styles';
-import { faPencilAlt, faTrash, faSpellCheck, faCheck, faAngleUp, faAngleDown, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { Wrapper, Panel, Title, Category as CategoryStyle, ActionButton, EditToggleWrapper, ProductCountLabel, ButtonsWrapper } from './styles';
+import { faPencilAlt, faTrash, faSpellCheck, faCheck, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Toggle from 'react-toggle';
 
 const categories = ['Aperitive', 'Supe', 'Fel principal', 'Grill - Cârnați', 'Paste făcute în casă', 'Garnituri', 'Salate', 'Desert', 'Sosuri'];
 
@@ -32,9 +33,17 @@ export default class ChangePassword extends React.Component {
       <Wrapper>
         <Panel>
           <Title>Categorii</Title>
-          <EditButton className={inEditMode ? 'active' : ''} title='Editează' onClick={() => this.setState({ inEditMode: !this.state.inEditMode })}>
-            <FontAwesomeIcon icon={inEditMode ? faCheck : faPencilAlt} />
-          </EditButton>
+          <EditToggleWrapper>
+            <Toggle
+              checked={inEditMode}
+              title='Editează'
+              onChange={() => this.setState({ inEditMode: !this.state.inEditMode })}
+              icons={{
+                unchecked: <FontAwesomeIcon size='sm' color='#fff' icon={faPencilAlt} style={{ marginTop: '-2px', marginLeft: '-2px' }} />,
+                checked: <FontAwesomeIcon style={{ marginTop: '-2px' }} size='sm' color='#fff' icon={faCheck} />,
+              }}
+            />
+          </EditToggleWrapper>
           {categories.map((x) => (
             <Category key={x} name={x} productCount={14} inEditMode={inEditMode} />
           ))}

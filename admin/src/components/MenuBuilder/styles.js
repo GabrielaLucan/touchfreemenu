@@ -1,5 +1,35 @@
 import styled from 'styled-components/macro';
 
+export const EditToggleWrapper = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  .react-toggle--focus .react-toggle-thumb {
+    box-shadow: none!important;
+  }
+
+  .react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+    background-color: ${(props) => props.theme.mutedText}bb;
+  }
+
+  .react-toggle .react-toggle-track {
+    background-color: ${(props) => props.theme.mutedText};
+  }
+
+  .react-toggle:not(.react-toggle--checked) .react-toggle-thumb {
+    border-color: ${(props) => props.theme.mutedText};
+  }
+
+  .react-toggle--checked .react-toggle-track {
+    background-color: ${(props) => props.theme.accent};
+  }
+
+  .react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+    background-color: ${(props) => props.theme.accent}bb;
+  }
+`;
+
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
