@@ -6,7 +6,7 @@ import Button from '../../shared/Button';
 
 export default class EditModal extends React.Component {
   state = {
-    isOpen: true,
+    isOpen: false,
     currentCategoryName: 'Aperitive',
     newCategoryName: 'Aperitive',
   };

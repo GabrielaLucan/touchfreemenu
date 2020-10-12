@@ -37,6 +37,10 @@ export const Modal = styled.div`
     pointer-events: none;
     opacity: 0;
   }
+
+  @media (max-width: 768px) {
+    width: min(395px, calc(100vw - 32px)) !important;
+  }
 `;
 
 export const Header = styled.div`
