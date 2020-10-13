@@ -23,6 +23,8 @@ export default class Products extends React.Component {
     checked: <FontAwesomeIcon style={{ marginTop: '-2px' }} size='sm' color='#fff' icon={faCheck} />,
   };
 
+  filterProducts = (x) => x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.state.query.toLowerCase());
+
   render() {
     const { inEditMode, query } = this.state;
 
@@ -33,40 +35,38 @@ export default class Products extends React.Component {
           <Toggle checked={inEditMode} title='Editează' onChange={() => this.setState({ inEditMode: !this.state.inEditMode })} icons={this.toggleIcons} />
         </EditToggleWrapper> */}
         <SearchInput placeholder='Găsește produs' value={query} onChange={(e) => this.setState({ query: e.target.value })} />
-        {products
-          .filter((x) => x.name.toLowerCase().includes(query.toLowerCase()))
-          .map((product) => (
-            <Product>
-              {product.imageUrl && (
-                <ProductImageWrapper>
-                  <ProductImage src={product.imageUrl} />
-                </ProductImageWrapper>
-              )}
-              <div>
-                <div>{product.name}</div>
-                <SmallDescription>Gramaj: {product.weightInGrams ? product.weightInGrams + 'g' : 'Indisponibil'}</SmallDescription>
-                <SmallDescription>Preț: {product.price ? product.price + ' RON' : 'Indisponibil'}</SmallDescription>
-              </div>
-              {inEditMode && (
-                <ButtonsWrapper>
-                  <ActionButton title='Mută în sus' className='green left' onClick={this.removeCategory}>
-                    <FontAwesomeIcon icon={faChevronUp} />
-                  </ActionButton>
-                  <ActionButton title='Mută în jos' className='green right' onClick={this.removeCategory}>
-                    <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faChevronDown} />
-                  </ActionButton>
-                  <ActionButton title='Redenumește' onClick={() => this.editModal.open(product)}>
-                    <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faSpellCheck} />
-                    <span>Redenumește</span>
-                  </ActionButton>
-                  <ActionButton title='Șterge' className='destructive' onClick={this.removeCategory}>
-                    <FontAwesomeIcon icon={faTrash} />
-                    <span>Șterge</span>
-                  </ActionButton>
-                </ButtonsWrapper>
-              )}
-            </Product>
-          ))}
+        {products.filter(this.filterProducts).map((product) => (
+          <Product>
+            {product.imageUrl && (
+              <ProductImageWrapper>
+                <ProductImage src={product.imageUrl} />
+              </ProductImageWrapper>
+            )}
+            <div>
+              <div>{product.name}</div>
+              <SmallDescription>Gramaj: {product.weightInGrams ? product.weightInGrams + 'g' : 'Indisponibil'}</SmallDescription>
+              <SmallDescription>Preț: {product.price ? product.price + ' RON' : 'Indisponibil'}</SmallDescription>
+            </div>
+            {inEditMode && (
+              <ButtonsWrapper>
+                <ActionButton title='Mută în sus' className='green left' onClick={this.removeCategory}>
+                  <FontAwesomeIcon icon={faChevronUp} />
+                </ActionButton>
+                <ActionButton title='Mută în jos' className='green right' onClick={this.removeCategory}>
+                  <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faChevronDown} />
+                </ActionButton>
+                <ActionButton title='Redenumește' onClick={() => this.editModal.open(product)}>
+                  <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faSpellCheck} />
+                  <span>Redenumește</span>
+                </ActionButton>
+                <ActionButton title='Șterge' className='destructive' onClick={this.removeCategory}>
+                  <FontAwesomeIcon icon={faTrash} />
+                  <span>Șterge</span>
+                </ActionButton>
+              </ButtonsWrapper>
+            )}
+          </Product>
+        ))}
         <EditModal ref={(x) => (this.editModal = x)}></EditModal>
       </Panel>
     );

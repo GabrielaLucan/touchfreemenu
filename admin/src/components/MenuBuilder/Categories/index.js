@@ -23,6 +23,8 @@ export default class Categories extends React.Component {
     checked: <FontAwesomeIcon style={{ marginTop: '-2px' }} size='sm' color='#fff' icon={faCheck} />,
   };
 
+  filterCategories = (x) => x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.state.query.toLowerCase());
+
   render() {
     const { inEditMode, query } = this.state;
 
@@ -34,32 +36,30 @@ export default class Categories extends React.Component {
         </EditToggleWrapper>
         <SearchInput placeholder='Găsește categorie' value={query} onChange={(e) => this.setState({ query: e.target.value })} />
         <div style={{ marginTop: '8px' }}>
-          {categories
-            .filter((x) => x.name.toLowerCase().includes(query.toLowerCase()))
-            .map((category) => (
-              <Category>
-                <div>
-                  <div>{category.name}</div>
-                  <SmallDescription>{category.productCount} produse</SmallDescription>
-                </div>
-                {inEditMode && (
-                  <ButtonsWrapper>
-                    <ActionButton title='Mută în sus' className='green left' onClick={this.removeCategory}>
-                      <FontAwesomeIcon icon={faChevronUp} />
-                    </ActionButton>
-                    <ActionButton title='Mută în jos' className='green right' onClick={this.removeCategory}>
-                      <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faChevronDown} />
-                    </ActionButton>
-                    <ActionButton title='Redenumește' onClick={() => this.editModal.open(category)}>
-                      <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faPencilAlt} />
-                    </ActionButton>
-                    <ActionButton title='Șterge' className='destructive' onClick={this.removeCategory}>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </ActionButton>
-                  </ButtonsWrapper>
-                )}
-              </Category>
-            ))}
+          {categories.filter(this.filterCategories).map((category) => (
+            <Category>
+              <div>
+                <div>{category.name}</div>
+                <SmallDescription>{category.productCount} produse</SmallDescription>
+              </div>
+              {inEditMode && (
+                <ButtonsWrapper>
+                  <ActionButton title='Mută în sus' className='green left' onClick={this.removeCategory}>
+                    <FontAwesomeIcon icon={faChevronUp} />
+                  </ActionButton>
+                  <ActionButton title='Mută în jos' className='green right' onClick={this.removeCategory}>
+                    <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faChevronDown} />
+                  </ActionButton>
+                  <ActionButton title='Redenumește' onClick={() => this.editModal.open(category)}>
+                    <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faPencilAlt} />
+                  </ActionButton>
+                  <ActionButton title='Șterge' className='destructive' onClick={this.removeCategory}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </ActionButton>
+                </ButtonsWrapper>
+              )}
+            </Category>
+          ))}
         </div>
         <EditModal ref={(x) => (this.editModal = x)}></EditModal>
       </Panel>
