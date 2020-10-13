@@ -1,4 +1,13 @@
 import styled from 'styled-components/macro';
+import Input from '../shared/form/Input';
+
+
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+`;
 
 export const EditToggleWrapper = styled.div`
   position: absolute;
@@ -28,12 +37,6 @@ export const EditToggleWrapper = styled.div`
   .react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
     background-color: ${(props) => props.theme.accent}bb;
   }
-`;
-
-export const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
 `;
 
 export const Panel = styled.div`
@@ -68,27 +71,6 @@ export const Title = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-bottom: 8px;
-`;
-
-export const Category = styled.div`
-  align-items: center;
-  overflow: hidden;
-  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
-  background: ${(props) => props.theme.foreground};
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-right: 8px;
-  margin-top: 16px;
-  border: 1px solid ${(props) => props.theme.border};
-  transition: all 0.2s ease-in-out;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  font-weight: 500;
-  color: ${(props) => props.theme.normalText};
-
-  :hover span {
-    width: 105px;
-    margin-left: 8px;
-  }
 `;
 
 export const ActionButton = styled.div`
@@ -142,7 +124,7 @@ export const ActionButton = styled.div`
   }
 `;
 
-export const ProductCountLabel = styled.div`
+export const SmallDescription = styled.div`
   font-size: 12px;
   font-weight: 100;
   margin-top: 4px;
@@ -185,4 +167,10 @@ export const ButtonsWrapper = styled.div`
     display: inline-block;
     margin-right: 12px;
   }
+`;
+
+export const SearchInput = styled(Input)`
+  width: 200px;
+  border-radius: 8px;
+  margin-top: 4px;
 `;

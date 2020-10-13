@@ -1,11 +1,12 @@
 import styled from 'styled-components/macro';
-import Input from '../../shared/form/Input';
+import Input from '../../../shared/form/Input';
 
 export const Backdrop = styled.div`
   position: fixed;
   width: 100vw;
   height: 100vh;
   top: 57px;
+  left: 0;
   z-index: 99;
   background: rgba(0, 0, 0, 0.5);
   transition: opacity 0.25s ease-in-out;
@@ -86,7 +87,7 @@ export const Label = styled.div`
 `;
 
 export const NewNameInput = styled(Input)`
-  margin-top: 4px;
+  margin-top: 6px;
   width: 200px;
 `;
 

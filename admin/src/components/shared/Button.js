@@ -23,6 +23,10 @@ const StyledButton = styled.button`
   transition: 200ms;
   margin-top: 16px;
 
+  a {
+    color: #ffffff;
+  }
+
   :hover {
     filter: brightness(110%);
   }
@@ -58,14 +62,13 @@ export default class Button extends React.Component {
           <a
             href={downloadUrl}
             download={downloadName}
+            target='_blank'
             style={{ margin: '-15px -25px', padding: '15px 25px', marginLeft: '-35px', paddingLeft: '42px', display: 'inline-block', textDecoration: 'none' }}
           >
             {text}
           </a>
         ) : (
-          <span href={downloadUrl} download={downloadName} style={{ marginLeft: icon ? '8px' : '0', textDecoration: 'none' }}>
-            {text}
-          </span>
+          <span style={{ marginLeft: icon ? '8px' : '0', textDecoration: 'none' }}>{text}</span>
         )}
       </StyledButton>
     );

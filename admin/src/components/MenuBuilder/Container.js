@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import withAuth from '../../util/withAuth';
 import { attemptChangePassword } from '../../actions/auth';
-import ChangePassword from './Component';
+import MenuBuilder from './index';
 
 const mapStateToProps = state => ({
   loading: state.auth.loading
@@ -20,4 +20,4 @@ const enhance = compose(
   )
 );
 
-export default enhance(ChangePassword);
+export default enhance(MenuBuilder);

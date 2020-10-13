@@ -2,7 +2,7 @@ import React from 'react';
 import { Backdrop, Modal, Header, CloseButtonWrapper, Label, ModalContent, NewNameInput, ModalFooter } from './styles';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '../../shared/Button';
+import Button from '../../../shared/Button';
 
 export default class EditModal extends React.Component {
   state = {
