@@ -1,9 +1,8 @@
 import React from 'react';
-import Toggle from 'react-toggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faCheck, faSpellCheck, faPencilAlt, faChevronUp, faChevronDown, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Panel, Title, EditToggleWrapper, ActionButton, SmallDescription, ButtonsWrapper, SearchInput } from '../styles';
+import { Panel, Title, ActionButton, SmallDescription, ButtonsWrapper, SearchInput } from '../styles';
 import { Product, ProductImage, ProductImageWrapper } from './styles';
 import EditModal from './EditModal';
 
@@ -36,7 +35,7 @@ export default class Products extends React.Component {
         </EditToggleWrapper> */}
         <SearchInput placeholder='Găsește produs' value={query} onChange={(e) => this.setState({ query: e.target.value })} />
         {products.filter(this.filterProducts).map((product) => (
-          <Product>
+          <Product key={product.id}>
             {product.imageUrl && (
               <ProductImageWrapper>
                 <ProductImage src={product.imageUrl} />

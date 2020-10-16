@@ -10,16 +10,15 @@ export const Category = styled.div`
   margin-right: 8px;
   margin-top: 8px;
   border: 1px solid ${(props) => props.theme.border};
-  transition: all 0.2s ease-in-out;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-weight: 500;
   color: ${(props) => props.theme.normalText};
-  cursor: pointer;
 
   &.editable {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: calc(520px - 16px*2);
+    cursor: pointer;
   }
 
   :hover span {

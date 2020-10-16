@@ -63,6 +63,7 @@ export default class Button extends React.Component {
             href={downloadUrl}
             download={downloadName}
             target='_blank'
+            rel='noopener noreferrer'
             style={{ margin: '-15px -25px', padding: '15px 25px', marginLeft: '-35px', paddingLeft: '42px', display: 'inline-block', textDecoration: 'none' }}
           >
             {text}
