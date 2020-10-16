@@ -4,7 +4,6 @@ export const Category = styled.div`
   display: inline-block;
   align-items: center;
   overflow: hidden;
-  // box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
   background: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 10px 12px;
@@ -17,8 +16,36 @@ export const Category = styled.div`
   color: ${(props) => props.theme.normalText};
   cursor: pointer;
 
+  &.editable {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   :hover span {
     width: 105px;
     margin-left: 8px;
   }
+`;
+
+export const ButtonsWrapper = styled.div`
+  border-left: 1px solid ${(props) => props.theme.border};
+  margin: -12px 0;
+  margin-left: 12px;
+  margin-right: -12px;
+  padding: 12px;
+  padding-right: 0;
+  background: ${(props) => props.theme.activeBackground};
+
+  div {
+    display: inline-block;
+    margin-right: 12px;
+  }
+`;
+
+export const DragIconWrapper = styled.div`
+  margin-right: 16px;
+  color: ${(props) => props.theme.border};
+  border-radius: 8px;
+  overflow: hidden;
 `;

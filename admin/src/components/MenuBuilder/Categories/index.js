@@ -2,9 +2,9 @@ import React from 'react';
 import Toggle from 'react-toggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faCheck, faSpellCheck, faPencilAlt, faChevronUp, faChevronDown, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Category } from './styles';
-import { Panel, Title, EditToggleWrapper, ActionButton, SmallDescription, ButtonsWrapper, SearchInput } from '../styles';
+import { faCheck, faPencilAlt, faTrash, faGripVertical } from '@fortawesome/free-solid-svg-icons';
+import { Category, ButtonsWrapper, DragIconWrapper } from './styles';
+import { Panel, Title, EditToggleWrapper, ActionButton, SmallDescription, SearchInput } from '../styles';
 import EditModal from './EditModal';
 
 export default class Categories extends React.Component {
@@ -35,23 +35,24 @@ export default class Categories extends React.Component {
           <Toggle checked={inEditMode} title='Editează' onChange={() => this.setState({ inEditMode: !this.state.inEditMode })} icons={this.toggleIcons} />
         </EditToggleWrapper>
         <SearchInput placeholder='Găsește categorie' value={query} onChange={(e) => this.setState({ query: e.target.value })} />
-        <div style={{ marginTop: '8px' }}>
+        <div style={{ marginTop: '8px', width: '100%' }}>
           {categories.filter(this.filterCategories).map((category) => (
-            <Category>
-              <div>
-                <div>{category.name}</div>
-                <SmallDescription>{category.productCount} produse</SmallDescription>
+            <Category className={inEditMode ? 'editable' : ''}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {inEditMode && (
+                  <DragIconWrapper>
+                    <FontAwesomeIcon icon={faGripVertical} />
+                  </DragIconWrapper>
+                )}
+                <div>
+                  <div>{category.name}</div>
+                  <SmallDescription>{category.productCount} produse</SmallDescription>
+                </div>
               </div>
               {inEditMode && (
                 <ButtonsWrapper>
-                  <ActionButton title='Mută în sus' className='green left' onClick={this.removeCategory}>
-                    <FontAwesomeIcon icon={faChevronUp} />
-                  </ActionButton>
-                  <ActionButton title='Mută în jos' className='green right' onClick={this.removeCategory}>
-                    <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faChevronDown} />
-                  </ActionButton>
                   <ActionButton title='Redenumește' onClick={() => this.editModal.open(category)}>
-                    <FontAwesomeIcon style={{ marginBottom: '-1px' }} icon={faPencilAlt} />
+                    <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
                   </ActionButton>
                   <ActionButton title='Șterge' className='destructive' onClick={this.removeCategory}>
                     <FontAwesomeIcon icon={faTrash} />
