@@ -83,7 +83,6 @@ const Title = styled.span`
   color: #818e99;
   text-transform: uppercase;
   font-size: 12px;
-  font-weight: 600;
   font-weight: 700;
   letter-spacing: 0.05em;
   overflow: hidden;
@@ -227,7 +226,7 @@ export default class Home extends Component {
                   <div style={{ marginLeft: '8px' }}>{user.isCovidQuestionnaireEnabled ? 'Activ' : 'Inactiv'}</div>
                 </div>
                 {user.isCovidQuestionnaireEnabled ? (
-                  <span>Chestionarul COVID-19 e activ și apare clienților după ce scanează codul QR, înainte de a vedea meniul.</span>
+                  <span>Chestionarul COVID-19 e activ și apare clienților după ce scanează codul QR, înainte de a accesa meniul.</span>
                 ) : (
                   <span>Dacă activezi chestionarul, acesta va fi afișat clienților ca un pas intermediar înainte de a accesa meniul.</span>
                 )}

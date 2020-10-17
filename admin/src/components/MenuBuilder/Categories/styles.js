@@ -18,7 +18,7 @@ export const Category = styled.div`
     display: flex;
     justify-content: space-between;
     width: calc(520px - 16px*2);
-    cursor: pointer;
+    cursor: drag;
   }
 
   :hover span {
@@ -35,6 +35,7 @@ export const ButtonsWrapper = styled.div`
   padding: 12px;
   padding-right: 0;
   background: ${(props) => props.theme.activeBackground};
+  cursor: default;
 
   div {
     display: inline-block;

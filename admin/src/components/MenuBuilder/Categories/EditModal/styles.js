@@ -73,24 +73,6 @@ export const ModalContent = styled.div`
   padding: 0 16px;
 `;
 
-export const Label = styled.div`
-  font-size: 12px;
-  color: #818e99;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 16px;
-`;
-
-export const NewNameInput = styled(Input)`
-  margin-top: 6px;
-  width: 200px;
-`;
-
 export const ModalFooter = styled.div`
   border-top: 1px solid ${(props) => props.theme.border};
   padding: 12px;

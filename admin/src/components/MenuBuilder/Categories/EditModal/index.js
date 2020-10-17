@@ -1,5 +1,6 @@
 import React from 'react';
-import { Backdrop, Modal, Header, CloseButtonWrapper, Label, ModalContent, NewNameInput, ModalFooter } from './styles';
+import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter } from './styles';
+import { FormInput, Label } from '../../styles';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../../shared/Button';
@@ -40,7 +41,7 @@ export default class EditModal extends React.Component {
             <Label>Nume curent</Label>
             <div>{currentCategoryName}</div>
             <Label>Nume nou</Label>
-            <NewNameInput value={newCategoryName} onChange={(e) => this.setState({ newCategoryName: e.target.value })} placeholder='Nume nou' />
+            <FormInput value={newCategoryName} onChange={(e) => this.setState({ newCategoryName: e.target.value })} placeholder='Nume nou' />
           </ModalContent>
           <ModalFooter>
             <Button type='cancel' onClick={this.close} text='Anulează' />
