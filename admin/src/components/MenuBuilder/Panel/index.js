@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faPencilAlt, faTrash, faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import { Wrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button } from './styles';
+import { faCheck, faPencilAlt, faTrash, faGripVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Wrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button, AddButton } from './styles';
 import { FormInput } from '../styles';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -50,7 +50,15 @@ export default class Panel extends React.Component {
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 <Title>{title}</Title>
-                <FormInput placeholder={searchPlaceholder} value={query} onChange={(e) => this.setState({ query: e.target.value })} />
+                <div style={{ display: 'flex' }}>
+                  <FormInput placeholder={searchPlaceholder} value={query} onChange={(e) => this.setState({ query: e.target.value })} />
+                  {inEditMode && (
+                    <Button className='green' title='Adaugă produs nou' onClick={() => this.editModal.open({})}>
+                      <FontAwesomeIcon icon={faPlus} />
+                      Adaugă produs nou
+                    </Button>
+                  )}
+                </div>
                 <div style={{ marginTop: '8px', border: '1px solid #0000', width: '100%' }}>
                   {items.filter(this.filterItems).map((item) => (
                     <Draggable key={item.id} {...provided.droppableProps} x ref={provided.innerRef} isDragDisabled={!inEditMode} key={item.id} draggableId={item.id + ''} index={item.index}>
@@ -66,7 +74,7 @@ export default class Panel extends React.Component {
                           </div>
                           {inEditMode && (
                             <ButtonsWrapper style={buttonsWrapperStyle}>
-                              <Button title='Redenumește' onClick={() => this.editModal.open(item)}>
+                              <Button title='Editează' onClick={() => this.editModal.open(item)}>
                                 <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
                               </Button>
                               <Button title='Șterge' className='destructive' onClick={() => removeItem(item)}>

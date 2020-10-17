@@ -34,6 +34,9 @@ export default class Products extends React.Component {
         )}
         buttonsWrapperStyle={{
           width: '64px',
+          justifyContent: 'space-around',
+          display: 'flex',
+          flexDirection: 'column',
         }}
         ItemStyle={Product}
         EditModal={EditModal}

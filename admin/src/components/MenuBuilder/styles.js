@@ -56,6 +56,8 @@ export const ButtonsWrapper = styled.div`
 
 export const FormInput = styled(Input)`
   width: 200px;
+  height: 41px;
+  padding: 8px 12px;
   border-radius: 8px;
   margin-top: 4px;
 `;

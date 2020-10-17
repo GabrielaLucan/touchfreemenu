@@ -53,10 +53,10 @@ const StyledButton = styled.button`
 
 export default class Button extends React.Component {
   render() {
-    const { icon, text, onClick, downloadUrl, downloadName, type } = this.props;
+    const { icon, text, onClick, downloadUrl, downloadName, type, style } = this.props;
 
     return (
-      <StyledButton className={type} onClick={onClick}>
+      <StyledButton className={type} onClick={onClick} style={style}>
         {icon && <FontAwesomeIcon icon={icon} />}
         {downloadUrl ? (
           <a

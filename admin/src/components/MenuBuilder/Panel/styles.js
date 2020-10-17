@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 16px;
-  padding-top: 12px;
+  padding-top: 14px;
   flex-direction: column;
   align-items: flex-start;
   margin-right: 24px;
@@ -67,7 +67,6 @@ export const EditToggle = styled(Toggle)`
 `;
 
 export const Button = styled.div`
-  border: 1px solid ${(props) => props.theme.blue}44;
   color: ${(props) => props.theme.blue};
   border-radius: 8px;
   padding: 8px 12px;
@@ -81,26 +80,39 @@ export const Button = styled.div`
     transition: all 0.3s ease-in-out;
     margin-bottom: -4px;
   }
+  background: ${(props) => props.theme.blue}10;
 
   :hover {
-    background: ${(props) => props.theme.blue}44;
+    background: ${(props) => props.theme.blue}33;
   }
 
   &.destructive {
     color: #ff5723;
-    border-color: #ff572344;
+    background: #ff572310;
 
     :hover {
-      background: #ff572344;
+      background: #ff572333;
     }
   }
 
   &.green {
     color: ${(props) => props.theme.accent};
-    border-color: ${(props) => props.theme.accent}44;
+    display: flex;
+    align-items: center;
+    height: 41px;
+    margin-top: 4px;
+    margin-left: 16px;
+    border-color: #fff0;
+    padding-bottom: 9px;
+    background: ${(props) => props.theme.accent}00;
+
+    svg {
+      margin-right: 8px;
+      margin-bottom: -1px;
+    }
 
     :hover {
-      background: ${(props) => props.theme.accent}44;
+      background: ${(props) => props.theme.accent}33;
     }
   }
 
@@ -118,11 +130,10 @@ export const Button = styled.div`
 `;
 
 export const ButtonsWrapper = styled.div`
-  border-left: 1px solid ${(props) => props.theme.border};
   margin: -12px 0;
   margin-left: 12px;
   margin-right: -12px;
-  padding: 12px;
+  padding: 14px;
   padding-bottom: 0;
   padding-right: 0;
   background: ${(props) => props.theme.activeBackground};
