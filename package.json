@@ -10,7 +10,8 @@
     "dev": "nodemon ./index.js",
     "start": "node index.js",
     "test": "jest",
-    "go": "nodemon ./index.js && cd admin && npm start"
+    "server": "nodemon",
+    "client": "cd admin && npm start"
   },
   "dependencies": {
     "aws-sdk": "^2.752.0",

@@ -1,7 +1,6 @@
 import styled from 'styled-components/macro';
 import Input from '../shared/form/Input';
 
-
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -55,20 +54,45 @@ export const ButtonsWrapper = styled.div`
 `;
 
 export const FormInput = styled(Input)`
-  width: 200px;
+  width: 318px;
   height: 41px;
   padding: 8px 12px;
   border-radius: 8px;
   margin-top: 4px;
+
+  &.small {
+    width: 100px;
+  }
+
+  &.with-suffix {
+    padding-right: 45px;
+  }
+
+  &:after {
+    content: attr(data-suffix);
+  }
 `;
 
 export const Label = styled.div`
   font-size: 11px;
-  color: #818e99;
+  color: ${(props) => props.theme.mutedText};
   text-transform: uppercase;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-top: 16px;
+`;
+
+export const FormInputWrapper = styled.div`
+  display: inline-block;
+  position: relative;
+`;
+
+export const Suffix = styled.div`
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  z-index: 15;
+  color: ${(props) => props.theme.mutedText};
 `;

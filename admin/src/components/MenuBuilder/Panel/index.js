@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faPencilAlt, faTrash, faGripVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Wrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button, AddButton } from './styles';
+import { Wrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button } from './styles';
 import { FormInput } from '../styles';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -40,22 +40,22 @@ export default class Panel extends React.Component {
 
   render() {
     const { inEditMode, items, query } = this.state;
-    const { title, searchPlaceholder, removeItem, renderItem, ItemStyle, EditModal, buttonsWrapperStyle } = this.props;
+    const { title, type, removeItem, renderItem, ItemStyle, EditModal, buttonsWrapperStyle } = this.props;
 
     return (
       <Wrapper>
-        <EditToggle checked={inEditMode} title='Editează' onChange={() => this.setState({ inEditMode: !this.state.inEditMode })} icons={toggleIcons} />
+        <EditToggle checked={inEditMode} title="Editează" onChange={() => this.setState({ inEditMode: !this.state.inEditMode })} icons={toggleIcons} />
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId='droppable'>
+          <Droppable droppableId="droppable">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 <Title>{title}</Title>
                 <div style={{ display: 'flex' }}>
-                  <FormInput placeholder={searchPlaceholder} value={query} onChange={(e) => this.setState({ query: e.target.value })} />
+                  <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />
                   {inEditMode && (
-                    <Button className='green' title='Adaugă produs nou' onClick={() => this.editModal.open({})}>
+                    <Button className="green" title={`Adaugă ${type}`} onClick={() => this.editModal.open()}>
                       <FontAwesomeIcon icon={faPlus} />
-                      Adaugă produs nou
+                      Adaugă {type}
                     </Button>
                   )}
                 </div>
@@ -74,10 +74,10 @@ export default class Panel extends React.Component {
                           </div>
                           {inEditMode && (
                             <ButtonsWrapper style={buttonsWrapperStyle}>
-                              <Button title='Editează' onClick={() => this.editModal.open(item)}>
+                              <Button title={`Editează ${type}`} onClick={() => this.editModal.open(item)}>
                                 <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
                               </Button>
-                              <Button title='Șterge' className='destructive' onClick={() => removeItem(item)}>
+                              <Button title={`Șterge ${type}`} className="destructive" onClick={() => removeItem(item)}>
                                 <FontAwesomeIcon icon={faTrash} />
                               </Button>
                             </ButtonsWrapper>
@@ -99,6 +99,6 @@ export default class Panel extends React.Component {
 }
 
 const toggleIcons = {
-  unchecked: <FontAwesomeIcon size='sm' color='#fff' icon={faPencilAlt} style={{ marginTop: '-2px', marginLeft: '-2px' }} />,
-  checked: <FontAwesomeIcon style={{ marginTop: '-2px' }} size='sm' color='#fff' icon={faCheck} />,
+  unchecked: <FontAwesomeIcon size="sm" color="#fff" icon={faPencilAlt} style={{ marginTop: '-2px', marginLeft: '-2px' }} />,
+  checked: <FontAwesomeIcon style={{ marginTop: '-2px' }} size="sm" color="#fff" icon={faCheck} />,
 };

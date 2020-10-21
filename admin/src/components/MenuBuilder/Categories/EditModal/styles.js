@@ -77,7 +77,7 @@ export const ModalFooter = styled.div`
   border-top: 1px solid ${(props) => props.theme.border};
   padding: 12px;
   background: ${(props) => props.theme.activeBackground};
-  margin-top: 48px;
+  margin-top: 24px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -85,4 +85,10 @@ export const ModalFooter = styled.div`
   button {
     margin-top: 0;
   }
+`;
+
+export const AddButton = styled.div`
+  display: inline-block;
+  color: ${(props) => props.theme.accent};
+  margin-left: 8px;
 `;

@@ -14,9 +14,9 @@ export default class Products extends React.Component {
   render() {
     return (
       <Panel
-        title='Produse'
+        title="Produse"
         items={products}
-        searchPlaceholder='Găsește produs'
+        type="produs"
         removeItem={this.removeItem}
         renderItem={({ name, imageUrl, weightInGrams, price }) => (
           <div style={{ display: 'flex' }}>
@@ -27,8 +27,8 @@ export default class Products extends React.Component {
             )}
             <div>
               <div>{name}</div>
-              <SmallDescription>Gramaj: {weightInGrams ? weightInGrams + 'g' : 'Indisponibil'}</SmallDescription>
-              <SmallDescription>Preț: {price ? price + ' RON' : 'Indisponibil'}</SmallDescription>
+              {weightInGrams && <SmallDescription>Gramaj: {weightInGrams}g</SmallDescription>}
+              {price && <SmallDescription>Preț: {price} RON</SmallDescription>}
             </div>
           </div>
         )}

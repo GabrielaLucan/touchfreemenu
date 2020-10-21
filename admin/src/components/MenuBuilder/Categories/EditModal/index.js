@@ -1,5 +1,5 @@
 import React from 'react';
-import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter } from './styles';
+import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter } from '../../Categories/EditModal/styles';
 import { FormInput, Label } from '../../styles';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,12 +8,16 @@ import Button from '../../../shared/Button';
 export default class EditModal extends React.Component {
   state = {
     isOpen: false,
-    currentCategoryName: 'Aperitive',
-    newCategoryName: 'Aperitive',
+    inEditMode: false,
+    category: {},
   };
 
   open = (category) => {
-    this.setState({ isOpen: true, currentCategoryName: category.name, newCategoryName: category.name });
+    if (category) {
+      this.setState({ isOpen: true, inEditMode: true, category: { ...category } });
+    } else {
+      this.setState({ isOpen: true, category: {} });
+    }
   };
 
   save = () => {
@@ -24,28 +28,32 @@ export default class EditModal extends React.Component {
     this.setState({ isOpen: false });
   };
 
+  changeValue = (fieldName, value) => {
+    this.state.category[fieldName] = value;
+    this.setState({});
+  };
+
   render() {
-    const { isOpen, newCategoryName, currentCategoryName } = this.state;
+    const { isOpen, inEditMode, category } = this.state;
+    const { name } = category;
 
     return (
       <>
         <Backdrop className={isOpen ? 'open' : 'closed'} />
         <Modal className={isOpen ? 'open' : 'closed'}>
           <Header>
-            Editează categoria
-            <CloseButtonWrapper onClick={this.close} title='Închide'>
+            {inEditMode ? 'Editează categoria' : 'Adaugă categorie'}
+            <CloseButtonWrapper onClick={this.close} title="Închide">
               <FontAwesomeIcon icon={faTimes} />
             </CloseButtonWrapper>
           </Header>
           <ModalContent>
-            <Label>Nume curent</Label>
-            <div>{currentCategoryName}</div>
-            <Label>Nume nou</Label>
-            <FormInput value={newCategoryName} onChange={(e) => this.setState({ newCategoryName: e.target.value })} placeholder='Nume nou' />
+            <Label>Nume</Label>
+            <FormInput value={name} onChange={(e) => this.changeValue('name', e.target.value)} placeholder="Nume categorie" />
           </ModalContent>
           <ModalFooter>
-            <Button type='cancel' onClick={this.close} text='Anulează' />
-            <Button onClick={this.save} text='Salvează' icon={faCheck} />
+            <Button type="cancel" onClick={this.close} text="Anulează" />
+            <Button onClick={this.save} text={inEditMode ? 'Salvează' : 'Adaugă'} icon={faCheck} />
           </ModalFooter>
         </Modal>
       </>

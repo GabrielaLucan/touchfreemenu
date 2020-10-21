@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 16px;
-  padding-top: 14px;
   flex-direction: column;
   align-items: flex-start;
   margin-right: 24px;

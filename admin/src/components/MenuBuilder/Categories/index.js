@@ -14,9 +14,9 @@ export default class Categories extends React.Component {
   render() {
     return (
       <Panel
-        title='Categorii'
+        title="Categorii"
         items={categories}
-        searchPlaceholder='Găsește categorie'
+        type="categorie"
         removeItem={this.removeItem}
         renderItem={({ name, productCount }) => (
           <div>
