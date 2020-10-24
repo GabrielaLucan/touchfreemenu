@@ -87,6 +87,7 @@ export const Label = styled.div`
 export const FormInputWrapper = styled.div`
   display: inline-block;
   position: relative;
+  margin-right: 8px;
 `;
 
 export const Suffix = styled.div`

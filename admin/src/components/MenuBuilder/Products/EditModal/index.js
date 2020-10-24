@@ -1,22 +1,24 @@
 import React from 'react';
-import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter, AddButton } from '../../Categories/EditModal/styles';
+import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter, AddButton, RemoveButton } from '../../Categories/EditModal/styles';
 import { FormInput, Label, SmallDescription, FormInputWrapper, Suffix } from '../../styles';
-import { faCheck, faTimes, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../../shared/Button';
+
+const emptyProduct = { ingredients: [null], quantities: [null], name: '', price: '' };
 
 export default class EditModal extends React.Component {
   state = {
     isOpen: false,
     inEditMode: false,
-    product: {},
+    product: emptyProduct,
   };
 
   open = (product) => {
     if (product) {
       this.setState({ isOpen: true, inEditMode: true, product: { ...product } });
     } else {
-      this.setState({ isOpen: true, inEditMode: false, product: {} });
+      this.setState({ isOpen: true, inEditMode: false, product: emptyProduct });
     }
   };
 
@@ -28,13 +30,23 @@ export default class EditModal extends React.Component {
     this.setState({ isOpen: false });
   };
 
-  Field = ({ label, for: propertyName, withAddButton, suffix, asNumber, maxLength, max, description, ...otherInputProps }) => (
+  addQuantityField = () => {
+    this.state.product.quantities.push(null);
+    this.setState({});
+  };
+
+  removeQuantityField = () => {
+    this.state.product.quantities.pop();
+    this.setState({});
+  };
+
+  Field = ({ label, for: propertyName, index, withAddButton, suffix, asNumber, addNewField, maxLength, max, description, ...otherInputProps }) => (
     <>
-      <Label>{label}</Label>
+      {label && <Label>{label}</Label>}
       <FormInputWrapper>
         <FormInput
           className={[asNumber ? 'small' : '', suffix ? 'with-suffix' : ''].join(' ')}
-          value={this.state.product[propertyName] || ''}
+          value={(typeof index !== 'undefined' ? this.state.product[propertyName][index] : this.state.product[propertyName]) || ''}
           onChange={(e) => {
             if (asNumber) {
               if (!/^(\d)*(\.)?(\d)*$/.test(e.target.value)) {
@@ -51,23 +63,23 @@ export default class EditModal extends React.Component {
                 return;
               }
             }
-            this.setState({ product: { ...this.state.product, [propertyName]: e.target.value } });
+
+            if (typeof index !== 'undefined') {
+              this.state.product[propertyName][index] = e.target.value;
+            } else {
+              this.state.product[propertyName] = e.target.value;
+            }
+            this.setState({});
           }}
           {...otherInputProps}
         />
         {suffix && <Suffix>{suffix}</Suffix>}
       </FormInputWrapper>
-      {withAddButton && (
-        <AddButton>
-          <FontAwesomeIcon icon={faPlus} />
-        </AddButton>
-      )}
-      <SmallDescription>{description}</SmallDescription>
     </>
   );
 
   render() {
-    const { isOpen, inEditMode } = this.state;
+    const { isOpen, inEditMode, product } = this.state;
 
     const { Field } = this;
 
@@ -83,7 +95,23 @@ export default class EditModal extends React.Component {
           </Header>
           <ModalContent>
             <Field for="name" label="Nume" maxLength={50} />
-            <Field for="weightInGrams" label="Gramaj" asNumber max={9999} description="Poți specifica mai multe gramaje folosind butonul +." suffix="g" withAddButton />
+
+            <Label>Gramaj</Label>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {product.quantities.map((x, i) => (
+                <Field key={i} for="quantities" index={i} asNumber max={9999} suffix="g" />
+              ))}
+              {product.quantities.length > 1 && (
+                <RemoveButton onClick={this.removeQuantityField}>
+                  <FontAwesomeIcon icon={faMinus} />
+                </RemoveButton>
+              )}
+              <AddButton onClick={this.addQuantityField}>
+                <FontAwesomeIcon icon={faPlus} />
+              </AddButton>
+            </div>
+
+            {product.quantities.length < 2 && <SmallDescription>Poți specifica mai multe gramaje folosind butonul +.</SmallDescription>}
             <Field for="price" label="Preț" asNumber max={9999} suffix="RON" />
           </ModalContent>
           <ModalFooter>

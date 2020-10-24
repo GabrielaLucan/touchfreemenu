@@ -86,11 +86,11 @@ export const Button = styled.div`
   }
 
   &.destructive {
-    color: #ff5723;
-    background: #ff572310;
+    color: ${(props) => props.theme.red};
+    background: ${(props) => props.theme.red}10;
 
     :hover {
-      background: #ff572333;
+      background: ${(props) => props.theme.red}33;
     }
   }
 

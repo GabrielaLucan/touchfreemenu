@@ -20,7 +20,7 @@ export const Backdrop = styled.div`
 export const Modal = styled.div`
   position: fixed;
   z-index: 100;
-  width: 400px;
+  width: 500px;
   top: 250px;
   left: 0;
   right: 0;
@@ -90,5 +90,21 @@ export const ModalFooter = styled.div`
 export const AddButton = styled.div`
   display: inline-block;
   color: ${(props) => props.theme.accent};
-  margin-left: 8px;
+  cursor: pointer;
+  margin: 0 8px;
+
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+export const RemoveButton = styled.div`
+  display: inline-block;
+  color: ${(props) => props.theme.red};
+  cursor: pointer;
+  margin: 0 8px;
+
+  &:hover {
+    opacity: 0.6;
+  }
 `;

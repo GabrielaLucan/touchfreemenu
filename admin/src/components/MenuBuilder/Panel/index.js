@@ -11,6 +11,10 @@ export default class Panel extends React.Component {
     items: this.props.items,
   };
 
+  componentDidMount() {
+    this.editModal.open();
+  }
+
   filterItems = (x) => x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.state.query.toLowerCase().trim());
 
   onDragEnd = (params) => {
