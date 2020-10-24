@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
 export const SmallDescription = styled.div`
   font-size: 12px;
   font-weight: 100;
-  margin-top: 4px;
+  margin-top: 8px;
   color: ${(props) => props.theme.mutedText};
 `;
 

@@ -42,6 +42,7 @@ const StyledButton = styled.button`
   &[disabled] {
     opacity: 0.6;
     cursor: default;
+    pointer-events: none;
   }
 
   &.cancel {
@@ -53,17 +54,17 @@ const StyledButton = styled.button`
 
 export default class Button extends React.Component {
   render() {
-    const { icon, text, onClick, downloadUrl, downloadName, type, style } = this.props;
+    const { icon, text, onClick, disabled, downloadUrl, downloadName, type, style } = this.props;
 
     return (
-      <StyledButton className={type} onClick={onClick} style={style}>
+      <StyledButton disabled={disabled} className={type} onClick={onClick} style={style}>
         {icon && <FontAwesomeIcon icon={icon} />}
         {downloadUrl ? (
           <a
             href={downloadUrl}
             download={downloadName}
-            target='_blank'
-            rel='noopener noreferrer'
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ margin: '-15px -25px', padding: '15px 25px', marginLeft: '-35px', paddingLeft: '42px', display: 'inline-block', textDecoration: 'none' }}
           >
             {text}

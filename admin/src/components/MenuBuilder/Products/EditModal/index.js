@@ -140,6 +140,15 @@ export default class EditModal extends React.Component {
     this.setState({});
   };
 
+  isProductValid = () => {
+    const { name = '', price } = this.state.product;
+
+    if (!name.length || !price) {
+      return false;
+    }
+    return true;
+  };
+
   render() {
     const { isOpen, inEditMode, product, showsPhotoPicker } = this.state;
 
@@ -206,23 +215,23 @@ export default class EditModal extends React.Component {
 
               {this.renderFieldActionsFor('ingredients')}
             </div>
-            {product.ingredients.length < 2 && <SmallDescription>Poți specifica mai multe ingrediente folosind butonul "+".</SmallDescription>}
 
             <Label>Gramaj{product.quantities.length > 1 ? 'e' : ''}</Label>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {product.quantities.map((x, i) => (
                 <>
-                  {i > 0 && <div style={{ marginTop: '8px', marginRight: '8px', marginLeft: '-4px' }}>,</div>}
+                  {i > 0 && <div style={{ marginTop: '8px', marginRight: '4px', marginLeft: '-2px' }}>/</div>}
                   <Field key={i} for="quantities" autoFocus index={i} asNumber max={9999} suffix="g" />
                 </>
               ))}
 
               {this.renderFieldActionsFor('quantities')}
             </div>
+            <SmallDescription>Poți specifica mai multe ingrediente/gramaje folosind butonul "+".</SmallDescription>
           </ModalContent>
           <ModalFooter>
             <Button type="cancel" onClick={this.close} text="Anulează" />
-            <Button onClick={this.save} text={inEditMode ? 'Salvează' : 'Adaugă'} icon={faCheck} />
+            <Button onClick={this.save} disabled={!this.isProductValid()} text={inEditMode ? 'Salvează' : 'Adaugă'} icon={faCheck} />
           </ModalFooter>
         </Modal>
       </>
