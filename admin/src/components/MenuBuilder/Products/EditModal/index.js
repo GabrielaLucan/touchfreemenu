@@ -1,11 +1,27 @@
 import React from 'react';
-import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter, AddButton, RemoveButton, FieldButtonsWrapper, DiscountToggle } from '../../Categories/EditModal/styles';
+import {
+  Backdrop,
+  Modal,
+  Header,
+  CloseButtonWrapper,
+  ModalContent,
+  ModalFooter,
+  AddButton,
+  RemoveButton,
+  FieldButtonsWrapper,
+  DiscountToggle,
+  DropArea,
+  ProductImageWrapper,
+  RemoveImageButton,
+} from '../../Categories/EditModal/styles';
 import { FormInput, Label, SmallDescription, FormInputWrapper, Suffix } from '../../styles';
-import { faCheck, faTimes, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { Button as ActionButton } from '../../Panel/styles';
+import { faCheck, faTimes, faPlus, faCamera, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../../shared/Button';
+import Dropzone from 'react-dropzone';
 
-const emptyProduct = { ingredients: [''], quantities: [null], name: '', price: '' };
+const emptyProduct = { name: '', photoUrl: '', ingredients: [''], quantities: [null], price: '' };
 
 export default class EditModal extends React.Component {
   state = {
@@ -100,8 +116,32 @@ export default class EditModal extends React.Component {
     this.setState({});
   };
 
+  setBase64Image = (files) => {
+    const file = files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener(
+      'load',
+      () => {
+        this.state.product.photoBase64 = reader.result;
+        this.setState({ showsPhotoPicker: false });
+      },
+      false
+    );
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  removeProductImage = () => {
+    this.state.product.photoBase64 = '';
+    this.state.product.photoImageUrl = '';
+    this.setState({});
+  };
+
   render() {
-    const { isOpen, inEditMode, product } = this.state;
+    const { isOpen, inEditMode, product, showsPhotoPicker } = this.state;
 
     const { Field } = this;
 
@@ -118,6 +158,43 @@ export default class EditModal extends React.Component {
           <ModalContent>
             <Field for="name" label="Nume" placeholder="Nume produs" maxLength={50} />
 
+            <div style={{ position: 'absolute', top: '0', right: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10 }}>
+              {!product.photoUrl && !product.photoBase64 ? (
+                !showsPhotoPicker ? (
+                  <ActionButton className="green" title="Adaugă poză" style={{ marginTop: '22px' }} onClick={() => this.setState({ showsPhotoPicker: true })}>
+                    <FontAwesomeIcon icon={faCamera} />
+                    Adaugă poză
+                  </ActionButton>
+                ) : (
+                  <>
+                    <Dropzone onDrop={this.setBase64Image}>
+                      {({ getRootProps, getInputProps, isDragActive }) => (
+                        <section>
+                          <DropArea {...getRootProps()} style={{ backgroundColor: isDragActive ? '#fff' : undefined }}>
+                            <input {...getInputProps()} />
+                            <p style={{ maxWidth: '250px', textAlign: 'center', padding: '30px' }}>Trage poza aici sau fă click pentru a alege manual.</p>
+                          </DropArea>
+                        </section>
+                      )}
+                    </Dropzone>
+                    <Button type="cancel" style={{ marginTop: '0' }} onClick={() => this.setState({ showsPhotoPicker: false })} text="Anulează" />
+                  </>
+                )
+              ) : (
+                <ProductImageWrapper onClick={this.removeProductImage}>
+                  <img src={product.photoUrl || product.photoBase64} style={{ height: '100%' }} />
+                  <RemoveImageButton>Șterge</RemoveImageButton>
+                </ProductImageWrapper>
+              )}
+            </div>
+
+            <Field for="price" label={product.isDiscounted ? 'Preț vechi' : 'Preț'} asNumber max={9999} suffix="RON" />
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', marginTop: '16px' }}>
+              <DiscountToggle checked={product.isDiscounted} title="La reducere?" icons={false} onChange={this.toggleDiscounted} />
+              <div style={{ marginLeft: '8px' }}>{product.isDiscounted ? 'La reducere' : 'La reducere?'}</div>
+            </div>
+            {product.isDiscounted && <Field for="discountedPrice" label="Preț redus" asNumber max={9999} suffix="RON" />}
+
             <Label>Ingrediente</Label>
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', maxWidth: '670px' }}>
               {product.ingredients.map((x, i) => (
@@ -129,9 +206,9 @@ export default class EditModal extends React.Component {
 
               {this.renderFieldActionsFor('ingredients')}
             </div>
-            {product.quantities.length < 2 && <SmallDescription>Poți specifica mai multe ingrediente folosind butonul "+".</SmallDescription>}
+            {product.ingredients.length < 2 && <SmallDescription>Poți specifica mai multe ingrediente folosind butonul "+".</SmallDescription>}
 
-            <Label>Gramaj(e)</Label>
+            <Label>Gramaj{product.quantities.length > 1 ? 'e' : ''}</Label>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {product.quantities.map((x, i) => (
                 <>
@@ -142,13 +219,6 @@ export default class EditModal extends React.Component {
 
               {this.renderFieldActionsFor('quantities')}
             </div>
-
-            <Field for="price" label={product.isDiscounted ? 'Preț vechi' : 'Preț'} asNumber max={9999} suffix="RON" />
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', marginTop: '16px' }}>
-              <DiscountToggle checked={product.isDiscounted} title="La reducere?" onChange={this.toggleDiscounted} />
-              <div style={{ marginLeft: '8px' }}>{product.isDiscounted ? 'La reducere' : 'La reducere?'}</div>
-            </div>
-            {product.isDiscounted && <Field for="discountedPrice" label="Preț redus" asNumber max={9999} suffix="RON" />}
           </ModalContent>
           <ModalFooter>
             <Button type="cancel" onClick={this.close} text="Anulează" />

@@ -71,6 +71,7 @@ export const CloseButtonWrapper = styled.div`
 
 export const ModalContent = styled.div`
   padding: 0 16px;
+  position: relative;
 `;
 
 export const ModalFooter = styled.div`
@@ -122,15 +123,15 @@ export const DiscountToggle = styled(Toggle)`
   }
 
   &.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
-    background-color: ${(props) => props.theme.mutedText}bb;
+    background-color: ${(props) => props.theme.mutedText}44;
   }
 
   &.react-toggle .react-toggle-track {
-    background-color: ${(props) => props.theme.mutedText};
+    background-color: ${(props) => props.theme.mutedText}88;
   }
 
   &.react-toggle:not(.react-toggle--checked) .react-toggle-thumb {
-    border-color: ${(props) => props.theme.mutedText};
+    border-color: ${(props) => props.theme.mutedText}88;
   }
 
   &.react-toggle--checked .react-toggle-track {
@@ -140,4 +141,41 @@ export const DiscountToggle = styled(Toggle)`
   &.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
     background-color: ${(props) => props.theme.accent}bb;
   }
+`;
+
+export const DropArea = styled.div`
+  background-color: ${(props) => props.theme.activeBackground};
+  border: 1px solid ${(props) => props.theme.border};
+  border-radius: 8px;
+  padding: 70px 16px;
+  cursor: pointer;
+`;
+
+export const ProductImageWrapper = styled.div`
+  border-radius: 8px;
+  height: 170px;
+  overflow: hidden;
+  position: relative;
+
+  div {
+    display: none;
+  }
+
+  :hover {
+    div {
+      display: block;
+    }
+  }
+`;
+
+export const RemoveImageButton = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 15px;
+  cursor: pointer;
+  color: white;
+  border-radius: 8px;
+  background: ${(props) => props.theme.red};
+  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
 `;
