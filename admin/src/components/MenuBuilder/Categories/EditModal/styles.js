@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import Input from '../../../shared/form/Input';
+import Toggle from 'react-toggle';
 
 export const Backdrop = styled.div`
   position: fixed;
@@ -20,7 +20,7 @@ export const Backdrop = styled.div`
 export const Modal = styled.div`
   position: fixed;
   z-index: 100;
-  width: 500px;
+  width: 800px;
   top: 250px;
   left: 0;
   right: 0;
@@ -106,5 +106,38 @@ export const RemoveButton = styled.div`
 
   &:hover {
     opacity: 0.6;
+  }
+`;
+
+export const FieldButtonsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  height: 45px;
+  padding-top: 4px;
+`;
+
+export const DiscountToggle = styled(Toggle)`
+  &.react-toggle--focus .react-toggle-thumb {
+    box-shadow: none !important;
+  }
+
+  &.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+    background-color: ${(props) => props.theme.mutedText}bb;
+  }
+
+  &.react-toggle .react-toggle-track {
+    background-color: ${(props) => props.theme.mutedText};
+  }
+
+  &.react-toggle:not(.react-toggle--checked) .react-toggle-thumb {
+    border-color: ${(props) => props.theme.mutedText};
+  }
+
+  &.react-toggle--checked .react-toggle-track {
+    background-color: ${(props) => props.theme.accent};
+  }
+
+  &.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+    background-color: ${(props) => props.theme.accent}bb;
   }
 `;

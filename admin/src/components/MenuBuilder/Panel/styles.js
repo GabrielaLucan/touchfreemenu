@@ -99,7 +99,7 @@ export const Button = styled.div`
     display: flex;
     align-items: center;
     height: 41px;
-    margin-top: 4px;
+    margin-top: 8px;
     margin-left: 16px;
     border-color: #fff0;
     padding-bottom: 9px;

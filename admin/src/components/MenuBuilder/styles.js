@@ -58,14 +58,11 @@ export const FormInput = styled(Input)`
   height: 41px;
   padding: 8px 12px;
   border-radius: 8px;
-  margin-top: 4px;
+  margin-top: 8px;
+  padding-right: 15px;
 
   &.small {
-    width: 100px;
-  }
-
-  &.with-suffix {
-    padding-right: 45px;
+    width: 90px;
   }
 
   &:after {
@@ -93,7 +90,7 @@ export const FormInputWrapper = styled.div`
 export const Suffix = styled.div`
   position: absolute;
   right: 12px;
-  top: 14px;
+  top: 18px;
   z-index: 15;
-  color: ${(props) => props.theme.mutedText};
+  color: ${(props) => props.theme.mutedText}bb;
 `;
