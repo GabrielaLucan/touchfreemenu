@@ -24,7 +24,11 @@ export default class EditModal extends React.Component {
   };
 
   save = () => {
-    this.props.onSave(this.state.category);
+    if (this.state.inEditMode) {
+      this.props.onSave(this.state.category);
+    } else {
+      this.props.onCreate(this.state.category);
+    }
     this.setState({ isOpen: false });
   };
 
@@ -68,7 +72,7 @@ export default class EditModal extends React.Component {
           </Header>
           <ModalContent>
             <Label>Nume</Label>
-            <FormInput value={name} onChange={(e) => this.changeValue('name', e.target.value)} placeholder="Nume categorie" />
+            <FormInput value={name} autoFocus onChange={(e) => this.changeValue('name', e.target.value)} placeholder="Nume categorie" />
             {!this.isNameUnique() && <ErrorText>Există deja o categorie cu numele acesta.</ErrorText>}
           </ModalContent>
           <ModalFooter>

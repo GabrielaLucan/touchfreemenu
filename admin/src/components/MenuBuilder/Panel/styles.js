@@ -22,6 +22,10 @@ export const Wrapper = styled.div`
   }
 `;
 
+export const ContentWrapper = styled.div`
+  ${(props) => props.loading && 'filter: grayscale(0.5) blur(3px) opacity(0.6); pointer-events: none'};
+`;
+
 export const Title = styled.span`
   color: #818e99;
   text-transform: uppercase;

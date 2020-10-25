@@ -18,6 +18,7 @@ router.post('/toggle-covid-questionnaire', auth.withCurrentUser, covidQuestionna
 
 router.get('/categories', categories.getAll);
 router.post('/categories', categories.create);
+router.put('/categories', categories.edit);
 router.post('/categories/move', categories.move);
 
 

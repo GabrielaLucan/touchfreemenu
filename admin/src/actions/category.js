@@ -34,6 +34,23 @@ export const getCategories = (category) => async (dispatch) => {
   }
 };
 
+// #edit
+export const EDIT_CATEGORY_PENDING = 'EDIT_CATEGORY_PENDING';
+export const EDIT_CATEGORY_SUCCESS = 'EDIT_CATEGORY_SUCCESS';
+export const EDIT_CATEGORY_ERROR = 'EDIT_CATEGORY_ERROR';
+
+export const editCategory = (category) => async (dispatch) => {
+  dispatch({ type: EDIT_CATEGORY_PENDING });
+
+  try {
+    const updatedCategory = await categoryEndpoints.edit(category);
+
+    dispatch({ type: EDIT_CATEGORY_SUCCESS, updatedCategory });
+  } catch (error) {
+    dispatch({ type: EDIT_CATEGORY_ERROR, error });
+  }
+};
+
 // #reoder
 export const MOVE_CATEGORY_PENDING = 'MOVE_CATEGORY_PENDING';
 export const MOVE_CATEGORY_SUCCESS = 'MOVE_CATEGORY_SUCCESS';

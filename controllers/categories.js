@@ -38,7 +38,7 @@ exports.move = async (req, res, next) => {
     const { categoryId, destinationIndex } = req.body;
 
     const draggedItem = categories.find((x) => x.id === categoryId);
-    const listWithoutItem = categories.filter((x) => x.id !== categoryId);
+    const listWithoutItem = categories.filter((x) => x.id !== categoryId).sort((a, b) => a.index - b.index);
 
     const newList = [...listWithoutItem.slice(0, destinationIndex - 1), draggedItem, ...listWithoutItem.slice(destinationIndex - 1)];
 
@@ -55,6 +55,20 @@ exports.move = async (req, res, next) => {
     );
 
     res.status(201).json(newList);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.edit = async (req, res, next) => {
+  try {
+    const { category } = req.body;
+
+    const updatedCategory = await Category.findByIdAndUpdate(category.id, { $set: { name: category.name } }, { new: true });
+
+    setTimeout(() => {
+      res.status(201).json(updatedCategory);
+    }, 2000);
   } catch (err) {
     next(err);
   }

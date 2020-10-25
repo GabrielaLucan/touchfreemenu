@@ -135,7 +135,7 @@ exports.updatePdfMenuUrl = async (req, res, next) => {
   try {
     const { location: pdfUrl, originalname: pdfOriginalName, size: pdfSize } = req.file;
 
-    await User.findOneAndUpdate({ _id: req.user.id }, { pdfUrl, pdfOriginalName, pdfSize, pdfKey: req.uploadedPdfKey, pdfUploadDate: new Date() });
+    await User.findByIdAndUpdate(req.user.id, { pdfUrl, pdfOriginalName, pdfSize, pdfKey: req.uploadedPdfKey, pdfUploadDate: new Date() });
 
     res.status(200).json({ pdfUrl });
   } catch (err) {

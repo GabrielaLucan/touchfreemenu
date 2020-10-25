@@ -29,7 +29,9 @@ export default class Categories extends React.Component {
         items={this.props.categories}
         type="categorie"
         renderItem={this.renderCategory}
+        loading={this.props.loading}
         createItem={this.props.createCategory}
+        saveItemEdits={this.props.editCategory}
         removeItem={this.removeItem}
         moveItem={this.props.moveCategory}
         ItemStyle={Category}
