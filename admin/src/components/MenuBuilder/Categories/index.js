@@ -5,6 +5,10 @@ import Panel from '../Panel';
 import EditModal from './EditModal';
 
 export default class Categories extends React.Component {
+  componentDidMount() {
+    this.props.getCategories();
+  }
+
   removeItem = (item) => {
     if (window.confirm(`Ești sigur că dorești să ștergi categoria "${item.name}"?`)) {
       window.alert('Categoria a fost ștearsă');
@@ -15,7 +19,7 @@ export default class Categories extends React.Component {
     return (
       <Panel
         title="Categorii"
-        items={categories}
+        items={this.props.categories}
         type="categorie"
         removeItem={this.removeItem}
         renderItem={({ name, productCount }) => (

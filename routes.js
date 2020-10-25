@@ -1,6 +1,7 @@
 const demoRequests = require('./controllers/demoRequests');
 const covidQuestionnaires = require('./controllers/covidQuestionnaires');
 const users = require('./controllers/users');
+const categories = require('./controllers/categories');
 const auth = require('./services/auth');
 const express = require('express');
 const router = express.Router();
@@ -14,6 +15,10 @@ router.post('/pdf-menu', auth.withCurrentUser, users.uploadFileToS3, users.updat
 
 router.post('/covid-questionnaire', covidQuestionnaires.submitQuestionnaire);
 router.post('/toggle-covid-questionnaire', auth.withCurrentUser, covidQuestionnaires.toggle);
+
+router.get('/categories', categories.getAll);
+router.post('/categories', categories.create);
+
 
 
 module.exports = (app) => {

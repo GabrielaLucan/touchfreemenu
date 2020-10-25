@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Wrapper } from './styles';
-import Categories from './Categories';
+import Categories from './Categories/Container';
 import Products from './Products';
 
 export default class MenuBuilder extends React.Component {

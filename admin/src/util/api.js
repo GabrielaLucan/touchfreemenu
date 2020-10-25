@@ -83,9 +83,14 @@ export async function changePassword(oldPassword, newPassword) {
 }
 
 export async function uploadPdfMenu(data) {
-  return await methods.post(`pdf-menu`, data, localStorage.token);
+  return await methods.post('pdf-menu', data, localStorage.token);
 }
 
 export async function toggleCovidQuestionnaire() {
-  return await methods.post(`toggle-covid-questionnaire`, {}, localStorage.token);
+  return await methods.post('toggle-covid-questionnaire', {}, localStorage.token);
 }
+
+export const categoryEndpoints = {
+  create: async (category) => await methods.post('categories', category, localStorage.token),
+  get: async () => await methods.get('categories', {}, localStorage.token),
+};

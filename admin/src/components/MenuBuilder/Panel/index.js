@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faPencilAlt, faTrash, faGripVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Wrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button } from './styles';
+import { Wrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button, EmptyPlaceholderWrapper } from './styles';
 import { FormInput } from '../styles';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -55,7 +55,7 @@ export default class Panel extends React.Component {
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 <Title>{title}</Title>
                 <div style={{ display: 'flex' }}>
-                  <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />
+                  {this.state.items.length > 2 && <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />}
                   {inEditMode && (
                     <Button className="green" title={`Adaugă ${type}`} onClick={() => this.editModal.open(undefined, items)}>
                       <FontAwesomeIcon icon={faPlus} />
@@ -97,6 +97,20 @@ export default class Panel extends React.Component {
             )}
           </Droppable>
         </DragDropContext>
+        {!this.state.items.length && (
+          <EmptyPlaceholderWrapper>
+            {type == 'categorie' ? 'Nicio categorie încă.' : 'Nu există niciun produs încă.'}
+            <Button
+              className="green"
+              style={{ marginLeft: '0', marginTop: '24px' }}
+              title={`Adaugă ${type == 'categorie' ? 'o categorie' : 'un produs'}`}
+              onClick={() => this.editModal.open(undefined, items)}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              Adaugă
+            </Button>
+          </EmptyPlaceholderWrapper>
+        )}
       </Wrapper>
     );
   }

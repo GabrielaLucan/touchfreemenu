@@ -153,3 +153,12 @@ export const DragIconWrapper = styled.div`
   overflow: hidden;
   flex-shrink: 0;
 `;
+
+export const EmptyPlaceholderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+`;
