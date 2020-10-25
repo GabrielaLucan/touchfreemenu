@@ -179,3 +179,9 @@ export const RemoveImageButton = styled.div`
   background: ${(props) => props.theme.red};
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
 `;
+
+export const ErrorText = styled.div`
+  margin-top: 4px;
+  color: ${(props) => props.theme.red};
+  font-size: 12px;
+`;

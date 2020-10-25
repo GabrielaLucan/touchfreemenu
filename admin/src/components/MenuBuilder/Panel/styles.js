@@ -71,6 +71,8 @@ export const Button = styled.div`
   padding: 8px 12px;
   cursor: pointer;
   white-space: nowrap;
+  transition: all 0.15s ease-in-out;
+  background: ${(props) => props.theme.blue}12;
 
   span {
     display: inline-block;
@@ -79,7 +81,6 @@ export const Button = styled.div`
     transition: all 0.3s ease-in-out;
     margin-bottom: -4px;
   }
-  background: ${(props) => props.theme.blue}10;
 
   :hover {
     background: ${(props) => props.theme.blue}33;
@@ -87,7 +88,7 @@ export const Button = styled.div`
 
   &.destructive {
     color: ${(props) => props.theme.red};
-    background: ${(props) => props.theme.red}10;
+    background: ${(props) => props.theme.red}12;
 
     :hover {
       background: ${(props) => props.theme.red}33;

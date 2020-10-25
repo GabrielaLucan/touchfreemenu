@@ -23,7 +23,7 @@ export default class MenuBuilder extends React.Component {
   render() {
     return (
       <Wrapper>
-        {/* <Categories /> */}
+        <Categories />
         <Products />
       </Wrapper>
     );

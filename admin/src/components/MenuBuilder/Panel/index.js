@@ -11,9 +11,9 @@ export default class Panel extends React.Component {
     items: this.props.items,
   };
 
-  componentDidMount() {
-    this.editModal.open();
-  }
+  // componentDidMount() {
+  //   this.editModal.open();
+  // }
 
   filterItems = (x) => x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.state.query.toLowerCase().trim());
 
@@ -57,7 +57,7 @@ export default class Panel extends React.Component {
                 <div style={{ display: 'flex' }}>
                   <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />
                   {inEditMode && (
-                    <Button className="green" title={`Adaugă ${type}`} onClick={() => this.editModal.open()}>
+                    <Button className="green" title={`Adaugă ${type}`} onClick={() => this.editModal.open(undefined, items)}>
                       <FontAwesomeIcon icon={faPlus} />
                       Adaugă {type}
                     </Button>
@@ -78,7 +78,7 @@ export default class Panel extends React.Component {
                           </div>
                           {inEditMode && (
                             <ButtonsWrapper style={buttonsWrapperStyle}>
-                              <Button title={`Editează ${type}`} onClick={() => this.editModal.open(item)}>
+                              <Button title={`Editează ${type}`} onClick={() => this.editModal.open(item, items)}>
                                 <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
                               </Button>
                               <Button title={`Șterge ${type}`} className="destructive" onClick={() => removeItem(item)}>
