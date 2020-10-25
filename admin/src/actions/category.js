@@ -51,6 +51,23 @@ export const editCategory = (category) => async (dispatch) => {
   }
 };
 
+// #remove
+export const REMOVE_CATEGORY_PENDING = 'REMOVE_CATEGORY_PENDING';
+export const REMOVE_CATEGORY_SUCCESS = 'REMOVE_CATEGORY_SUCCESS';
+export const REMOVE_CATEGORY_ERROR = 'REMOVE_CATEGORY_ERROR';
+
+export const removeCategory = (categoryId) => async (dispatch) => {
+  dispatch({ type: REMOVE_CATEGORY_PENDING });
+
+  try {
+    await categoryEndpoints.remove(categoryId);
+
+    dispatch({ type: REMOVE_CATEGORY_SUCCESS, categoryId });
+  } catch (error) {
+    dispatch({ type: REMOVE_CATEGORY_ERROR, error });
+  }
+};
+
 // #reoder
 export const MOVE_CATEGORY_PENDING = 'MOVE_CATEGORY_PENDING';
 export const MOVE_CATEGORY_SUCCESS = 'MOVE_CATEGORY_SUCCESS';

@@ -11,6 +11,9 @@ import {
   EDIT_CATEGORY_PENDING,
   EDIT_CATEGORY_SUCCESS,
   EDIT_CATEGORY_ERROR,
+  REMOVE_CATEGORY_PENDING,
+  REMOVE_CATEGORY_SUCCESS,
+  REMOVE_CATEGORY_ERROR,
 } from '../actions/category';
 
 const initialState = {
@@ -20,10 +23,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    //pendings
+    // ---PENDINGS---
     case CREATE_CATEGORY_PENDING:
     case EDIT_CATEGORY_PENDING:
     case GET_CATEGORIES_PENDING:
+    case REMOVE_CATEGORY_PENDING:
       return { ...state, loading: true };
     case MOVE_CATEGORY_PENDING:
       const list = [...state.list];
@@ -40,7 +44,7 @@ export default (state = initialState, action) => {
 
       return { ...state, list: newList };
 
-    //succeses
+    // ---SUCCESSES---
     case CREATE_CATEGORY_SUCCESS:
       return {
         ...state,
@@ -64,12 +68,19 @@ export default (state = initialState, action) => {
         list: [...state.list.filter((x) => x.id != action.updatedCategory.id), action.updatedCategory],
         loading: false,
       };
+    case REMOVE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        list: [...state.list.filter((x) => x.id != action.categoryId)],
+        loading: false,
+      };
 
-    //errors
+    // ---ERRORS---
     case CREATE_CATEGORY_ERROR:
     case GET_CATEGORIES_ERROR:
     case MOVE_CATEGORY_ERROR:
     case EDIT_CATEGORY_ERROR:
+    case REMOVE_CATEGORY_ERROR:
       return { ...state, loading: false };
 
     default:

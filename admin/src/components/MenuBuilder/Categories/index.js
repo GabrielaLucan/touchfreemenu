@@ -9,12 +9,6 @@ export default class Categories extends React.Component {
     this.props.getCategories();
   }
 
-  removeItem = (item) => {
-    if (window.confirm(`Ești sigur că dorești să ștergi categoria "${item.name}"?`)) {
-      window.alert('Categoria a fost ștearsă');
-    }
-  };
-
   renderCategory = ({ name, productCount }) => (
     <div>
       <div>{name}</div>
@@ -32,7 +26,7 @@ export default class Categories extends React.Component {
         loading={this.props.loading}
         createItem={this.props.createCategory}
         saveItemEdits={this.props.editCategory}
-        removeItem={this.removeItem}
+        removeItem={this.props.removeCategory}
         moveItem={this.props.moveCategory}
         ItemStyle={Category}
         EditModal={EditModal}

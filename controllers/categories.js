@@ -66,10 +66,38 @@ exports.edit = async (req, res, next) => {
 
     const updatedCategory = await Category.findByIdAndUpdate(category.id, { $set: { name: category.name } }, { new: true });
 
-    setTimeout(() => {
-      res.status(201).json(updatedCategory);
-    }, 2000);
+    res.status(201).json(updatedCategory);
   } catch (err) {
     next(err);
   }
+};
+
+exports.delete = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+
+    await Category.findByIdAndRemove(categoryId);
+
+    await uniformizeIndexes();
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const uniformizeIndexes = async () => {
+  const categories = (await Category.find({})).sort((a, b) => a.index - b.index);
+  const newList = [...categories];
+  newList.forEach((x, i) => {
+    x.index = i + 1;
+  });
+
+  await Promise.all(
+    categories.map(async (category) => {
+      const newCategoryIndex = newList.find((x) => x.id == category.id).index;
+
+      await Category.updateOne({ _id: category._id }, { $set: { index: newCategoryIndex } });
+    })
+  );
 };

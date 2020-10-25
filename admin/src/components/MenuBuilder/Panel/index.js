@@ -5,6 +5,7 @@ import { Wrapper, ContentWrapper, ButtonsWrapper, DragIconWrapper, EditToggle, T
 import { FormInput } from '../styles';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
+import ConfirmationModal from './ConfirmationModal';
 
 export default class Panel extends React.Component {
   state = {
@@ -25,6 +26,13 @@ export default class Panel extends React.Component {
     }
 
     this.props.moveItem(draggableId, destination.index);
+  };
+
+  remove = async (item) => {
+    const { type, removeItem } = this.props;
+
+    await this.confirmationModal.open({ title: 'Ștergere categorie', text: `Ești sigur că dorești să ștergi ${type == 'categorie' ? 'categoria' : 'produsul'} "${item.name}"?` });
+    removeItem(item.id);
   };
 
   render() {
@@ -54,7 +62,7 @@ export default class Panel extends React.Component {
                       .filter(this.filterItems)
                       .sort((a, b) => a.index - b.index)
                       .map((item) => (
-                        <Draggable key={item.id} {...provided.droppableProps} x ref={provided.innerRef} isDragDisabled={!inEditMode} key={item.id} draggableId={item.id} index={item.index}>
+                        <Draggable key={item.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inEditMode} key={item.id} draggableId={item.id} index={item.index}>
                           {(provided) => (
                             <ItemStyle ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={inEditMode ? 'editable' : ''}>
                               <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -70,7 +78,7 @@ export default class Panel extends React.Component {
                                   <Button title={`Editează ${type}`} onClick={() => this.editModal.open(item, items)}>
                                     <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
                                   </Button>
-                                  <Button title={`Șterge ${type}`} className="destructive" onClick={() => removeItem(item)}>
+                                  <Button title={`Șterge ${type}`} className="destructive" onClick={() => this.remove(item)}>
                                     <FontAwesomeIcon icon={faTrash} />
                                   </Button>
                                 </ButtonsWrapper>
@@ -80,7 +88,6 @@ export default class Panel extends React.Component {
                         </Draggable>
                       ))}
                   </div>
-                  <EditModal onCreate={createItem} onSave={saveItemEdits} ref={(x) => (this.editModal = x)} />
                   {provided.placeholder}
                 </div>
               )}
@@ -101,6 +108,8 @@ export default class Panel extends React.Component {
             </EmptyPlaceholderWrapper>
           )}
         </ContentWrapper>
+        <EditModal onCreate={createItem} onSave={saveItemEdits} ref={(x) => (this.editModal = x)} />
+        <ConfirmationModal ref={(x) => (this.confirmationModal = x)} />
         {loading && <LoadingIndicatorSpinner />}
       </Wrapper>
     );

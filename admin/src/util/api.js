@@ -89,7 +89,9 @@ const methods = {
     return json;
   },
 
-  delete: async function (endpoint, token = null) {
+  delete: async function (endpoint) {
+    const token = localStorage.token || null;
+
     const options = {
       method: 'DELETE',
       headers: {
@@ -103,6 +105,76 @@ const methods = {
 
     if (!response.ok) {
       if (response.status === 401) throw Error('unauthorized');
+      throw Error(json.message);
+    }
+
+    return json;
+  },
+  put: async function (endpoint, body) {
+    const isFormData = body instanceof FormData;
+
+    const token = localStorage.token || null;
+
+    const options = {
+      method: 'PUT',
+      headers: {
+        [!isFormData ? 'Content-Type' : 'balauca']: 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: isFormData ? body : JSON.stringify(body),
+    };
+
+    const response = await fetch(`${baseUrl}/${endpoint}`, options);
+    const json = await response.json();
+
+    if (!response.ok) {
+      if (json.errors) {
+        if (response.status === 422) {
+          json.errors.forEach((error) => {
+            throw Error(`${error.param} ${error.msg}`);
+          });
+        }
+      }
+
+      if (json.message) {
+        throw Error(`${json.message}`);
+      }
+
+      throw Error(json.message);
+    }
+
+    return json;
+  },
+  delete: async function (endpoint, body) {
+    const isFormData = body instanceof FormData;
+
+    const token = localStorage.token || null;
+
+    const options = {
+      method: 'DELETE',
+      headers: {
+        [!isFormData ? 'Content-Type' : 'balauca']: 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: isFormData ? body : JSON.stringify(body),
+    };
+
+    const response = await fetch(`${baseUrl}/${endpoint}`, options);
+    const json = await response.json();
+
+    if (!response.ok) {
+      if (json.errors) {
+        if (response.status === 422) {
+          json.errors.forEach((error) => {
+            throw Error(`${error.param} ${error.msg}`);
+          });
+        }
+      }
+
+      if (json.message) {
+        throw Error(`${json.message}`);
+      }
+
       throw Error(json.message);
     }
 
@@ -133,4 +205,5 @@ export const categoryEndpoints = {
   edit: async (category) => await methods.put('categories', { category }),
   get: async () => await methods.get('categories'),
   move: async (categoryId, destinationIndex) => await methods.post('categories/move', { categoryId, destinationIndex }),
+  remove: async (categoryId) => await methods.delete(`categories/${categoryId}`),
 };
