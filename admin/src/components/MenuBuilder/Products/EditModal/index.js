@@ -14,7 +14,8 @@ import {
   ProductImageWrapper,
   RemoveImageButton,
 } from '../../Categories/EditModal/styles';
-import { FormInput, Label, SmallDescription, FormInputWrapper, Suffix } from '../../styles';
+import { categories as mockedCategories } from '../../Categories';
+import { FormInput, Label, SmallDescription, FormInputWrapper, SelectInput, Suffix } from '../../styles';
 import { Button as ActionButton } from '../../Panel/styles';
 import { faCheck, faTimes, faPlus, faCamera, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -140,6 +141,11 @@ export default class EditModal extends React.Component {
     this.setState({});
   };
 
+  changeProductCategory = (e) => {
+    this.state.product.categoryId = e.target.value;
+    this.setState({});
+  };
+
   isProductValid = () => {
     const { name = '', price } = this.state.product;
 
@@ -151,6 +157,8 @@ export default class EditModal extends React.Component {
 
   render() {
     const { isOpen, inEditMode, product, showsPhotoPicker } = this.state;
+    const categories = mockedCategories;
+    // const { categories } = this.props;
 
     const { Field } = this;
 
@@ -166,6 +174,18 @@ export default class EditModal extends React.Component {
           </Header>
           <ModalContent>
             <Field for="name" label="Nume" placeholder="Nume produs" maxLength={50} />
+            <Label>Categorie</Label>
+
+            <SelectInput value={product.categoryId} onChange={this.changeProductCategory}>
+              <option value="" selected>
+                Alege..
+              </option>
+              {categories.map((x) => (
+                <option key={x.id} value={x.id}>
+                  {x.name}
+                </option>
+              ))}
+            </SelectInput>
 
             <div style={{ position: 'absolute', top: '0', right: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10 }}>
               {!product.photoUrl && !product.photoBase64 ? (

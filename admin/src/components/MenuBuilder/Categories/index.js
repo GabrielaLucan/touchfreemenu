@@ -31,7 +31,7 @@ export default class Categories extends React.Component {
   }
 }
 
-const categories = [
+export const categories = [
   { index: 1, id: 10, name: 'Aperitive', productCount: 43 },
   { index: 2, id: 11, name: 'Supe', productCount: 13 },
   { index: 3, id: 13, name: 'Fel principal', productCount: 6 },

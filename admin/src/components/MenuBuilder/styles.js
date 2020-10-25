@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
 import Input from '../shared/form/Input';
+import Select from '../shared/form/Select';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -67,6 +68,21 @@ export const FormInput = styled(Input)`
 
   &:after {
     content: attr(data-suffix);
+  }
+`;
+
+export const SelectInput = styled(Select)`
+  width: 318px;
+  height: 41px;
+  padding: 8px 12px;
+  padding-right: 24px;
+  border-radius: 8px;
+  margin-top: 8px;
+  padding-right: 15px;
+  cursor: pointer;
+
+  &[disabled] {
+    color: ${(props) => props.theme.mutedText};
   }
 `;
 
