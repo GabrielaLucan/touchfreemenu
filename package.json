@@ -6,6 +6,9 @@
   "jest": {
     "setupTestFrameworkScriptFile": "./test/setup.js"
   },
+  "engines": {
+    "node": "14.9.0"
+  },
   "scripts": {
     "dev": "nodemon ./index.js",
     "start": "node index.js",
