@@ -2,12 +2,9 @@ import styled from 'styled-components/macro';
 import Toggle from 'react-toggle';
 
 export const Wrapper = styled.div`
-  display: flex;
   background-color: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 16px;
-  flex-direction: column;
-  align-items: flex-start;
   margin-right: 24px;
   margin-bottom: 24px;
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
@@ -24,6 +21,10 @@ export const Wrapper = styled.div`
 
 export const ContentWrapper = styled.div`
   ${(props) => props.loading && 'filter: grayscale(0.5) blur(3px) opacity(0.6); pointer-events: none'};
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const Title = styled.span`
@@ -137,8 +138,8 @@ export const ButtonsWrapper = styled.div`
   margin: -12px 0;
   margin-left: 12px;
   margin-right: -12px;
-  padding: 14px;
-  padding-bottom: 0;
+  padding: 16px;
+  padding-bottom: 2px;
   padding-right: 0;
   background: ${(props) => props.theme.activeBackground};
   cursor: default;

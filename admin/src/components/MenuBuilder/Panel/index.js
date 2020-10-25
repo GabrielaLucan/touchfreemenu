@@ -50,12 +50,6 @@ export default class Panel extends React.Component {
                   <Title>{title}</Title>
                   <div style={{ display: 'flex' }}>
                     {items.length > 0 && <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />}
-                    {inEditMode && (
-                      <Button className="green" title={`Adaugă ${type}`} onClick={() => this.editModal.open(undefined, items)}>
-                        <FontAwesomeIcon icon={faPlus} />
-                        Adaugă {type}
-                      </Button>
-                    )}
                   </div>
                   <div style={{ marginTop: '8px', border: '1px solid #0000', width: '100%' }}>
                     {items
@@ -106,6 +100,12 @@ export default class Panel extends React.Component {
                 Adaugă
               </Button>
             </EmptyPlaceholderWrapper>
+          )}
+          {items.length > 0 && (
+            <Button className="green" title={`Adaugă ${type}`} style={{ marginLeft: 0, alignSelf: 'flex-end', marginTop: '16px' }} onClick={() => this.editModal.open(undefined, items)}>
+              <FontAwesomeIcon icon={faPlus} />
+              Adaugă
+            </Button>
           )}
         </ContentWrapper>
         <EditModal onCreate={createItem} onSave={saveItemEdits} ref={(x) => (this.editModal = x)} />

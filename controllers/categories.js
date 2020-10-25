@@ -8,7 +8,7 @@ exports.create = async (req, res, next) => {
       return res.status(422).json({ message: 'Cannot create category with no name.' });
     }
 
-    const highestCategoryIndex = (await Category.findOne().sort({ index: -1 }))?.index || -1;
+    const highestCategoryIndex = (await Category.findOne().sort({ index: -1 }))?.index || 0;
 
     const category = await Category.create({ name, index: highestCategoryIndex + 1 });
 

@@ -13,11 +13,12 @@ export const Category = styled.div`
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-weight: 500;
   color: ${(props) => props.theme.normalText};
+  height: 63px;
 
   &.editable {
     display: flex;
     justify-content: space-between;
-    width: calc(520px - 16px*2);
+    width: calc(520px - 16px * 2);
     cursor: drag;
   }
 
