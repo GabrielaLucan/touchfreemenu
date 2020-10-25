@@ -17,8 +17,10 @@ const methods = {
     return json;
   },
 
-  post: async function (endpoint, body, token = null) {
+  post: async function (endpoint, body) {
     const isFormData = body instanceof FormData;
+
+    const token = localStorage.token || null;
 
     const options = {
       method: 'POST',
@@ -78,19 +80,20 @@ export async function login(username, password) {
 }
 
 export async function changePassword(oldPassword, newPassword) {
-  const json = await methods.post('change-password', { oldPassword, newPassword }, localStorage.token);
+  const json = await methods.post('change-password', { oldPassword, newPassword });
   return json.token;
 }
 
 export async function uploadPdfMenu(data) {
-  return await methods.post('pdf-menu', data, localStorage.token);
+  return await methods.post('pdf-menu', data);
 }
 
 export async function toggleCovidQuestionnaire() {
-  return await methods.post('toggle-covid-questionnaire', {}, localStorage.token);
+  return await methods.post('toggle-covid-questionnaire', {});
 }
 
 export const categoryEndpoints = {
-  create: async (category) => await methods.post('categories', category, localStorage.token),
-  get: async () => await methods.get('categories', {}, localStorage.token),
+  create: async (category) => await methods.post('categories', category),
+  get: async () => await methods.get('categories'),
+  move: async (categoryId, destinationIndex) => await methods.post('categories/move', { categoryId, destinationIndex }),
 };

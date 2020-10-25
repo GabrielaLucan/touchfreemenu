@@ -177,7 +177,7 @@ export default class EditModal extends React.Component {
             <Label>Categorie</Label>
 
             <SelectInput value={product.categoryId} onChange={this.changeProductCategory}>
-              <option value="" selected>
+              <option value="">
                 Alege..
               </option>
               {categories.map((x) => (
@@ -227,10 +227,10 @@ export default class EditModal extends React.Component {
             <Label>Ingrediente</Label>
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', maxWidth: '670px' }}>
               {product.ingredients.map((x, i) => (
-                <>
+                <React.Fragment key={i}>
                   {i > 0 && <div style={{ marginTop: '8px', marginRight: '8px', marginLeft: '-4px' }}>,</div>}
-                  <Field key={i} for="ingredients" autoFocus index={i} maxLength={50} placeholder="Nume" />
-                </>
+                  <Field for="ingredients" autoFocus index={i} maxLength={50} placeholder="Nume" />
+                </React.Fragment>
               ))}
 
               {this.renderFieldActionsFor('ingredients')}
@@ -239,10 +239,10 @@ export default class EditModal extends React.Component {
             <Label>Gramaj{product.quantities.length > 1 ? 'e' : ''}</Label>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {product.quantities.map((x, i) => (
-                <>
+                <React.Fragment key={i}>
                   {i > 0 && <div style={{ marginTop: '8px', marginRight: '4px', marginLeft: '-2px' }}>/</div>}
                   <Field key={i} for="quantities" autoFocus index={i} asNumber max={9999} suffix="g" />
-                </>
+                </React.Fragment>
               ))}
 
               {this.renderFieldActionsFor('quantities')}

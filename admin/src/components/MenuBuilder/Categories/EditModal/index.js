@@ -11,7 +11,7 @@ export default class EditModal extends React.Component {
   state = {
     isOpen: false,
     inEditMode: false,
-    category: emptyCategory,
+    category: { ...emptyCategory },
     allCategories: [],
   };
 
@@ -19,11 +19,12 @@ export default class EditModal extends React.Component {
     if (category) {
       this.setState({ isOpen: true, inEditMode: true, category: { ...category }, allCategories });
     } else {
-      this.setState({ isOpen: true, category: emptyCategory, allCategories });
+      this.setState({ isOpen: true, category: { ...emptyCategory }, allCategories });
     }
   };
 
   save = () => {
+    this.props.onSave(this.state.category);
     this.setState({ isOpen: false });
   };
 
@@ -39,7 +40,7 @@ export default class EditModal extends React.Component {
   isCategoryValid = () => {
     const { category } = this.state;
 
-    if (!category.name.trim().length) {
+    if (!(category.name || '').trim().length) {
       return false;
     }
     if (!this.isNameUnique()) {

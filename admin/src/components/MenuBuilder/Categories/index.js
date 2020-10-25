@@ -15,19 +15,23 @@ export default class Categories extends React.Component {
     }
   };
 
+  renderCategory = ({ name, productCount }) => (
+    <div>
+      <div>{name}</div>
+      <SmallDescription>{productCount} produse</SmallDescription>
+    </div>
+  );
+
   render() {
     return (
       <Panel
         title="Categorii"
         items={this.props.categories}
         type="categorie"
+        renderItem={this.renderCategory}
+        createItem={this.props.createCategory}
         removeItem={this.removeItem}
-        renderItem={({ name, productCount }) => (
-          <div>
-            <div>{name}</div>
-            <SmallDescription>{productCount} produse</SmallDescription>
-          </div>
-        )}
+        moveItem={this.props.moveCategory}
         ItemStyle={Category}
         EditModal={EditModal}
       />

@@ -11,6 +11,7 @@ const categorySchema = new mongoose.Schema(
 categorySchema.set('toJSON', { getters: true });
 categorySchema.options.toJSON.transform = (doc, ret) => {
   const obj = { ...ret };
+  delete obj._id;
   delete obj.__v;
   return obj;
 };
