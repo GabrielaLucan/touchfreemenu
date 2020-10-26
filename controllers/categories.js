@@ -10,7 +10,7 @@ exports.create = async (req, res, next) => {
 
     const highestCategoryIndex = (await Category.findOne().sort({ index: -1 }))?.index || 0;
 
-    const category = await Category.create({ name, index: highestCategoryIndex + 1 });
+    const category = await Category.create({ name, index: highestCategoryIndex + 1, createdAt: new Date(), updatedAt: new Date() });
 
     res.status(201).json(category);
   } catch (err) {

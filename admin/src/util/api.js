@@ -1,7 +1,9 @@
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://admin.localhost:3001/api' : `https://${window.location.hostname}/api`;
 
 const methods = {
-  get: async function (endpoint, token = null) {
+  get: async function (endpoint) {
+    const token = localStorage.token || null;
+
     const options = {
       method: 'GET',
       headers: {
@@ -148,4 +150,12 @@ export const categoryEndpoints = {
   get: async () => await methods.get('categories'),
   move: async (categoryId, destinationIndex) => await methods.post('categories/move', { categoryId, destinationIndex }),
   remove: async (categoryId) => await methods.delete(`categories/${categoryId}`),
+};
+
+export const productEndpoints = {
+  create: async (productData) => await methods.post('products', productData),
+  edit: async (product) => await methods.put('products', { product }),
+  get: async () => await methods.get('products'),
+  move: async (productId, destinationIndex) => await methods.post('products/move', { productId, destinationIndex }),
+  remove: async (productId) => await methods.delete(`products/${productId}`),
 };

@@ -2,36 +2,41 @@ import React from 'react';
 import { SmallDescription } from '../styles';
 import { Product, ProductImageWrapper, ProductImage } from './styles';
 import Panel from '../Panel';
-import EditModal from './EditModal';
+import EditModal from './EditModal/Container';
 
 export default class Products extends React.Component {
-  removeItem = (item) => {
-    if (window.confirm(`Ești sigur că dorești să ștergi produsul "${item.name}"?`)) {
-      window.alert('Produsul a fost șters');
-    }
-  };
+  componentDidMount() {
+    this.props.getProducts();
+  }
+
+  renderProduct = ({ name, imageUrl, weightInGrams, price }) => (
+    <div style={{ display: 'flex' }}>
+      {imageUrl && (
+        <ProductImageWrapper>
+          <ProductImage src={imageUrl} />
+        </ProductImageWrapper>
+      )}
+      <div>
+        <div>{name}</div>
+        {weightInGrams && <SmallDescription>Gramaj: {weightInGrams}g</SmallDescription>}
+        {price && <SmallDescription>Preț: {price} RON</SmallDescription>}
+      </div>
+    </div>
+  );
 
   render() {
     return (
       <Panel
         title="Produse"
-        items={products}
         type="produs"
-        removeItem={this.removeItem}
-        renderItem={({ name, imageUrl, weightInGrams, price }) => (
-          <div style={{ display: 'flex' }}>
-            {imageUrl && (
-              <ProductImageWrapper>
-                <ProductImage src={imageUrl} />
-              </ProductImageWrapper>
-            )}
-            <div>
-              <div>{name}</div>
-              {weightInGrams && <SmallDescription>Gramaj: {weightInGrams}g</SmallDescription>}
-              {price && <SmallDescription>Preț: {price} RON</SmallDescription>}
-            </div>
-          </div>
-        )}
+        items={this.props.products}
+        createItem={this.props.createProduct}
+        renderItem={this.renderProduct}
+        loading={this.props.loading}
+        saveItemEdits={this.props.editProduct}
+        removeItem={this.props.removeProduct}
+        moveItem={this.props.moveProduct}
+        disabled={!this.props.categories.length}
         buttonsWrapperStyle={{
           width: '64px',
           justifyContent: 'space-around',

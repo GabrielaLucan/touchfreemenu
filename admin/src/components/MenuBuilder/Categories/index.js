@@ -2,7 +2,7 @@ import React from 'react';
 import { SmallDescription } from '../styles';
 import { Category } from './styles';
 import Panel from '../Panel';
-import EditModal from './EditModal';
+import EditModal from './EditModal/Container';
 
 export default class Categories extends React.Component {
   componentDidMount() {
@@ -21,10 +21,10 @@ export default class Categories extends React.Component {
       <Panel
         title="Categorii"
         items={this.props.categories}
-        type="categorie"
-        renderItem={this.renderCategory}
-        loading={this.props.loading}
         createItem={this.props.createCategory}
+        renderItem={this.renderCategory}
+        type="categorie"
+        loading={this.props.loading}
         saveItemEdits={this.props.editCategory}
         removeItem={this.props.removeCategory}
         moveItem={this.props.moveCategory}

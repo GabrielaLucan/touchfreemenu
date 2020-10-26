@@ -12,14 +12,13 @@ export default class EditModal extends React.Component {
     isOpen: false,
     inEditMode: false,
     category: { ...emptyCategory },
-    allCategories: [],
   };
 
-  open = (category, allCategories) => {
+  open = (category) => {
     if (category) {
-      this.setState({ isOpen: true, inEditMode: true, category: { ...category }, allCategories });
+      this.setState({ isOpen: true, inEditMode: true, category: { ...category } });
     } else {
-      this.setState({ isOpen: true, category: { ...emptyCategory }, allCategories });
+      this.setState({ isOpen: true, category: { ...emptyCategory } });
     }
   };
 
@@ -54,7 +53,7 @@ export default class EditModal extends React.Component {
     return true;
   };
 
-  isNameUnique = () => !this.state.allCategories.find((x) => x.name == this.state.category.name && x.id !== this.state.category.id);
+  isNameUnique = () => !(this.props.categories || []).find((x) => x.name == this.state.category.name && x.id !== this.state.category.id);
 
   render() {
     const { isOpen, inEditMode, category } = this.state;

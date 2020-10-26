@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faPencilAlt, faTrash, faGripVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Wrapper, ContentWrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button, EmptyPlaceholderWrapper } from './styles';
+import { Wrapper, ContentWrapper, ButtonsWrapper, DragIconWrapper, EditToggle, Title, Button, EmptyPlaceholderWrapper, SmallDescription } from './styles';
 import { FormInput } from '../styles';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import LoadingIndicatorSpinner from '../../shared/LoadingIndicator/Spinner';
@@ -31,13 +31,16 @@ export default class Panel extends React.Component {
   remove = async (item) => {
     const { type, removeItem } = this.props;
 
-    await this.confirmationModal.open({ title: 'Ștergere categorie', text: `Ești sigur că dorești să ștergi ${type == 'categorie' ? 'categoria' : 'produsul'} "${item.name}"?` });
+    await this.confirmationModal.open({ title: `Ștergere ${type}`, text: `Ești sigur că dorești să ștergi ${type == 'categorie' ? 'categoria' : 'produsul'} "${item.name}"?` });
     removeItem(item.id);
   };
 
+  openEditModal = () => this.editModal.getWrappedInstance().open();
+
   render() {
+    const { openEditModal } = this;
     const { inEditMode, query } = this.state;
-    const { title, items, type, renderItem, createItem, saveItemEdits, removeItem, ItemStyle, EditModal, buttonsWrapperStyle, loading } = this.props;
+    const { title, items, type, renderItem, createItem, saveItemEdits, disabled, ItemStyle, EditModal, buttonsWrapperStyle, loading } = this.props;
 
     return (
       <Wrapper>
@@ -69,7 +72,7 @@ export default class Panel extends React.Component {
                               </div>
                               {inEditMode && (
                                 <ButtonsWrapper style={buttonsWrapperStyle}>
-                                  <Button title={`Editează ${type}`} onClick={() => this.editModal.open(item, items)}>
+                                  <Button title={`Editează ${type}`} onClick={() => openEditModal(item, items)}>
                                     <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
                                   </Button>
                                   <Button title={`Șterge ${type}`} className="destructive" onClick={() => this.remove(item)}>
@@ -89,20 +92,22 @@ export default class Panel extends React.Component {
           </DragDropContext>
           {!items.length && (
             <EmptyPlaceholderWrapper>
-              {type == 'categorie' ? 'Nicio categorie încă.' : 'Nu există niciun produs încă.'}
+              {type == 'categorie' ? 'Nicio categorie încă.' : 'Niciun produs încă.'}
               <Button
                 className="green"
+                disabled={disabled}
                 style={{ marginLeft: '0', marginTop: '24px' }}
                 title={`Adaugă ${type == 'categorie' ? 'o categorie' : 'un produs'}`}
-                onClick={() => this.editModal.open(undefined, items)}
+                onClick={() => this.openEditModal(undefined, items)}
               >
                 <FontAwesomeIcon icon={faPlus} />
                 Adaugă
               </Button>
             </EmptyPlaceholderWrapper>
           )}
+          {disabled && <SmallDescription style={{ marginTop: '-14px' }}>Adaugă o categorie pentru a putea adăuga produse.</SmallDescription>}
           {items.length > 0 && (
-            <Button className="green" title={`Adaugă ${type}`} style={{ marginLeft: 0, alignSelf: 'flex-end', marginTop: '16px' }} onClick={() => this.editModal.open(undefined, items)}>
+            <Button className="green" title={`Adaugă ${type}`} style={{ marginLeft: 0, alignSelf: 'flex-end', marginTop: '16px' }} onClick={() => openEditModal(undefined, items)}>
               <FontAwesomeIcon icon={faPlus} />
               Adaugă
             </Button>

@@ -78,6 +78,7 @@ export const Button = styled.div`
   white-space: nowrap;
   transition: all 0.15s ease-in-out;
   background: ${(props) => props.theme.blue}12;
+  ${(props) => props.disabled && 'opacity: 0.4; pointer-events: none'};
 
   span {
     display: inline-block;
@@ -166,4 +167,11 @@ export const EmptyPlaceholderWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 50px 0;
+`;
+
+export const SmallDescription = styled.div`
+  font-size: 12px;
+  font-weight: 100;
+  margin-top: 8px;
+  color: ${(props) => props.theme.mutedText};
 `;

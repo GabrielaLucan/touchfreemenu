@@ -14,7 +14,6 @@ import {
   ProductImageWrapper,
   RemoveImageButton,
 } from '../../Categories/EditModal/styles';
-import { categories as mockedCategories } from '../../Categories';
 import { FormInput, Label, SmallDescription, FormInputWrapper, SelectInput, Suffix } from '../../styles';
 import { Button as ActionButton } from '../../Panel/styles';
 import { faCheck, faTimes, faPlus, faCamera, faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -22,24 +21,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../../shared/Button';
 import Dropzone from 'react-dropzone';
 
-const emptyProduct = { name: '', photoUrl: '', ingredients: [''], quantities: [null], price: '' };
+const emptyProduct = { name: '', imageUrl: '', ingredients: [], quantities: [], price: '', isDiscounted: false, categoryId: undefined, discountedPrice: '' };
 
 export default class EditModal extends React.Component {
   state = {
     isOpen: false,
     inEditMode: false,
-    product: emptyProduct,
+    product: { ...emptyProduct },
+    selectedImageBase64: '',
   };
 
   open = (product) => {
     if (product) {
       this.setState({ isOpen: true, inEditMode: true, product: { ...product } });
     } else {
-      this.setState({ isOpen: true, inEditMode: false, product: emptyProduct });
+      const firstCategory = this.props.categories[0];
+      this.setState({ isOpen: true, inEditMode: false, product: { ...emptyProduct, categoryId: firstCategory.id } });
     }
   };
 
   save = () => {
+    const { selectedImage, product } = this.state;
+
+    if (this.state.inEditMode) {
+      this.props.onSave({ ...product, imageFile: selectedImage });
+    } else {
+      this.props.onCreate({ ...product, imageFile: selectedImage });
+    }
     this.setState({ isOpen: false });
   };
 
@@ -50,14 +58,14 @@ export default class EditModal extends React.Component {
   Field = ({ label, for: propertyName, index, withAddButton, suffix, asNumber, addNewField, maxLength, max, description, ...otherInputProps }) => {
     const { product } = this.state;
     const isListItem = typeof index !== 'undefined';
-    const currentValue = (isListItem ? product[propertyName][index] : product[propertyName]) || '';
+    const currentValue = (isListItem ? product[propertyName][index] || '' : product[propertyName]) || '';
     return (
       <>
         {label && <Label>{label}</Label>}
         <FormInputWrapper>
           <FormInput
             className={[asNumber ? 'small' : '', suffix ? 'with-suffix' : ''].join(' ')}
-            value={currentValue}
+            value={currentValue || ''}
             style={isListItem ? { width: (currentValue + '').length * 6 + 45 + 'px', minWidth: otherInputProps.placeholder ? 120 : 50 + 'px' } : {}}
             onChange={(e) => {
               const newValue = e.target.value;
@@ -75,7 +83,11 @@ export default class EditModal extends React.Component {
               }
 
               if (isListItem) {
-                product[propertyName][index] = newValue;
+                if (!product[propertyName][index]) {
+                  product[propertyName].push(newValue);
+                } else {
+                  product[propertyName][index] = newValue;
+                }
               } else {
                 product[propertyName] = newValue;
               }
@@ -113,19 +125,17 @@ export default class EditModal extends React.Component {
   );
 
   toggleDiscounted = () => {
-    this.state.product.isDiscounted = !this.state.product.isDiscounted;
-    this.setState({});
+    this.setState({ product: { ...this.state.product, isDiscounted: !this.state.product.isDiscounted } });
   };
 
-  setBase64Image = (files) => {
+  setProductImage = (files) => {
     const file = files[0];
     const reader = new FileReader();
 
     reader.addEventListener(
       'load',
       () => {
-        this.state.product.photoBase64 = reader.result;
-        this.setState({ showsPhotoPicker: false });
+        this.setState({ showsImagePicker: false, product: { ...this.state.product }, selectedImage: file, selectedImageBase64: reader.result });
       },
       false
     );
@@ -136,29 +146,25 @@ export default class EditModal extends React.Component {
   };
 
   removeProductImage = () => {
-    this.state.product.photoBase64 = '';
-    this.state.product.photoImageUrl = '';
-    this.setState({});
+    this.setState({ selectedImageBase64: '', imageUrl: '' });
   };
 
   changeProductCategory = (e) => {
-    this.state.product.categoryId = e.target.value;
-    this.setState({});
+    this.setState({ product: { ...this.state.product, categoryId: e.target.value } });
   };
 
   isProductValid = () => {
-    const { name = '', price } = this.state.product;
+    const { name = '', price, categoryId } = this.state.product;
 
-    if (!name.length || !price) {
+    if (!name.length || !price || !categoryId) {
       return false;
     }
     return true;
   };
 
   render() {
-    const { isOpen, inEditMode, product, showsPhotoPicker } = this.state;
-    const categories = mockedCategories;
-    // const { categories } = this.props;
+    const { isOpen, inEditMode, product, showsImagePicker, selectedImageBase64 } = this.state;
+    const { categories } = this.props;
 
     const { Field } = this;
 
@@ -177,9 +183,7 @@ export default class EditModal extends React.Component {
             <Label>Categorie</Label>
 
             <SelectInput value={product.categoryId} onChange={this.changeProductCategory}>
-              <option value="">
-                Alege..
-              </option>
+              <option value="">Alege..</option>
               {categories.map((x) => (
                 <option key={x.id} value={x.id}>
                   {x.name}
@@ -188,15 +192,15 @@ export default class EditModal extends React.Component {
             </SelectInput>
 
             <div style={{ position: 'absolute', top: '0', right: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'center', zIndex: 10 }}>
-              {!product.photoUrl && !product.photoBase64 ? (
-                !showsPhotoPicker ? (
-                  <ActionButton className="green" title="Adaugă poză" style={{ marginTop: '22px' }} onClick={() => this.setState({ showsPhotoPicker: true })}>
+              {!product.imageUrl && !selectedImageBase64 ? (
+                !showsImagePicker ? (
+                  <ActionButton className="green" title="Adaugă poză" style={{ marginTop: '22px' }} onClick={() => this.setState({ showsImagePicker: true })}>
                     <FontAwesomeIcon icon={faCamera} />
                     Adaugă poză
                   </ActionButton>
                 ) : (
                   <>
-                    <Dropzone onDrop={this.setBase64Image}>
+                    <Dropzone onDrop={this.setProductImage}>
                       {({ getRootProps, getInputProps, isDragActive }) => (
                         <section>
                           <DropArea {...getRootProps()} style={{ backgroundColor: isDragActive ? '#fff' : undefined }}>
@@ -206,12 +210,12 @@ export default class EditModal extends React.Component {
                         </section>
                       )}
                     </Dropzone>
-                    <Button type="cancel" style={{ marginTop: '0' }} onClick={() => this.setState({ showsPhotoPicker: false })} text="Anulează" />
+                    <Button type="cancel" style={{ marginTop: '0' }} onClick={() => this.setState({ showsImagePicker: false })} text="Anulează" />
                   </>
                 )
               ) : (
                 <ProductImageWrapper onClick={this.removeProductImage}>
-                  <img src={product.photoUrl || product.photoBase64} style={{ height: '100%' }} />
+                  <img src={product.imageUrl || selectedImageBase64} style={{ height: '100%' }} />
                   <RemoveImageButton>Șterge</RemoveImageButton>
                 </ProductImageWrapper>
               )}
@@ -222,11 +226,11 @@ export default class EditModal extends React.Component {
               <DiscountToggle checked={product.isDiscounted} title="La reducere?" icons={false} onChange={this.toggleDiscounted} />
               <div style={{ marginLeft: '8px' }}>{product.isDiscounted ? 'La reducere' : 'La reducere?'}</div>
             </div>
-            {product.isDiscounted && <Field for="discountedPrice" label="Preț redus" asNumber max={9999} suffix="RON" />}
+            <Field for="discountedPrice" label="Preț redus" asNumber max={9999} suffix="RON" />
 
             <Label>Ingrediente</Label>
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', maxWidth: '670px' }}>
-              {product.ingredients.map((x, i) => (
+              {(product.ingredients.length ? product.ingredients : ['']).map((x, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <div style={{ marginTop: '8px', marginRight: '8px', marginLeft: '-4px' }}>,</div>}
                   <Field for="ingredients" autoFocus index={i} maxLength={50} placeholder="Nume" />
@@ -238,7 +242,7 @@ export default class EditModal extends React.Component {
 
             <Label>Gramaj{product.quantities.length > 1 ? 'e' : ''}</Label>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {product.quantities.map((x, i) => (
+              {(product.quantities.length ? product.quantities : ['']).map((x, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <div style={{ marginTop: '8px', marginRight: '4px', marginLeft: '-2px' }}>/</div>}
                   <Field key={i} for="quantities" autoFocus index={i} asNumber max={9999} suffix="g" />

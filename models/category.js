@@ -4,6 +4,8 @@ const categorySchema = new mongoose.Schema(
   {
     name: { type: String, required: true, unique: true },
     index: { type: Number },
+    createdAt: Date,
+    updatedAt: Date,
   },
   { collation: { locale: 'en', strength: 1 } }
 );
