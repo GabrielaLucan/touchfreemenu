@@ -12,7 +12,7 @@ import {
   DiscountToggle,
   DropArea,
   ProductImageWrapper,
-  RemoveImageButton,
+  ChangeImageButton,
 } from '../../Categories/EditModal/styles';
 import { FormInput, Label, SmallDescription, FormInputWrapper, SelectInput, Suffix } from '../../styles';
 import { Button as ActionButton } from '../../Panel/styles';
@@ -55,7 +55,7 @@ export default class EditModal extends React.Component {
     this.setState({ isOpen: false });
   };
 
-  Field = ({ label, for: propertyName, index, withAddButton, suffix, asNumber, addNewField, maxLength, max, description, ...otherInputProps }) => {
+  Field = ({ label, for: propertyName, index, triggerChar, triggerAction, triggerActionReverse, suffix, asNumber, addNewField, maxLength, max, description, ...otherInputProps }) => {
     const { product } = this.state;
     const isListItem = typeof index !== 'undefined';
     const currentValue = (isListItem ? product[propertyName][index] || '' : product[propertyName]) || '';
@@ -67,8 +67,14 @@ export default class EditModal extends React.Component {
             className={[asNumber ? 'small' : '', suffix ? 'with-suffix' : ''].join(' ')}
             value={currentValue || ''}
             style={isListItem ? { width: (currentValue + '').length * 6 + 45 + 'px', minWidth: otherInputProps.placeholder ? 120 : 50 + 'px' } : {}}
+            onKeyDown={(e) => !e.target.value && e.key === 'Backspace' && triggerActionReverse && triggerActionReverse()}
             onChange={(e) => {
               const newValue = e.target.value;
+
+              if (newValue.endsWith(triggerChar)) {
+                triggerAction();
+                return;
+              }
 
               if (asNumber && !/^(\d)*(\.)?(\d)*$/.test(newValue)) {
                 return;
@@ -83,7 +89,7 @@ export default class EditModal extends React.Component {
               }
 
               if (isListItem) {
-                if (!product[propertyName][index]) {
+                if (typeof product[propertyName][index] == 'undefined') {
                   product[propertyName].push(newValue);
                 } else {
                   product[propertyName][index] = newValue;
@@ -149,6 +155,10 @@ export default class EditModal extends React.Component {
     this.setState({ product: { ...this.state.product, imageUrl: '' }, selectedImageBase64: '', selectedImage: undefined });
   };
 
+  changeProductImage = () => {
+    this.setState({ product: { ...this.state.product, imageUrl: '' }, selectedImageBase64: '', selectedImage: undefined, showsImagePicker: true });
+  };
+
   changeProductCategory = (e) => {
     this.setState({ product: { ...this.state.product, categoryId: e.target.value } });
   };
@@ -160,6 +170,26 @@ export default class EditModal extends React.Component {
       return false;
     }
     return true;
+  };
+
+  addQuantity = () => {
+    this.state.product.quantities.push(null);
+    this.setState({});
+  };
+
+  removeQuantity = () => {
+    this.state.product.quantities.pop();
+    this.setState({});
+  };
+
+  addIngredient = () => {
+    this.state.product.ingredients.push(null);
+    this.setState({});
+  };
+
+  removeIngredient = () => {
+    this.state.product.ingredients.pop();
+    this.setState({});
   };
 
   render() {
@@ -213,9 +243,12 @@ export default class EditModal extends React.Component {
                   </>
                 )
               ) : (
-                <ProductImageWrapper onClick={this.removeProductImage}>
+                <ProductImageWrapper>
                   <img src={product.imageUrl || selectedImageBase64} style={{ height: '100%' }} />
-                  <RemoveImageButton>Șterge</RemoveImageButton>
+                  <ChangeImageButton onClick={this.changeProductImage}>Schimbă</ChangeImageButton>
+                  <ChangeImageButton className="remove" onClick={this.removeProductImage}>
+                    Șterge
+                  </ChangeImageButton>
                 </ProductImageWrapper>
               )}
             </div>
@@ -232,7 +265,7 @@ export default class EditModal extends React.Component {
               {(product.ingredients.length ? product.ingredients : ['']).map((x, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <div style={{ marginTop: '8px', marginRight: '8px', marginLeft: '-4px' }}>,</div>}
-                  <Field for="ingredients" autoFocus index={i} maxLength={50} placeholder="Nume" />
+                  <Field for="ingredients" triggerChar="," triggerAction={this.addIngredient} triggerActionReverse={this.removeIngredient} autoFocus index={i} maxLength={50} placeholder="Nume" />
                 </React.Fragment>
               ))}
 
@@ -244,7 +277,7 @@ export default class EditModal extends React.Component {
               {(product.quantities.length ? product.quantities : ['']).map((x, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <div style={{ marginTop: '8px', marginRight: '4px', marginLeft: '-2px' }}>/</div>}
-                  <Field key={i} for="quantities" autoFocus index={i} asNumber max={9999} suffix="g" />
+                  <Field key={i} for="quantities" triggerChar="/" triggerAction={this.addQuantity} triggerActionReverse={this.removeQuantity} autoFocus index={i} asNumber max={9999} suffix="g" />
                 </React.Fragment>
               ))}
 

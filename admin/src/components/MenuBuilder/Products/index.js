@@ -9,7 +9,7 @@ export default class Products extends React.Component {
     this.props.getProducts();
   }
 
-  renderProduct = ({ name, imageUrl, weightInGrams, price }) => (
+  renderProduct = ({ name, imageUrl, weightInGrams, price, isDiscounted, discountedPrice, ingredients, quantities }) => (
     <div style={{ display: 'flex' }}>
       {imageUrl && (
         <ProductImageWrapper>
@@ -20,6 +20,13 @@ export default class Products extends React.Component {
         <div>{name}</div>
         {weightInGrams && <SmallDescription>Gramaj: {weightInGrams}g</SmallDescription>}
         {price && <SmallDescription>Preț: {price} RON</SmallDescription>}
+        {isDiscounted && <SmallDescription>Preț redus: {discountedPrice} RON</SmallDescription>}
+        {ingredients.length > 0 && <SmallDescription>Ingrediente: {ingredients.map((x) => x).join(', ')}</SmallDescription>}
+        {quantities.length > 0 && (
+          <SmallDescription>
+            Gramaj{quantities.length > 1 ? 'e' : ''}: {quantities.map((x) => x + 'g').join('/')}
+          </SmallDescription>
+        )}
       </div>
     </div>
   );

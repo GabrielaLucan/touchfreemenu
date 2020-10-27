@@ -168,7 +168,7 @@ export const ProductImageWrapper = styled.div`
   }
 `;
 
-export const RemoveImageButton = styled.div`
+export const ChangeImageButton = styled.div`
   position: absolute;
   top: 8px;
   right: 8px;
@@ -176,8 +176,17 @@ export const RemoveImageButton = styled.div`
   cursor: pointer;
   color: white;
   border-radius: 8px;
-  background: ${(props) => props.theme.red};
+  background: ${(props) => props.theme.accent};
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
+
+  &.remove {
+    background: ${(props) => props.theme.red};
+    top: 42px;
+  }
+
+  :hover {
+    opacity: 0.95;
+  }
 `;
 
 export const ErrorText = styled.div`

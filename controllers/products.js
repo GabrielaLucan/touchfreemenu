@@ -40,8 +40,8 @@ exports.create = async (req, res, next) => {
       name,
       imageUrl: req.file.location || '',
       imageKey: req.uploadedImageKey || '',
-      ingredients,
-      quantities,
+      ingredients: ingredients.split(','),
+      quantities: quantities.split(','),
       price,
       isDiscounted,
       discountedPrice,
@@ -107,7 +107,7 @@ exports.edit = async (req, res, next) => {
 
     const originalProduct = await Product.findById(id);
 
-    const updatedFields = { name, ingredients, quantities, price, discountedPrice, categoryId, isDiscounted, updatedAt: new Date() };
+    const updatedFields = { name, ingredients: ingredients.split(','), quantities: quantities.split(','), price, discountedPrice, categoryId, isDiscounted, updatedAt: new Date() };
 
     //Image has changed
     if (!imageUrl) {

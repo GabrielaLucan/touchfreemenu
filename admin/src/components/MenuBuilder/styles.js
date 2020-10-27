@@ -109,4 +109,5 @@ export const Suffix = styled.div`
   top: 18px;
   z-index: 15;
   color: ${(props) => props.theme.mutedText}bb;
+  pointer-events: none;
 `;
