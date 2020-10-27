@@ -62,16 +62,15 @@ exports.move = async (req, res, next) => {
 
 exports.edit = async (req, res, next) => {
   try {
-    const { category } = req.body;
+    const { id, name } = req.body;
 
-    const updatedCategory = await Category.findByIdAndUpdate(category.id, { $set: { name: category.name } }, { new: true });
+    const updatedCategory = await Category.findByIdAndUpdate(id, { $set: { name } }, { new: true });
 
     res.status(201).json(updatedCategory);
   } catch (err) {
     next(err);
   }
 };
-
 exports.delete = async (req, res, next) => {
   try {
     const { categoryId } = req.params;

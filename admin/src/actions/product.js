@@ -8,15 +8,11 @@ export const CREATE_PRODUCT_ERROR = 'CREATE_PRODUCT_ERROR';
 export const createProduct = (product) => async (dispatch) => {
   dispatch({ type: CREATE_PRODUCT_PENDING });
 
-  const { imageFile } = product;
   const productData = new FormData();
-  productData.append('imageFile', imageFile);
 
-  delete product.imageFile;
   Object.keys(product).forEach((key) => {
     productData.append(key, product[key]);
   });
-
 
   try {
     const createdProduct = await productEndpoints.create(productData);
@@ -52,8 +48,14 @@ export const EDIT_PRODUCT_ERROR = 'EDIT_PRODUCT_ERROR';
 export const editProduct = (product) => async (dispatch) => {
   dispatch({ type: EDIT_PRODUCT_PENDING });
 
+  const productData = new FormData();
+
+  Object.keys(product).forEach((key) => {
+    productData.append(key, product[key]);
+  });
+
   try {
-    const updatedProduct = await productEndpoints.edit(product);
+    const updatedProduct = await productEndpoints.edit(productData);
 
     dispatch({ type: EDIT_PRODUCT_SUCCESS, updatedProduct });
   } catch (error) {

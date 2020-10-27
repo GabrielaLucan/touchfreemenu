@@ -34,30 +34,24 @@ exports.create = async (req, res, next) => {
   try {
     const { name, ingredients, quantities, price, discountedPrice, categoryId, isDiscounted } = req.body;
 
-    let imageUrl = '';
-    let imageKey = '';
-
-    if (req.file) {
-      imageUrl = req.file.location;
-      imageKey = req.uploadedPdfKey;
-    }
-
     const highestProductIndex = (await Product.findOne().sort({ index: -1 }))?.index || 0;
 
     const product = await Product.create({
       name,
-      imageUrl,
-      imageKey,
+      imageUrl: req.file.location || '',
+      imageKey: req.uploadedImageKey || '',
       ingredients,
       quantities,
       price,
       isDiscounted,
       discountedPrice,
-      category: '5f9743882484ae1d58a5a15f',
+      categoryId,
       index: highestProductIndex + 1,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    await product.populate('category').execPopulate();
 
     res.status(201).json(product);
   } catch (err) {
@@ -67,7 +61,7 @@ exports.create = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).populate('category');
 
     products.forEach((x) => {
       x.productCount = 23;
@@ -109,9 +103,32 @@ exports.move = async (req, res, next) => {
 
 exports.edit = async (req, res, next) => {
   try {
-    const { product } = req.body;
+    const { id, name, ingredients, quantities, imageUrl, price, discountedPrice, categoryId, isDiscounted } = req.body;
 
-    const updatedProduct = await Product.findByIdAndUpdate(product.id, { $set: { name: product.name } }, { new: true });
+    const originalProduct = await Product.findById(id);
+
+    const updatedFields = { name, ingredients, quantities, price, discountedPrice, categoryId, isDiscounted, updatedAt: new Date() };
+
+    //Image has changed
+    if (!imageUrl) {
+      //Remove old image
+      if (originalProduct.imageUrl) {
+        await new AWS.S3().deleteObject({ Bucket: process.env.AWS_BUCKET_PRODUCT_IMAGES, Key: originalProduct.imageKey }, console.log);
+      }
+
+      //New image has been supplied
+      if (req.file) {
+        updatedFields.imageUrl = req.file.location;
+        updatedFields.imageKey = req.uploadedImageKey;
+
+        //Image has been removed
+      } else {
+        updatedFields.imageUrl = '';
+        updatedFields.imageKey = '';
+      }
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(id, { $set: updatedFields }, { new: true });
 
     res.status(201).json(updatedProduct);
   } catch (err) {

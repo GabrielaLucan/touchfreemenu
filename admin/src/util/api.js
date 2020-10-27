@@ -146,7 +146,7 @@ export async function toggleCovidQuestionnaire() {
 
 export const categoryEndpoints = {
   create: async (category) => await methods.post('categories', category),
-  edit: async (category) => await methods.put('categories', { category }),
+  edit: async (category) => await methods.put('categories', category),
   get: async () => await methods.get('categories'),
   move: async (categoryId, destinationIndex) => await methods.post('categories/move', { categoryId, destinationIndex }),
   remove: async (categoryId) => await methods.delete(`categories/${categoryId}`),
@@ -154,7 +154,7 @@ export const categoryEndpoints = {
 
 export const productEndpoints = {
   create: async (productData) => await methods.post('products', productData),
-  edit: async (product) => await methods.put('products', { product }),
+  edit: async (productData) => await methods.put('products', productData),
   get: async () => await methods.get('products'),
   move: async (productId, destinationIndex) => await methods.post('products/move', { productId, destinationIndex }),
   remove: async (productId) => await methods.delete(`products/${productId}`),

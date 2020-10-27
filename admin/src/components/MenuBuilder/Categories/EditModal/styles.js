@@ -21,7 +21,7 @@ export const Modal = styled.div`
   position: fixed;
   z-index: 100;
   width: 800px;
-  top: 250px;
+  top: 160px;
   left: 0;
   right: 0;
   margin: auto;

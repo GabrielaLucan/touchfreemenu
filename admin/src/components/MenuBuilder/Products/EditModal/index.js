@@ -135,7 +135,7 @@ export default class EditModal extends React.Component {
     reader.addEventListener(
       'load',
       () => {
-        this.setState({ showsImagePicker: false, product: { ...this.state.product }, selectedImage: file, selectedImageBase64: reader.result });
+        this.setState({ showsImagePicker: false, product: { ...this.state.product, imageUrl: '' }, selectedImage: file, selectedImageBase64: reader.result });
       },
       false
     );
@@ -146,7 +146,7 @@ export default class EditModal extends React.Component {
   };
 
   removeProductImage = () => {
-    this.setState({ selectedImageBase64: '', imageUrl: '' });
+    this.setState({ product: { ...this.state.product, imageUrl: '' }, selectedImageBase64: '', selectedImage: undefined });
   };
 
   changeProductCategory = (e) => {
@@ -183,7 +183,6 @@ export default class EditModal extends React.Component {
             <Label>Categorie</Label>
 
             <SelectInput value={product.categoryId} onChange={this.changeProductCategory}>
-              <option value="">Alege..</option>
               {categories.map((x) => (
                 <option key={x.id} value={x.id}>
                   {x.name}
@@ -226,7 +225,7 @@ export default class EditModal extends React.Component {
               <DiscountToggle checked={product.isDiscounted} title="La reducere?" icons={false} onChange={this.toggleDiscounted} />
               <div style={{ marginLeft: '8px' }}>{product.isDiscounted ? 'La reducere' : 'La reducere?'}</div>
             </div>
-            <Field for="discountedPrice" label="Preț redus" asNumber max={9999} suffix="RON" />
+            {product.isDiscounted && <Field for="discountedPrice" label="Preț redus" asNumber max={9999} suffix="RON" />}
 
             <Label>Ingrediente</Label>
             <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', maxWidth: '670px' }}>

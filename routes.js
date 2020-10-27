@@ -25,7 +25,7 @@ router.post('/categories/move', auth.withCurrentUser, categories.move);
 
 router.get('/products', auth.withCurrentUser, products.getAll);
 router.post('/products', auth.withCurrentUser, products.uploadImageToS3, products.create);
-router.put('/products', auth.withCurrentUser, products.edit);
+router.put('/products', auth.withCurrentUser, products.uploadImageToS3, products.edit);
 router.delete('/products/:productId', auth.withCurrentUser, products.delete);
 router.post('/products/move', auth.withCurrentUser, products.move);
 
@@ -77,6 +77,8 @@ module.exports = (app) => {
     if (err.type === 'invalidFileName') {
       return res.status(400).json({ message: err.message });
     }
+
+    console.log('err', err);
 
     return res.status(500).json(err);
   });
