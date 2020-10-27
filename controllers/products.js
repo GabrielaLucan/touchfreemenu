@@ -38,10 +38,10 @@ exports.create = async (req, res, next) => {
 
     const product = await Product.create({
       name,
-      imageUrl: req.file.location || '',
+      imageUrl: req.file?.location || '',
       imageKey: req.uploadedImageKey || '',
-      ingredients: ingredients.split(','),
-      quantities: quantities.split(','),
+      ingredients: ingredients.length ? ingredients.split(',') : [],
+      quantities: quantities.length ? quantities.split(',') : [],
       price,
       isDiscounted,
       discountedPrice,
@@ -51,8 +51,6 @@ exports.create = async (req, res, next) => {
       updatedAt: new Date(),
     });
 
-    await product.populate('category').execPopulate();
-
     res.status(201).json(product);
   } catch (err) {
     next(err);
@@ -61,7 +59,7 @@ exports.create = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   try {
-    const products = await Product.find({}).populate('category');
+    const products = await Product.find({});
 
     products.forEach((x) => {
       x.productCount = 23;
@@ -107,7 +105,16 @@ exports.edit = async (req, res, next) => {
 
     const originalProduct = await Product.findById(id);
 
-    const updatedFields = { name, ingredients: ingredients.split(','), quantities: quantities.split(','), price, discountedPrice, categoryId, isDiscounted, updatedAt: new Date() };
+    const updatedFields = {
+      name,
+      ingredients: ingredients.length ? ingredients.split(',') : [],
+      quantities: quantities.length ? quantities.split(',') : [],
+      price,
+      discountedPrice,
+      categoryId,
+      isDiscounted,
+      updatedAt: new Date(),
+    };
 
     //Image has changed
     if (!imageUrl) {

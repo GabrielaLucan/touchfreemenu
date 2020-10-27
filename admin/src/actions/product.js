@@ -11,7 +11,7 @@ export const createProduct = (product) => async (dispatch) => {
   const productData = new FormData();
 
   Object.keys(product).forEach((key) => {
-    productData.append(key, product[key]);
+    productData.append(key, product[key] == null ? '' : product[key]);
   });
 
   try {
@@ -51,7 +51,7 @@ export const editProduct = (product) => async (dispatch) => {
   const productData = new FormData();
 
   Object.keys(product).forEach((key) => {
-    productData.append(key, product[key]);
+    productData.append(key, product[key] == null ? '' : product[key]);
   });
 
   try {

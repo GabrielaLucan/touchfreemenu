@@ -36,7 +36,7 @@ export default class Products extends React.Component {
       <Panel
         title="Produse"
         type="produs"
-        items={this.props.products}
+        items={this.props.products.map((x) => ({ ...x, category: this.props.categories.find((y) => y.id == x.categoryId) }))}
         createItem={this.props.createProduct}
         renderItem={this.renderProduct}
         loading={this.props.loading}

@@ -26,6 +26,8 @@ export default class Panel extends React.Component {
     }
   };
 
+  getItems = () => this.props.items.filter(this.filterItems).sort(this.sortItems);
+
   onDragEnd = (params) => {
     const { destination, source, draggableId } = params;
 
@@ -67,38 +69,37 @@ export default class Panel extends React.Component {
                     {items.length > 0 && <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />}
                   </div>
                   <div style={{ marginTop: '8px', border: '1px solid #0000', width: '100%' }}>
-                    {items
-                      .filter(this.filterItems)
-                      .sort(this.sortItems)
-                      .map((item) => (
-                        <>
-                          {item.category && <SmallDescription style={{ marginTop: '8px' }}>{item.category.name}</SmallDescription>}
-                          <Draggable key={item.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inEditMode} key={item.id} draggableId={item.id} index={item.index}>
-                            {(provided) => (
-                              <ItemStyle ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={inEditMode ? 'editable' : ''}>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                  {inEditMode && (
-                                    <DragIconWrapper>
-                                      <FontAwesomeIcon icon={faGripVertical} />
-                                    </DragIconWrapper>
-                                  )}
-                                  {renderItem(item)}
-                                </div>
+                    {this.getItems().map((item, i) => (
+                      <>
+                        {item.category && ((this.getItems()[i - 1] || {}).category || {}).id != item.category.id && (
+                          <SmallDescription style={{ marginTop: '16px' }}>{item.category.name}</SmallDescription>
+                        )}
+                        <Draggable key={item.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inEditMode} key={item.id} draggableId={item.id} index={item.index}>
+                          {(provided) => (
+                            <ItemStyle ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={inEditMode ? 'editable' : ''}>
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
                                 {inEditMode && (
-                                  <ButtonsWrapper style={buttonsWrapperStyle}>
-                                    <Button title={`Editează ${type}`} onClick={() => openEditModal(item, items)}>
-                                      <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
-                                    </Button>
-                                    <Button title={`Șterge ${type}`} className="destructive" onClick={() => this.remove(item)}>
-                                      <FontAwesomeIcon icon={faTrash} />
-                                    </Button>
-                                  </ButtonsWrapper>
+                                  <DragIconWrapper>
+                                    <FontAwesomeIcon icon={faGripVertical} />
+                                  </DragIconWrapper>
                                 )}
-                              </ItemStyle>
-                            )}
-                          </Draggable>
-                        </>
-                      ))}
+                                {renderItem(item)}
+                              </div>
+                              {inEditMode && (
+                                <ButtonsWrapper style={buttonsWrapperStyle}>
+                                  <Button title={`Editează ${type}`} onClick={() => openEditModal(item, items)}>
+                                    <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
+                                  </Button>
+                                  <Button title={`Șterge ${type}`} className="destructive" onClick={() => this.remove(item)}>
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </Button>
+                                </ButtonsWrapper>
+                              )}
+                            </ItemStyle>
+                          )}
+                        </Draggable>
+                      </>
+                    ))}
                   </div>
                   {provided.placeholder}
                 </div>
