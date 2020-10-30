@@ -113,7 +113,7 @@ exports.uploadFileToS3 = multer({
   storage: multerS3({
     s3: new AWS.S3(),
     acl: 'public-read',
-    bucket: process.env.AWS_BUCKET_NAME,
+    bucket: process.env.AWS_BUCKET_PDF_MENUS,
     contentType: (req, file, cb) => {
       cb(null, 'application/pdf');
     },
@@ -160,7 +160,7 @@ exports.showPdfMenu = async (req, res, next) => {
 
       s3.getObject(
         {
-          Bucket: process.env.AWS_BUCKET_NAME,
+          Bucket: process.env.AWS_BUCKET_PDF_MENUS,
           Key: user.pdfKey,
         },
         (error, data) => {
