@@ -13,6 +13,12 @@ export default class Panel extends React.Component {
     inEditMode: false,
   };
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.openEditModal();
+    }, 300);
+  }
+
   filterItems = (x) => x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.state.query.toLowerCase().trim());
   sortItems = (a, b) => {
     if (!a.category) {
@@ -67,6 +73,10 @@ export default class Panel extends React.Component {
                   <Title>{title}</Title>
                   <div style={{ display: 'flex' }}>
                     {items.length > 0 && <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />}
+                    <Button className="green" disabled={disabled} title={`Adaugă ${type == 'categorie' ? 'o categorie' : 'un produs'}`} onClick={() => this.openEditModal(undefined, items)}>
+                      <FontAwesomeIcon icon={faPlus} />
+                      Adaugă
+                    </Button>
                   </div>
                   <div style={{ marginTop: '8px', border: '1px solid #0000', width: '100%' }}>
                     {this.getItems().map((item, i) => (
@@ -122,12 +132,6 @@ export default class Panel extends React.Component {
             </EmptyPlaceholderWrapper>
           )}
           {disabled && <SmallDescription style={{ marginTop: '-14px' }}>Adaugă o categorie pentru a putea adăuga produse.</SmallDescription>}
-          {items.length > 0 && (
-            <Button className="green" title={`Adaugă ${type}`} style={{ marginLeft: 0, alignSelf: 'flex-end', marginTop: '16px' }} onClick={() => openEditModal(undefined, items)}>
-              <FontAwesomeIcon icon={faPlus} />
-              Adaugă
-            </Button>
-          )}
         </ContentWrapper>
         <EditModal onCreate={createItem} onSave={saveItemEdits} ref={(x) => (this.editModal = x)} />
         <ConfirmationModal ref={(x) => (this.confirmationModal = x)} />

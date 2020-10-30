@@ -40,8 +40,8 @@ exports.create = async (req, res, next) => {
       name,
       imageUrl: req.file?.location || '',
       imageKey: req.uploadedImageKey || '',
-      ingredients: ingredients.length ? ingredients.split(',') : [],
-      quantities: quantities.length ? quantities.split(',') : [],
+      ingredients,
+      quantities,
       price,
       isDiscounted,
       discountedPrice,
@@ -107,8 +107,8 @@ exports.edit = async (req, res, next) => {
 
     const updatedFields = {
       name,
-      ingredients: ingredients.length ? ingredients.split(',') : [],
-      quantities: quantities.length ? quantities.split(',') : [],
+      ingredients,
+      quantities,
       price,
       discountedPrice,
       categoryId,

@@ -2,7 +2,7 @@ import React from 'react';
 import { SmallDescription } from '../styles';
 import { Product, ProductImageWrapper, ProductImage } from './styles';
 import Panel from '../Panel';
-import EditModal from './EditModal/Container';
+import EditModal from './Edit/Container';
 
 export default class Products extends React.Component {
   componentDidMount() {
@@ -21,12 +21,8 @@ export default class Products extends React.Component {
         {weightInGrams && <SmallDescription>Gramaj: {weightInGrams}g</SmallDescription>}
         {price && <SmallDescription>Preț: {price} RON</SmallDescription>}
         {isDiscounted && <SmallDescription>Preț redus: {discountedPrice} RON</SmallDescription>}
-        {ingredients.length > 0 && <SmallDescription>Ingrediente: {ingredients.map((x) => x).join(', ')}</SmallDescription>}
-        {quantities.length > 0 && (
-          <SmallDescription>
-            Gramaj{quantities.length > 1 ? 'e' : ''}: {quantities.map((x) => x + 'g').join('/')}
-          </SmallDescription>
-        )}
+        {ingredients.length > 0 && <SmallDescription>Ingrediente: {ingredients}</SmallDescription>}
+        {quantities.length > 0 && <SmallDescription>Gramaj(e): {quantities}</SmallDescription>}
       </div>
     </div>
   );

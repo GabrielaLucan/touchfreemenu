@@ -17,7 +17,7 @@ import {
 } from '../actions/category';
 
 const initialState = {
-  list: [],
+  list: localStorage.categoryList ? JSON.parse(localStorage.categoryList) : [],
   loading: false,
 };
 
@@ -52,6 +52,8 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case GET_CATEGORIES_SUCCESS:
+      localStorage.categoryList = JSON.stringify(action.categories);
+
       return {
         ...state,
         list: action.categories,

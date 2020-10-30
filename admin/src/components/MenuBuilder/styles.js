@@ -86,7 +86,7 @@ export const SelectInput = styled(Select)`
   }
 `;
 
-export const Label = styled.div`
+export const Label = styled.span`
   font-size: 11px;
   color: ${(props) => props.theme.mutedText};
   text-transform: uppercase;
@@ -100,7 +100,6 @@ export const Label = styled.div`
 export const FormInputWrapper = styled.div`
   display: inline-block;
   position: relative;
-  margin-right: 8px;
 `;
 
 export const Suffix = styled.div`
@@ -109,5 +108,20 @@ export const Suffix = styled.div`
   top: 18px;
   z-index: 15;
   color: ${(props) => props.theme.mutedText}bb;
+  pointer-events: none;
+`;
+
+export const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+`;
+
+export const CameraIconWrapper = styled.div`
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  z-index: 15;
+  color: ${(props) => props.theme.border};
   pointer-events: none;
 `;

@@ -20,7 +20,7 @@ export const Backdrop = styled.div`
 export const Modal = styled.div`
   position: fixed;
   z-index: 100;
-  width: 800px;
+  width: 686px;
   top: 160px;
   left: 0;
   right: 0;
@@ -72,6 +72,8 @@ export const CloseButtonWrapper = styled.div`
 export const ModalContent = styled.div`
   padding: 0 16px;
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 export const ModalFooter = styled.div`
@@ -144,18 +146,26 @@ export const DiscountToggle = styled(Toggle)`
 `;
 
 export const DropArea = styled.div`
-  background-color: ${(props) => props.theme.activeBackground};
+  background-color: ${(props) => props.theme.inputBackground};
   border: 1px solid ${(props) => props.theme.border};
   border-radius: 8px;
-  padding: 70px 16px;
+  width: 318px;
+  height: 106px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  position: relative;
 `;
 
 export const ProductImageWrapper = styled.div`
   border-radius: 8px;
-  height: 170px;
+  width: 318px;
   overflow: hidden;
   position: relative;
+  justify-content: flex-end;
+  display: flex;
 
   div {
     display: none;

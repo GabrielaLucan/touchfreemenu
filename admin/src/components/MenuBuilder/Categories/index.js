@@ -17,6 +17,7 @@ export default class Categories extends React.Component {
   );
 
   render() {
+    return null;
     return (
       <Panel
         title="Categorii"
