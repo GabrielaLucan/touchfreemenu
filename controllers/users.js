@@ -121,7 +121,7 @@ exports.uploadFileToS3 = multer({
       if (file.mimetype != 'application/pdf') {
         cb({ type: 'invalidFileName', message: 'Te rog alege un fișier în format PDF.' });
       } else {
-        const pdfKey = `${req.user.username}/${file.originalname + '-' + new Date().toISOString()}.pdf`;
+        const pdfKey = `pdf-menus/${req.user.username}/${file.originalname + '-' + new Date().toISOString()}.pdf`;
 
         req.uploadedPdfKey = pdfKey;
 
