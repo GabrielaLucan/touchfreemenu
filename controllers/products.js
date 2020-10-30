@@ -8,7 +8,7 @@ exports.uploadImageToS3 = multer({
   storage: multerS3({
     s3: new AWS.S3(),
     acl: 'public-read',
-    bucket: process.env.AWS_BUCKET_PRODUCT_IMAGES,
+    bucket: process.env.AWS_BUCKET_NAME,
     fileFilter: function (_req, file, cb) {
       const filetypes = /jpeg|jpg|png|gif/;
       const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -21,7 +21,7 @@ exports.uploadImageToS3 = multer({
       }
     },
     key: (req, file, cb) => {
-      const imageKey = `${req.user.username}/${+new Date()}-${file.originalname}`;
+      const imageKey = `product-images/${req.user.username}/${+new Date()}-${file.originalname}`;
 
       req.uploadedImageKey = imageKey;
 
@@ -120,7 +120,7 @@ exports.edit = async (req, res, next) => {
     if (!imageUrl) {
       //Remove old image
       if (originalProduct.imageUrl) {
-        await new AWS.S3().deleteObject({ Bucket: process.env.AWS_BUCKET_PRODUCT_IMAGES, Key: originalProduct.imageKey }, console.log);
+        await new AWS.S3().deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: originalProduct.imageKey }, console.log);
       }
 
       //New image has been supplied
