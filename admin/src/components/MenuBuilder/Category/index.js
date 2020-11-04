@@ -19,7 +19,7 @@ export default class Category extends Component {
             <CategoryTitle>{category.name}</CategoryTitle>
             <FontAwesomeIcon color="#818e99" icon={faCaretDown} />
           </CategoryActions>
-          <Button className="green" title="Adaugă produs" onClick={() => openProductModal()}>
+          <Button className="green" title="Adaugă produs" onClick={() => openProductModal(category.id)}>
             <FontAwesomeIcon icon={faPlus} style={{ marginRight: '0' }} />
           </Button>
         </PanelHeader>

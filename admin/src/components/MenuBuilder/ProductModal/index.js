@@ -30,12 +30,11 @@ export default class ProductModal extends Component {
     selectedImageBase64: '',
   };
 
-  open = (product) => {
-    if (product) {
-      this.setState({ isOpen: true, inEditMode: true, product: { ...product } });
+  open = (productOrCategoryId) => {
+    if (typeof productOrCategoryId == 'object') {
+      this.setState({ isOpen: true, inEditMode: true, product: { ...productOrCategoryId } });
     } else {
-      const firstCategory = this.props.categories[0];
-      this.setState({ isOpen: true, inEditMode: false, product: { ...emptyProduct, categoryId: firstCategory.id } });
+      this.setState({ isOpen: true, inEditMode: false, product: { ...emptyProduct, categoryId: productOrCategoryId } });
     }
   };
 
@@ -156,7 +155,7 @@ export default class ProductModal extends Component {
   };
 
   render() {
-    const { isOpen, inEditMode, product, showsImagePicker, selectedImageBase64 } = this.state;
+    const { isOpen, inEditMode, product, selectedImageBase64 } = this.state;
     const { categories } = this.props;
 
     const { Field } = this;
@@ -166,24 +165,21 @@ export default class ProductModal extends Component {
         <Backdrop className={isOpen ? 'open' : 'closed'} />
         <Modal className={isOpen ? 'open' : 'closed'}>
           <Header>
-            {inEditMode ? 'Editează produsul' : 'Adaugă produs'}
+            {inEditMode ? (
+              'Editează produsul'
+            ) : (
+              <span>
+                Adaugă produs în <span style={{ fontWeight: '600' }}>"{(categories.find((x) => x.id == product.categoryId) || {}).name || ''}"</span>
+              </span>
+            )}
             <CloseButtonWrapper onClick={this.close} title="Închide">
               <FontAwesomeIcon icon={faTimes} />
             </CloseButtonWrapper>
           </Header>
           <ModalContent>
-            <Field for="name" label="Nume" placeholder="Nume produs" maxLength={50} />
-            <FieldWrapper style={{ marginLeft: '16px' }}>
-              <Label>Categorie</Label>
-
-              <SelectInput value={product.categoryId} onChange={this.changeProductCategory}>
-                {categories.map((x) => (
-                  <option key={x.id} value={x.id}>
-                    {x.name}
-                  </option>
-                ))}
-              </SelectInput>
-            </FieldWrapper>
+            <div style={{ width: '100%' }}>
+              <Field for="name" label="Nume" placeholder="Nume produs" maxLength={50} />
+            </div>
 
             <Field for="ingredients" label="Ingrediente (opțional)" placeholder="e.g. piept de pui, ou, pesmet" />
             <Field for="quantities" style={{ marginLeft: '16px' }} label="Gramaj(e)" placeholder="e.g. 450ml/150g/50g" />
