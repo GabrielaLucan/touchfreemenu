@@ -84,8 +84,13 @@ export default class MenuBuilder extends React.Component {
           </Panel>
         ) : (
           <TopBar>
-            <FormInput style={{ flex: 1, marginTop: '0', height: '39px' }} placeholder="Caută produse, categorii, ingrediente etc..." value={query} onChange={(e) => this.setState({ query: e.target.value })} />
-            <Button style={{ height: '39px', padding: '16px', paddingTop: '15px' }} className="green" title="Adaugă categorie" onClick={() => this.openCategoryModal()}>
+            <FormInput
+              style={{ flex: 1, marginTop: '0', height: '43px' }}
+              placeholder="Caută produse, categorii, ingrediente etc..."
+              value={query}
+              onChange={(e) => this.setState({ query: e.target.value })}
+            />
+            <Button style={{ height: '43px', padding: '16px', paddingTop: '15px', backgroundColor: 'transparent' }} className="green" title="Adaugă categorie" onClick={() => this.openCategoryModal()}>
               <FontAwesomeIcon icon={faPlus} />
               Adaugă categorie
             </Button>
@@ -97,7 +102,7 @@ export default class MenuBuilder extends React.Component {
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {this.getCategories().map((category) => (
-                  <Category category={category} provided={provided} openProductModal={this.openProductModal} removeProduct={this.removeProduct} />
+                  <Category category={category} provided={provided} openProductModal={this.openProductModal} removeProduct={this.removeProduct} query={query} />
                 ))}
               </div>
             )}

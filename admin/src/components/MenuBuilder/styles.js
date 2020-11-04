@@ -33,6 +33,10 @@ export const PanelHeader = styled.div`
   justify-content: space-between;
   cursor: pointer;
   padding: 16px;
+
+  :hover {
+    background: ${(props) => props.theme.activeBackground};
+  }
 `;
 
 export const TopBar = styled.div`
@@ -47,24 +51,16 @@ export const TopBar = styled.div`
 export const Product = styled.div`
   display: flex;
   justify-content: space-between;
-  width: calc(720px - 16px * 2);
   overflow: hidden;
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
   background: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 10px 12px;
-  margin-right: 8px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 8px;
   border: 1px solid ${(props) => props.theme.border};
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-weight: 500;
   color: ${(props) => props.theme.normalText};
-
-  :hover span {
-    width: 105px;
-    margin-left: 8px;
-  }
 `;
 
 export const ProductImage = styled.img`
@@ -130,6 +126,7 @@ export const Button = styled.div`
   transition: all 0.15s ease-in-out;
   background: ${(props) => props.theme.blue}12;
   ${(props) => props.disabled && 'opacity: 0.4; pointer-events: none'};
+  height: 36px;
 
   span {
     display: inline-block;
@@ -140,7 +137,7 @@ export const Button = styled.div`
   }
 
   :hover {
-    background: ${(props) => props.theme.blue}33;
+    background: ${(props) => props.theme.blue}44;
   }
 
   &.destructive {
@@ -148,7 +145,7 @@ export const Button = styled.div`
     background: ${(props) => props.theme.red}12;
 
     :hover {
-      background: ${(props) => props.theme.red}33;
+      background: ${(props) => props.theme.red}44;
     }
   }
 
@@ -156,7 +153,6 @@ export const Button = styled.div`
     color: ${(props) => props.theme.accent};
     display: flex;
     align-items: center;
-    height: 36px;
     margin-left: 16px;
     border-color: #fff0;
     padding-bottom: 9px;
@@ -168,7 +164,7 @@ export const Button = styled.div`
     }
 
     :hover {
-      background: ${(props) => props.theme.accent}44;
+      background: ${(props) => props.theme.accent}44!important;
     }
   }
 
@@ -187,9 +183,7 @@ export const Button = styled.div`
 
 export const ButtonsWrapper = styled.div`
   display: flex;
-  flexdirection: column;
-  justifycontent: space-around;
-  width: 64px;
+  align-items: center;
 
   margin: -12px 0;
   margin-left: 12px;

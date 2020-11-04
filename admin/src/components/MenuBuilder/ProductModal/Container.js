@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import ProductModal from './index';
-import * as productActions from '../../../actions/category';
+import * as productActions from '../../../actions/product';
 
 const mapStateToProps = (state) => ({
   categories: state.category.list,

@@ -42,9 +42,9 @@ export default class ProductModal extends Component {
     const { selectedImage, product } = this.state;
 
     if (this.state.inEditMode) {
-      this.props.onSave({ ...product, imageFile: selectedImage });
+      this.props.editProduct({ ...product, imageFile: selectedImage });
     } else {
-      this.props.onCreate({ ...product, imageFile: selectedImage });
+      this.props.createProduct({ ...product, imageFile: selectedImage });
     }
     this.setState({ isOpen: false });
   };
@@ -187,7 +187,7 @@ export default class ProductModal extends Component {
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '-8px' }}>
-                  <Field for="price" label={product.isDiscounted ? 'Preț vechi' : 'Preț'} asNumber max={9999} suffix="RON" />
+                  <Field for="price" label={product.isDiscounted ? 'Preț original' : 'Preț'} asNumber max={9999} suffix="RON" />
                   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', marginLeft: '16px' }}>
                     <DiscountToggle checked={product.isDiscounted} title="La reducere?" icons={false} onChange={this.toggleDiscounted} />
                     <div style={{ marginLeft: '8px' }}>{product.isDiscounted ? 'La reducere' : 'La reducere?'}</div>
