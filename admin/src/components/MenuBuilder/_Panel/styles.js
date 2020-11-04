@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
   margin-right: 24px;
   margin-bottom: 24px;
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
-  width: 520px;
+  width: 720px;
   overflow: hidden;
   color: ${(props) => props.theme.normalText};
   position: relative;

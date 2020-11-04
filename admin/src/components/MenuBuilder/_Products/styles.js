@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 export const Product = styled.div`
   display: flex;
   justify-content: space-between;
-  width: calc(520px - 16px * 2);
+  width: calc(720px - 16px * 2);
   overflow: hidden;
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
   background: ${(props) => props.theme.foreground};

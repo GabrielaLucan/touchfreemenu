@@ -1,7 +1,7 @@
 import React from 'react';
 import { SmallDescription } from '../styles';
 import { Category } from './styles';
-import Panel from '../Panel';
+import Panel from '../_Panel';
 import EditModal from './EditModal/Container';
 
 export default class Categories extends React.Component {

@@ -13,9 +13,9 @@ import {
   DropArea,
   ProductImageWrapper,
   ChangeImageButton,
-} from '../../Categories/EditModal/styles';
+} from '../../_Categories/EditModal/styles';
 import { FormInput, Label, SmallDescription, FormInputWrapper, FieldWrapper, SelectInput, Suffix, CameraIconWrapper } from '../../styles';
-import { Button as ActionButton } from '../../Panel/styles';
+import { Button as ActionButton } from '../../_Panel/styles';
 import { faCheck, faTimes, faPlus, faCamera, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../../shared/Button';

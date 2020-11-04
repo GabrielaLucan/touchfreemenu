@@ -13,14 +13,8 @@ export default class Panel extends React.Component {
     inEditMode: false,
   };
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.openEditModal();
-    }, 300);
-  }
-
-  filterItems = (x) => x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.state.query.toLowerCase().trim());
-  sortItems = (a, b) => {
+  filterProducts = (x) => x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.state.query.toLowerCase().trim());
+  sortProducts = (a, b) => {
     if (!a.category) {
       return a.index - b.index;
     } else {
@@ -32,7 +26,7 @@ export default class Panel extends React.Component {
     }
   };
 
-  getItems = () => this.props.items.filter(this.filterItems).sort(this.sortItems);
+  getProducts = () => this.props.products.filter(this.filterProducts).sort(this.sortProducts);
 
   onDragEnd = (params) => {
     const { destination, source, draggableId } = params;
@@ -60,34 +54,34 @@ export default class Panel extends React.Component {
   render() {
     const { openEditModal } = this;
     const { inEditMode, query } = this.state;
-    const { title, items, type, renderItem, createItem, saveItemEdits, disabled, ItemStyle, EditModal, buttonsWrapperStyle, loading } = this.props;
+    const { products, type, renderItem, createItem, saveItemEdits, disabled, Productstyle, EditModal, buttonsWrapperStyle, loading } = this.props;
 
     return (
       <Wrapper>
         <ContentWrapper loading={loading}>
-          {items.length > 0 && <EditToggle checked={inEditMode} title="Editează" onChange={() => this.setState({ inEditMode: !inEditMode })} icons={toggleIcons} />}
+          {products.length > 0 && <EditToggle checked={inEditMode} title="Editează" onChange={() => this.setState({ inEditMode: !inEditMode })} icons={toggleIcons} />}
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Droppable droppableId="droppable">
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  <Title>{title}</Title>
+                  <Title>Meniul tău</Title>
                   <div style={{ display: 'flex' }}>
-                    {items.length > 0 && <FormInput style={{ width: '220px' }} placeholder={'Caută ' + type} value={query} onChange={(e) => this.setState({ query: e.target.value })} />}
-                    <Button className="green" disabled={disabled} title={`Adaugă ${type == 'categorie' ? 'o categorie' : 'un produs'}`} onClick={() => this.openEditModal(undefined, items)}>
+                    {products.length > 0 && <FormInput style={{ width: '220px' }} placeholder={'Caută...'} value={query} onChange={(e) => this.setState({ query: e.target.value })} />}
+                    <Button className="green" disabled={disabled} title="Adaugă un produs" onClick={() => this.openEditModal(undefined, products)}>
                       <FontAwesomeIcon icon={faPlus} />
                       Adaugă
                     </Button>
                   </div>
                   <div style={{ marginTop: '8px', border: '1px solid #0000', width: '100%' }}>
-                    {this.getItems().map((item, i) => (
+                    {this.getProducts().map((item, i) => (
                       <>
-                        {item.category && ((this.getItems()[i - 1] || {}).category || {}).id != item.category.id && (
+                        {item.category && ((this.getProducts()[i - 1] || {}).category || {}).id != item.category.id && (
                           <SmallDescription style={{ marginTop: '16px' }}>{item.category.name}</SmallDescription>
                         )}
                         <Draggable key={item.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inEditMode} key={item.id} draggableId={item.id} index={item.index}>
                           {(provided) => (
-                            <ItemStyle ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={inEditMode ? 'editable' : ''}>
-                              <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Productstyle ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={inEditMode ? 'editable' : ''}>
+                              <div style={{ display: 'flex', alignProducts: 'center' }}>
                                 {inEditMode && (
                                   <DragIconWrapper>
                                     <FontAwesomeIcon icon={faGripVertical} />
@@ -97,15 +91,15 @@ export default class Panel extends React.Component {
                               </div>
                               {inEditMode && (
                                 <ButtonsWrapper style={buttonsWrapperStyle}>
-                                  <Button title={`Editează ${type}`} onClick={() => openEditModal(item, items)}>
+                                  <Button title="Editează produsul" onClick={() => openEditModal(item, products)}>
                                     <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
                                   </Button>
-                                  <Button title={`Șterge ${type}`} className="destructive" onClick={() => this.remove(item)}>
+                                  <Button title="Șterge produsul" className="destructive" onClick={() => this.remove(item)}>
                                     <FontAwesomeIcon icon={faTrash} />
                                   </Button>
                                 </ButtonsWrapper>
                               )}
-                            </ItemStyle>
+                            </Productstyle>
                           )}
                         </Draggable>
                       </>
@@ -116,15 +110,15 @@ export default class Panel extends React.Component {
               )}
             </Droppable>
           </DragDropContext>
-          {!items.length && (
+          {!products.length && (
             <EmptyPlaceholderWrapper>
-              {type == 'categorie' ? 'Nicio categorie încă.' : 'Niciun produs încă.'}
+              Nimic aici încă. Începe prin a adăuga o categorie.
               <Button
                 className="green"
                 disabled={disabled}
                 style={{ marginLeft: '0', marginTop: '24px' }}
-                title={`Adaugă ${type == 'categorie' ? 'o categorie' : 'un produs'}`}
-                onClick={() => this.openEditModal(undefined, items)}
+                title="Adaugă"
+                onClick={() => this.openEditModal(undefined, products)}
               >
                 <FontAwesomeIcon icon={faPlus} />
                 Adaugă
