@@ -23,10 +23,12 @@ export default class EditModal extends React.Component {
   };
 
   save = () => {
+    console.log('Creating');
+
     if (this.state.inEditMode) {
-      this.props.onSave(this.state.category);
+      this.props.editCategory(this.state.category);
     } else {
-      this.props.onCreate(this.state.category);
+      this.props.createCategory(this.state.category);
     }
     this.setState({ isOpen: false });
   };

@@ -110,7 +110,7 @@ export const Button = styled.div`
     margin-left: 16px;
     border-color: #fff0;
     padding-bottom: 9px;
-    background: ${(props) => props.theme.accent}00;
+    background: ${(props) => props.theme.accent}12;
 
     svg {
       margin-right: 8px;

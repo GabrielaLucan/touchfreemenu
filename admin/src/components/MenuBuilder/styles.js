@@ -3,6 +3,47 @@ import Input from '../shared/form/Input';
 import Select from '../shared/form/Select';
 import Toggle from 'react-toggle';
 
+export const Wrapper = styled.div`
+  ${(props) => props.loading && 'filter: grayscale(0.5) blur(3px) opacity(0.6); pointer-events: none'};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const Panel = styled.div`
+  background-color: ${(props) => props.theme.foreground};
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
+  width: 720px;
+  overflow: hidden;
+  color: ${(props) => props.theme.normalText};
+  position: relative;
+
+  @media (max-width: 768px) {
+    width: min(395px, calc(100vw - 32px)) !important;
+    margin-right: 0;
+  }
+`;
+
+export const PanelHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 16px;
+`;
+
+export const TopBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 16px 0 34px 0;
+  width: 720px;
+`;
+
 export const Product = styled.div`
   display: flex;
   justify-content: space-between;
@@ -35,32 +76,6 @@ export const ProductImageWrapper = styled.div`
   border-radius: 8px;
   overflow: hidden;
   margin-right: 12px;
-`;
-
-export const Panel = styled.div`
-  background-color: ${(props) => props.theme.foreground};
-  border-radius: 8px;
-  padding: 16px;
-  margin-right: 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
-  width: 720px;
-  overflow: hidden;
-  color: ${(props) => props.theme.normalText};
-  position: relative;
-
-  @media (max-width: 768px) {
-    width: min(395px, calc(100vw - 32px)) !important;
-    margin-right: 0;
-  }
-`;
-
-export const PanelContent = styled.div`
-  ${(props) => props.loading && 'filter: grayscale(0.5) blur(3px) opacity(0.6); pointer-events: none'};
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 `;
 
 export const Title = styled.span`
@@ -141,12 +156,11 @@ export const Button = styled.div`
     color: ${(props) => props.theme.accent};
     display: flex;
     align-items: center;
-    height: 41px;
-    margin-top: 8px;
+    height: 36px;
     margin-left: 16px;
     border-color: #fff0;
     padding-bottom: 9px;
-    background: ${(props) => props.theme.accent}00;
+    background: ${(props) => props.theme.accent}22;
 
     svg {
       margin-right: 8px;
@@ -154,7 +168,7 @@ export const Button = styled.div`
     }
 
     :hover {
-      background: ${(props) => props.theme.accent}33;
+      background: ${(props) => props.theme.accent}44;
     }
   }
 
@@ -208,6 +222,7 @@ export const EmptyPlaceholderWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 50px 0;
+  text-align: center;
 `;
 
 export const SmallDescription = styled.div`
@@ -217,11 +232,11 @@ export const SmallDescription = styled.div`
   color: ${(props) => props.theme.mutedText};
 `;
 
-export const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
+export const CategoryTitle = styled.div`
+  font-size: 14px;
+  font-weight: 100;
+  color: ${(props) => props.theme.mutedText};
+  margin-right: 8px;
 `;
 
 export const EditButton = styled.div`
@@ -272,10 +287,6 @@ export const FormInput = styled(Input)`
 
   &.small {
     width: 90px;
-  }
-
-  &:after {
-    content: attr(data-suffix);
   }
 `;
 
@@ -332,4 +343,9 @@ export const CameraIconWrapper = styled.div`
   z-index: 15;
   color: ${(props) => props.theme.border};
   pointer-events: none;
+`;
+
+export const CategoryActions = styled.div`
+  display: flex;
+  align-items: center;
 `;

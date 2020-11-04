@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import EditModal from './index';
 
-const mapStateToProps = (state) => ({
-  categories: state.category.list,
-});
+import CategoryModal from './index';
+import * as categoryActions from '../../../actions/category';
 
-const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({ categories: state.category.list });
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(EditModal);
+const mapDispatchToProps = { ...categoryActions };
+
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(CategoryModal);

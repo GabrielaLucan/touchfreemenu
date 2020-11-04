@@ -1,11 +1,8 @@
 import React from 'react';
 import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter, ErrorText } from './styles';
-import { FormInput, Label } from '../styles';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../shared/Button';
-
-const emptyCategory = { name: '' };
 
 export default class EditModal extends React.Component {
   state = {
