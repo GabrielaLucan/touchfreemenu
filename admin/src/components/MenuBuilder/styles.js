@@ -41,6 +41,11 @@ export const TopBar = styled.div`
   cursor: pointer;
   padding: 16px 0 34px 0;
   width: 720px;
+
+  @media (max-width: 768px) {
+    width: min(395px, calc(100vw - 32px)) !important;
+    margin-right: 0;
+  }
 `;
 
 export const Product = styled.div`
@@ -376,4 +381,9 @@ export const JiggleModeIndicator = styled.div`
   overflow: hidden;
   margin-top: -8px;
   margin-bottom: 16px;
+
+  @media (max-width: 768px) {
+    width: min(395px, calc(100vw - 32px)) !important;
+    margin-right: 0;
+  }
 `;
