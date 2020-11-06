@@ -60,20 +60,28 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case MOVE_CATEGORY_SUCCESS:
+      localStorage.categoryList = JSON.stringify(action.newCategories);
+
       return {
         ...state,
         list: action.newCategories,
       };
     case EDIT_CATEGORY_SUCCESS:
+      const listWithEditedItem = [...state.list.filter((x) => x.id != action.updatedCategory.id), action.updatedCategory];
+      localStorage.categoryList = JSON.stringify(newList);
+
       return {
         ...state,
-        list: [...state.list.filter((x) => x.id != action.updatedCategory.id), action.updatedCategory],
+        list: listWithEditedItem,
         loading: false,
       };
     case REMOVE_CATEGORY_SUCCESS:
+      const listWithRemovedItem = [...state.list.filter((x) => x.id != action.categoryId)];
+      localStorage.categoryList = listWithRemovedItem;
+
       return {
         ...state,
-        list: [...state.list.filter((x) => x.id != action.categoryId)],
+        list: listWithRemovedItem,
         loading: false,
       };
 

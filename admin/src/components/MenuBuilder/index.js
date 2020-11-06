@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { Wrapper, Panel, Button, EmptyPlaceholderWrapper, TopBar, SearchInput, JiggleModeIndicator } from './styles';
 
@@ -50,7 +50,7 @@ export default class MenuBuilder extends React.Component {
       return;
     }
 
-    this.props.moveItem(draggableId, destination.index);
+    this.props.moveCategory(draggableId, destination.index);
   };
 
   enterJiggleMode = async () => {
@@ -105,21 +105,28 @@ export default class MenuBuilder extends React.Component {
         </JiggleModeIndicator>
 
         <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="droppable">
+          <Droppable droppableId="categoriesContainer">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {this.getCategories().map((category) => (
-                  <Category
-                    category={category}
-                    provided={provided}
-                    openProductModal={this.openProductModal}
-                    openCategoryModal={this.openCategoryModal}
-                    removeProduct={this.removeProduct}
-                    inJiggleMode={inJiggleMode}
-                    enterJiggleMode={this.enterJiggleMode}
-                    query={query}
-                  />
+                  <Draggable key={category.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inJiggleMode} draggableId={category.id} index={category.index}>
+                    {(provided) => (
+                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <Category
+                          category={category}
+                          provided={provided}
+                          openProductModal={this.openProductModal}
+                          openCategoryModal={this.openCategoryModal}
+                          removeProduct={this.removeProduct}
+                          inJiggleMode={inJiggleMode}
+                          enterJiggleMode={this.enterJiggleMode}
+                          query={query}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
                 ))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>

@@ -118,54 +118,50 @@ export default class Category extends Component<any> {
 }
 
 const Product = ({ product, provided, inEditMode, openEditModal, removeProduct }) => (
-  <Draggable key={product.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inEditMode} draggableId={product.id} index={product.index}>
-    {(provided) => (
-      <ProductStyle ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className={inEditMode ? 'editable' : ''}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {inEditMode && (
-            <DragIconWrapper>
-              <FontAwesomeIcon icon={faGripVertical} />
-            </DragIconWrapper>
+  <ProductStyle className={inEditMode ? 'editable' : ''}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {inEditMode && (
+        <DragIconWrapper>
+          <FontAwesomeIcon icon={faGripVertical} />
+        </DragIconWrapper>
+      )}
+      <div style={{ display: 'flex' }}>
+        {product.imageUrl && (
+          <ProductImageWrapper>
+            <ProductImage src={product.imageUrl} />
+          </ProductImageWrapper>
+        )}
+        <div>
+          <div>{product.name}</div>
+          {product.weightInGrams && <SmallDescription>Gramaj: {product.weightInGrams}g</SmallDescription>}
+          {product.price && (
+            <SmallDescription>
+              {product.isDiscounted ? 'Preț original: ' : 'Preț: '}
+              <span style={{ fontWeight: product.isDiscounted ? '300' : '600' }}>{product.price} RON</span>
+              {product.isDiscounted && (
+                <span>
+                  {' '}
+                  / Preț redus: <span style={{ fontWeight: '600' }}>{product.discountedPrice} RON</span>
+                </span>
+              )}
+            </SmallDescription>
           )}
-          <div style={{ display: 'flex' }}>
-            {product.imageUrl && (
-              <ProductImageWrapper>
-                <ProductImage src={product.imageUrl} />
-              </ProductImageWrapper>
-            )}
-            <div>
-              <div>{product.name}</div>
-              {product.weightInGrams && <SmallDescription>Gramaj: {product.weightInGrams}g</SmallDescription>}
-              {product.price && (
-                <SmallDescription>
-                  {product.isDiscounted ? 'Preț original: ' : 'Preț: '}
-                  <span style={{ fontWeight: product.isDiscounted ? '300' : '600' }}>{product.price} RON</span>
-                  {product.isDiscounted && (
-                    <span>
-                      {' '}
-                      / Preț redus: <span style={{ fontWeight: '600' }}>{product.discountedPrice} RON</span>
-                    </span>
-                  )}
-                </SmallDescription>
-              )}
-              {product.ingredients.length > 0 && <SmallDescription>Ingrediente: {product.ingredients}</SmallDescription>}
-              {product.quantities.length > 0 && (
-                <SmallDescription>
-                  Gramaj{product.quantities.includes('/') || product.quantities.includes(',') ? 'e' : ''}: {product.quantities}
-                </SmallDescription>
-              )}
-            </div>
-          </div>
+          {product.ingredients.length > 0 && <SmallDescription>Ingrediente: {product.ingredients}</SmallDescription>}
+          {product.quantities.length > 0 && (
+            <SmallDescription>
+              Gramaj{product.quantities.includes('/') || product.quantities.includes(',') ? 'e' : ''}: {product.quantities}
+            </SmallDescription>
+          )}
         </div>
-        <ButtonsWrapper>
-          <Button title="Editează produsul" onClick={() => openEditModal(product)}>
-            <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
-          </Button>
-          <Button title="Șterge produsul" className="destructive" onClick={() => removeProduct(product)}>
-            <FontAwesomeIcon icon={faTrash} />
-          </Button>
-        </ButtonsWrapper>
-      </ProductStyle>
-    )}
-  </Draggable>
+      </div>
+    </div>
+    <ButtonsWrapper>
+      <Button title="Editează produsul" onClick={() => openEditModal(product)}>
+        <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
+      </Button>
+      <Button title="Șterge produsul" className="destructive" onClick={() => removeProduct(product)}>
+        <FontAwesomeIcon icon={faTrash} />
+      </Button>
+    </ButtonsWrapper>
+  </ProductStyle>
 );
