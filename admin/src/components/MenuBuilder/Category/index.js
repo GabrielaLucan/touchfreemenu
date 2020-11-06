@@ -14,7 +14,7 @@ import {
   CategoryActions,
   CountTag,
 } from '../styles';
-import { faCaretRight, faGripVertical, faPencilAlt, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight, faGripVertical, faPencilAlt, faPlus, faThumbsDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 
 export default class Category extends Component {
@@ -32,15 +32,29 @@ export default class Category extends Component {
       .map((x) => (x.imageUrl ? 130 : 74 + (x.quantities ? 22 : 0) + (x.ingredients ? 22 : 0)))
       .reduce((a, b) => a + b, 0);
 
+  startTimer = () => {
+    this.longPressTimeout = setTimeout(() => {
+      this.props.enterJiggleMode();
+    }, 500);
+  };
+
+  endTimer = () => {
+    clearTimeout(this.longPressTimeout);
+
+    if (!this.props.inJiggleMode) {
+      this.setState({ isExpanded: !this.state.isExpanded });
+    }
+  };
+
   render() {
-    const { category, inEditMode, provided, openProductModal, removeProduct } = this.props;
-    const isExpanded = this.state.isExpanded || this.props.query.length;
+    const { category, query, inEditMode, provided, openProductModal, removeProduct, inJiggleMode } = this.props;
+    const isExpanded = (this.state.isExpanded || query.length) && !inJiggleMode;
 
     const hasProducts = this.getProducts().length > 0;
 
     return (
       <Panel style={{ height: hasProducts && isExpanded ? this.getCategoryHeight() + 'px' : '68px', transition: 'height 0.25s ease-in-out' }}>
-        <PanelHeader onClick={() => this.setState({ isExpanded: !this.state.isExpanded })} style={{ pointerEvents: hasProducts ? 'all' : 'none' }}>
+        <PanelHeader onMouseDown={this.startTimer} onMouseUp={this.endTimer} style={{ pointerEvents: hasProducts ? 'all' : 'none' }}>
           <CategoryActions>
             <CategoryTitle>
               <CountTag>{this.getProducts().length}</CountTag>

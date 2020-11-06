@@ -33,10 +33,6 @@ export const PanelHeader = styled.div`
   justify-content: space-between;
   cursor: pointer;
   padding: 16px;
-
-  :hover {
-    background: ${(props) => props.theme.activeBackground};
-  }
 `;
 
 export const TopBar = styled.div`
@@ -365,4 +361,17 @@ export const CountTag = styled.div`
   font-weight: 500;
   font-size: 12px;
   padding-top: 3px;
+`;
+
+export const JiggleModeIndicator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 720px;
+
+  transition: height 0.25s ease-in-out;
+  height: 0;
+  overflow: hidden;
+  margin-top: -8px;
+  margin-bottom: 16px;
 `;

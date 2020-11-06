@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
-import { Wrapper, Panel, FormInput, Button, EmptyPlaceholderWrapper, TopBar, SearchInput } from './styles';
+import { Wrapper, Panel, Button, EmptyPlaceholderWrapper, TopBar, SearchInput, JiggleModeIndicator } from './styles';
 
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import ConfirmationModal from './ConfirmationModal';
@@ -15,6 +15,7 @@ import Category from './Category/Container';
 export default class MenuBuilder extends React.Component {
   state = {
     query: '',
+    inJiggleMode: false,
   };
 
   componentDidMount() {
@@ -52,6 +53,10 @@ export default class MenuBuilder extends React.Component {
     this.props.moveItem(draggableId, destination.index);
   };
 
+  enterJiggleMode = async () => {
+    this.setState({ inJiggleMode: true });
+  };
+
   removeProduct = async (product) => {
     await this.confirmationModal.open({ title: `Șterge produs`, text: `Ești sigur că dorești să ștergi produsul "${product.name}"?` });
     this.props.removeProduct(product.id);
@@ -66,7 +71,7 @@ export default class MenuBuilder extends React.Component {
   openCategoryModal = (category) => this.categoryModal.getWrappedInstance().open(category);
 
   render() {
-    const { query } = this.state;
+    const { query, inJiggleMode } = this.state;
     const { categories, disabled, loading } = this.props;
 
     return (
@@ -92,12 +97,27 @@ export default class MenuBuilder extends React.Component {
           </TopBar>
         )}
 
+        <JiggleModeIndicator style={{ height: inJiggleMode ? '42px' : '0px' }}>
+          Redenumește, reordonează sau șterge categorii, iar apoi fă click pe "gata".
+          <Button className="green" disabled={disabled} title="Adaugă" onClick={() => this.setState({ inJiggleMode: false })}>
+            Gata
+          </Button>
+        </JiggleModeIndicator>
+
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {this.getCategories().map((category) => (
-                  <Category category={category} provided={provided} openProductModal={this.openProductModal} removeProduct={this.removeProduct} query={query} />
+                  <Category
+                    category={category}
+                    provided={provided}
+                    openProductModal={this.openProductModal}
+                    removeProduct={this.removeProduct}
+                    inJiggleMode={inJiggleMode}
+                    enterJiggleMode={this.enterJiggleMode}
+                    query={query}
+                  />
                 ))}
               </div>
             )}
