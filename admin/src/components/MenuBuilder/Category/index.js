@@ -49,7 +49,7 @@ export default class Category extends Component<any> {
   };
 
   render() {
-    const { category, query, inEditMode, provided, openProductModal, openCategoryModal, removeProduct, removeCategory, inJiggleMode } = this.props;
+    const { category, query, inEditMode, provided, openProductModal, openCategoryModal, removeProductConfirm, removeCategoryConfirm, inJiggleMode } = this.props;
     const isExpanded = (this.state.isExpanded || query.length) && !inJiggleMode;
 
     const hasProducts = this.getProducts().length > 0;
@@ -84,17 +84,9 @@ export default class Category extends Component<any> {
               />
             )}
           </CategoryActions>
-          {inJiggleMode ? (
-            <div style={{ display: 'flex' }}>
-              <Button title="Editează produsul" onClick={() => openCategoryModal(category)} style={{ marginRight: '8px' }}>
-                <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
-              </Button>
-              <Button title="Șterge produsul" className="destructive" onClick={() => removeCategory(category)}>
-                <FontAwesomeIcon icon={faTrash} />
-              </Button>
-            </div>
-          ) : (
+          <div style={{ display: 'flex', marginRight: '-16px' }}>
             <Button
+              style={{ marginRight: '16px', transition: 'opacity 0.25s ease-in-out', opacity: inJiggleMode ? 0 : 1, pointerEvents: inJiggleMode ? 'none' : 'all' }}
               className="green"
               title="Adaugă produs"
               onClick={(e) => {
@@ -104,11 +96,20 @@ export default class Category extends Component<any> {
             >
               <FontAwesomeIcon icon={faPlus} style={{ marginRight: '0' }} />
             </Button>
-          )}
+
+            <div style={{ display: 'flex', width: inJiggleMode ? '100px' : '0px', overflow: 'hidden', transition: 'width 0.35s ease-in-out' }}>
+              <Button title="Editează produsul" onClick={() => openCategoryModal(category)} style={{ marginRight: '8px' }}>
+                <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
+              </Button>
+              <Button title="Șterge produsul" className="destructive" onClick={() => removeCategoryConfirm(category)} style={{ marginRight: '15px' }}>
+                <FontAwesomeIcon icon={faTrash} />
+              </Button>
+            </div>
+          </div>
         </PanelHeader>
 
         {this.getProducts().map((product) => (
-          <Product key={product.id} product={product} provided={provided} inEditMode={inEditMode} openEditModal={() => openProductModal(product)} removeProduct={() => removeProduct(product)} />
+          <Product key={product.id} product={product} provided={provided} inEditMode={inEditMode} openEditModal={() => openProductModal(product)} removeProduct={() => removeProductConfirm(product)} />
         ))}
 
         {provided.placeholder}

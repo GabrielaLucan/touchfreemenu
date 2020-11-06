@@ -118,7 +118,8 @@ export default class MenuBuilder extends React.Component {
                             provided={provided}
                             openProductModal={this.openProductModal}
                             openCategoryModal={this.openCategoryModal}
-                            removeProduct={this.removeProduct}
+                            removeProductConfirm={this.removeProduct}
+                            removeCategoryConfirm={this.removeCategory}
                             inJiggleMode={inJiggleMode}
                             enterJiggleMode={this.enterJiggleMode}
                             query={query}
