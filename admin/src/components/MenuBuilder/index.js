@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
-import { Wrapper, Panel, FormInput, Button, EmptyPlaceholderWrapper, TopBar } from './styles';
+import { Wrapper, Panel, FormInput, Button, EmptyPlaceholderWrapper, TopBar, SearchInput } from './styles';
 
 import LoadingIndicatorSpinner from '../shared/LoadingIndicator/Spinner';
 import ConfirmationModal from './ConfirmationModal';
@@ -84,12 +84,7 @@ export default class MenuBuilder extends React.Component {
           </Panel>
         ) : (
           <TopBar>
-            <FormInput
-              style={{ flex: 1, marginTop: '0', height: '43px' }}
-              placeholder="Caută produse, categorii, ingrediente etc..."
-              value={query}
-              onChange={(e) => this.setState({ query: e.target.value })}
-            />
+            <SearchInput placeholder="Caută produse, categorii, ingrediente etc..." value={query} onChange={(e) => this.setState({ query: e.target.value })} />
             <Button style={{ height: '43px', padding: '16px', paddingTop: '15px', backgroundColor: 'transparent' }} className="green" title="Adaugă categorie" onClick={() => this.openCategoryModal()}>
               <FontAwesomeIcon icon={faPlus} />
               Adaugă categorie

@@ -32,9 +32,9 @@ export default class ProductModal extends Component {
 
   open = (productOrCategoryId) => {
     if (typeof productOrCategoryId == 'object') {
-      this.setState({ isOpen: true, inEditMode: true, product: { ...productOrCategoryId } });
+      this.setState({ isOpen: true, inEditMode: true, product: { ...productOrCategoryId }, selectedImageBase64: '' });
     } else {
-      this.setState({ isOpen: true, inEditMode: false, product: { ...emptyProduct, categoryId: productOrCategoryId } });
+      this.setState({ isOpen: true, inEditMode: false, product: { ...emptyProduct, categoryId: productOrCategoryId, selectedImageBase64: '' } });
     }
   };
 

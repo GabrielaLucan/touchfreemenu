@@ -231,6 +231,8 @@ export const CategoryTitle = styled.div`
   font-weight: 100;
   color: ${(props) => props.theme.mutedText};
   margin-right: 8px;
+  display: flex;
+  align-items: center;
 `;
 
 export const EditButton = styled.div`
@@ -282,6 +284,15 @@ export const FormInput = styled(Input)`
   &.small {
     width: 90px;
   }
+`;
+
+export const SearchInput = styled(Input)`
+  width: 318px;
+  height: 43px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  flex: 1;
+  background-color: ${(props) => props.theme.foreground};
 `;
 
 export const SelectInput = styled(Select)`
@@ -342,4 +353,22 @@ export const CameraIconWrapper = styled.div`
 export const CategoryActions = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const CountTag = styled.div`
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  margin-right: 8px;
+
+  border-color: #fff0;
+  border-radius: 8px;
+  background: ${(props) => props.theme.accent}22;
+
+  cursor: default;
+
+  color: ${(props) => props.theme.accent};
+  font-weight: 500;
+  font-size: 12px;
+  padding-top: 3px;
 `;
