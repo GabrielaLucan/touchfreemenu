@@ -369,6 +369,9 @@ export const JiggleModeIndicator = styled.div`
   justify-content: space-between;
   width: 720px;
 
+  font-size: 14px;
+  color: ${(props) => props.theme.mutedText};
+
   transition: height 0.25s ease-in-out;
   height: 0;
   overflow: hidden;

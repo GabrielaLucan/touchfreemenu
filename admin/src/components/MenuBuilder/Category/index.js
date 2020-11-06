@@ -14,10 +14,10 @@ import {
   CategoryActions,
   CountTag,
 } from '../styles';
-import { faCaretRight, faGripVertical, faPencilAlt, faPlus, faThumbsDown, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight, faGripHorizontal, faGripVertical, faPencilAlt, faPlus, faThumbsDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 
-export default class Category extends Component {
+export default class Category extends Component<any> {
   state = {
     isExpanded: this.props.category.index == 1,
   };
@@ -35,51 +35,76 @@ export default class Category extends Component {
   startTimer = () => {
     this.longPressTimeout = setTimeout(() => {
       this.props.enterJiggleMode();
-    }, 500);
+    }, 300);
   };
 
-  endTimer = () => {
-    clearTimeout(this.longPressTimeout);
-
+  toggle = () => {
     if (!this.props.inJiggleMode) {
       this.setState({ isExpanded: !this.state.isExpanded });
     }
   };
 
+  clearTimeout = () => {
+    clearTimeout(this.longPressTimeout);
+  };
+
   render() {
-    const { category, query, inEditMode, provided, openProductModal, removeProduct, inJiggleMode } = this.props;
+    const { category, query, inEditMode, provided, openProductModal, openCategoryModal, removeProduct, removeCategory, inJiggleMode } = this.props;
     const isExpanded = (this.state.isExpanded || query.length) && !inJiggleMode;
 
     const hasProducts = this.getProducts().length > 0;
 
     return (
       <Panel style={{ height: hasProducts && isExpanded ? this.getCategoryHeight() + 'px' : '68px', transition: 'height 0.25s ease-in-out' }}>
-        <PanelHeader onMouseDown={this.startTimer} onMouseUp={this.endTimer} style={{ pointerEvents: hasProducts ? 'all' : 'none' }}>
+        <PanelHeader
+          onMouseDown={this.startTimer}
+          onTouchStart={this.startTimer}
+          onTouchEnd={this.clearTimeout}
+          onMouseUp={this.clearTimeout}
+          onClick={this.toggle}
+          style={{ cursor: inJiggleMode ? 'move' : 'pointer' }}
+        >
           <CategoryActions>
             <CategoryTitle>
+              <div style={{ display: 'inline-block', width: inJiggleMode ? '24px' : 0, overflow: 'hidden', transition: 'width 0.25s ease-in-out' }}>
+                <FontAwesomeIcon color="#818e99" icon={faGripHorizontal} style={{ marginRight: '8px' }} />
+              </div>
               <CountTag>{this.getProducts().length}</CountTag>
               <span>{category.name}</span>
             </CategoryTitle>
-            <FontAwesomeIcon
-              style={{
-                transform: `rotate(${isExpanded ? '90' : '0'}deg)`,
-                transition: 'transform 0.2s ease-in-out',
-                opacity: hasProducts ? 1 : 0,
-              }}
-              color="#818e99"
-              icon={faCaretRight}
-            />
+            {!inJiggleMode && (
+              <FontAwesomeIcon
+                style={{
+                  transform: `rotate(${isExpanded ? '90' : '0'}deg)`,
+                  transition: 'transform 0.2s ease-in-out',
+                  opacity: hasProducts ? 1 : 0,
+                }}
+                color="#818e99"
+                icon={faCaretRight}
+              />
+            )}
           </CategoryActions>
-          <Button
-            className="green"
-            title="Adaugă produs"
-            onClick={(e) => {
-              openProductModal(category.id);
-              e.stopPropagation();
-            }}
-          >
-            <FontAwesomeIcon icon={faPlus} style={{ marginRight: '0' }} />
-          </Button>
+          {inJiggleMode ? (
+            <div style={{ display: 'flex' }}>
+              <Button title="Editează produsul" onClick={() => openCategoryModal(category)} style={{ marginRight: '8px' }}>
+                <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
+              </Button>
+              <Button title="Șterge produsul" className="destructive" onClick={() => removeCategory(category)}>
+                <FontAwesomeIcon icon={faTrash} />
+              </Button>
+            </div>
+          ) : (
+            <Button
+              className="green"
+              title="Adaugă produs"
+              onClick={(e) => {
+                openProductModal(category.id);
+                e.stopPropagation();
+              }}
+            >
+              <FontAwesomeIcon icon={faPlus} style={{ marginRight: '0' }} />
+            </Button>
+          )}
         </PanelHeader>
 
         {this.getProducts().map((product) => (
