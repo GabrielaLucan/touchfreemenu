@@ -34,11 +34,13 @@ export default class Category extends Component {
 
   render() {
     const { category, inEditMode, provided, openProductModal, removeProduct } = this.props;
-    const { isExpanded } = this.state;
+    const isExpanded = this.state.isExpanded || this.props.query.length;
+
+    const hasProducts = this.getProducts().length > 0;
 
     return (
-      <Panel style={{ height: isExpanded ? this.getCategoryHeight() + 'px' : '68px', transition: 'height 0.25s ease-in-out' }}>
-        <PanelHeader onClick={() => this.setState({ isExpanded: !this.state.isExpanded })} style={{ pointerEvents: this.getProducts().length ? 'all' : 'none' }}>
+      <Panel style={{ height: hasProducts && isExpanded ? this.getCategoryHeight() + 'px' : '68px', transition: 'height 0.25s ease-in-out' }}>
+        <PanelHeader onClick={() => this.setState({ isExpanded: !this.state.isExpanded })} style={{ pointerEvents: hasProducts ? 'all' : 'none' }}>
           <CategoryActions>
             <CategoryTitle>
               <CountTag>{this.getProducts().length}</CountTag>
@@ -48,7 +50,7 @@ export default class Category extends Component {
               style={{
                 transform: `rotate(${isExpanded ? '90' : '0'}deg)`,
                 transition: 'transform 0.2s ease-in-out',
-                opacity: this.getProducts().length ? 1 : 0,
+                opacity: hasProducts ? 1 : 0,
               }}
               color="#818e99"
               icon={faCaretRight}

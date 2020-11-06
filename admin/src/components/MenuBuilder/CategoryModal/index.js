@@ -1,5 +1,5 @@
 import React from 'react';
-import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter, ErrorText } from '../ProductModal/styles';
+import { Backdrop, Modal, Header, CloseButtonWrapper, ModalContent, ModalFooter, ErrorText, FieldWrapper } from '../ProductModal/styles';
 import { FormInput, Label } from '../styles';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -72,9 +72,11 @@ export default class EditModal extends React.Component {
             </CloseButtonWrapper>
           </Header>
           <ModalContent>
-            <Label>Nume</Label>
-            <FormInput value={name} autoFocus onChange={(e) => this.changeValue('name', e.target.value)} placeholder="Nume categorie" />
-            {!this.isNameUnique() && <ErrorText>Există deja o categorie cu numele acesta.</ErrorText>}
+            <FieldWrapper>
+              <Label>Nume</Label>
+              <FormInput value={name} autoFocus onChange={(e) => this.changeValue('name', e.target.value)} placeholder="Nume categorie" />
+              {!this.isNameUnique() && <ErrorText>Există deja o categorie cu numele acesta.</ErrorText>}
+            </FieldWrapper>
           </ModalContent>
           <ModalFooter>
             <Button type="cancel" onClick={this.close} text="Anulează" />

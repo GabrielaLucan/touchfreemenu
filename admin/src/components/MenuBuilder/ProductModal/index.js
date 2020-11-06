@@ -13,8 +13,9 @@ import {
   DropArea,
   ProductImageWrapper,
   ChangeImageButton,
+  FieldWrapper
 } from './styles';
-import { FormInput, Label, FormInputWrapper, FieldWrapper, SelectInput, Suffix, CameraIconWrapper } from '../styles';
+import { FormInput, Label, FormInputWrapper,  Suffix, CameraIconWrapper } from '../styles';
 import { faCheck, faTimes, faPlus, faCamera, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../shared/Button';

@@ -335,12 +335,6 @@ export const Suffix = styled.div`
   pointer-events: none;
 `;
 
-export const FieldWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 8px;
-`;
-
 export const CameraIconWrapper = styled.div`
   position: absolute;
   left: 12px;

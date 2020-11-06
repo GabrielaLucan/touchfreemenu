@@ -204,3 +204,9 @@ export const ErrorText = styled.div`
   color: ${(props) => props.theme.red};
   font-size: 12px;
 `;
+
+export const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+`;
