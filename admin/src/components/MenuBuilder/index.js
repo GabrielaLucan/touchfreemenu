@@ -112,16 +112,18 @@ export default class MenuBuilder extends React.Component {
                   <Draggable key={category.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inJiggleMode} draggableId={category.id} index={category.index}>
                     {(provided) => (
                       <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <Category
-                          category={category}
-                          provided={provided}
-                          openProductModal={this.openProductModal}
-                          openCategoryModal={this.openCategoryModal}
-                          removeProduct={this.removeProduct}
-                          inJiggleMode={inJiggleMode}
-                          enterJiggleMode={this.enterJiggleMode}
-                          query={query}
-                        />
+                        <div style={{ paddingBottom: '24px' }}>
+                          <Category
+                            category={category}
+                            provided={provided}
+                            openProductModal={this.openProductModal}
+                            openCategoryModal={this.openCategoryModal}
+                            removeProduct={this.removeProduct}
+                            inJiggleMode={inJiggleMode}
+                            enterJiggleMode={this.enterJiggleMode}
+                            query={query}
+                          />
+                        </div>
                       </div>
                     )}
                   </Draggable>

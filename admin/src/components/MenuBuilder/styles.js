@@ -14,7 +14,6 @@ export const Wrapper = styled.div`
 export const Panel = styled.div`
   background-color: ${(props) => props.theme.foreground};
   border-radius: 8px;
-  margin-bottom: 24px;
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
   width: 720px;
   overflow: hidden;
