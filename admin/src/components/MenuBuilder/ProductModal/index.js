@@ -170,7 +170,7 @@ export default class ProductModal extends Component {
               'Editează produsul'
             ) : (
               <span>
-                Adaugă produs în <span style={{ fontWeight: '600' }}>"{(categories.find((x) => x.id == product.categoryId) || {}).name || ''}"</span>
+                Adaugă produs în "{(categories.find((x) => x.id == product.categoryId) || {}).name || ''}"
               </span>
             )}
             <CloseButtonWrapper onClick={this.close} title="Închide">

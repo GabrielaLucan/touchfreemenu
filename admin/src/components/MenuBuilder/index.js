@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { Wrapper, Panel, Button, EmptyPlaceholderWrapper, TopBar, SearchInput, JiggleModeIndicator } from './styles';
@@ -54,6 +54,7 @@ export default class MenuBuilder extends React.Component {
   };
 
   enterJiggleMode = async () => {
+    localStorage.hasEnteredJiggleMode = true;
     this.setState({ inJiggleMode: true });
   };
 
@@ -63,7 +64,7 @@ export default class MenuBuilder extends React.Component {
   };
 
   removeCategory = async (category) => {
-    await this.confirmationModal.open({ title: `Șterge categorie`, text: `Ești sigur că dorești să ștergi categoria "${category.name}"?` });
+    await this.confirmationModal.open({ title: `Șterge categoria "${category.name}"`, text: `\nToate produsele din cadrul acestei categorii vor fi șterse. Ești sigur că dorești să ștergi această categorie?` });
     this.props.removeCategory(category.id);
   };
 
@@ -71,8 +72,10 @@ export default class MenuBuilder extends React.Component {
   openCategoryModal = (category) => this.categoryModal.getWrappedInstance().open(category);
 
   render() {
-    const { query, inJiggleMode } = this.state;
+    const { query } = this.state;
     const { categories, disabled, loading } = this.props;
+
+    const inJiggleMode = this.state.inJiggleMode && this.getCategories().length > 0;
 
     return (
       <Wrapper loading={loading}>
@@ -80,8 +83,8 @@ export default class MenuBuilder extends React.Component {
           <Panel>
             <EmptyPlaceholderWrapper>
               Nimic aici încă. <br />
-              Începe prin a adăuga o categorie.
-              <Button className="green" disabled={disabled} style={{ marginLeft: '0', marginTop: '48px' }} title="Adaugă" onClick={() => this.openCategoryModal(undefined)}>
+              <span style={{ marginTop: 16 }}>Începe prin a adăuga o categorie.</span>
+              <Button className="green" disabled={disabled} style={{ marginLeft: '0', marginTop: '32px' }} title="Adaugă" onClick={() => this.openCategoryModal(undefined)}>
                 <FontAwesomeIcon icon={faPlus} />
                 Adaugă
               </Button>
@@ -112,7 +115,7 @@ export default class MenuBuilder extends React.Component {
                   <Draggable key={category.id} {...provided.droppableProps} ref={provided.innerRef} isDragDisabled={!inJiggleMode} draggableId={category.id} index={category.index}>
                     {(provided) => (
                       <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <div style={{ paddingBottom: '24px' }}>
+                        <div style={{ paddingBottom: '16px' }}>
                           <Category
                             category={category}
                             provided={provided}
@@ -134,6 +137,14 @@ export default class MenuBuilder extends React.Component {
             )}
           </Droppable>
         </DragDropContext>
+
+        {this.getCategories().length > 0 && !localStorage.hasEnteredJiggleMode && !inJiggleMode && (
+          <JiggleModeIndicator style={{ height: '20px', justifyContent: 'flex-start', opacity: 0.6 }}>
+            <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '8px' }} />
+            Ține apăsat pe o categorie pentru a intra în modul de edit.
+          </JiggleModeIndicator>
+        )}
+
         <ProductModal ref={(x) => (this.productModal = x)} />
         <CategoryModal ref={(x) => (this.categoryModal = x)} />
         <ConfirmationModal ref={(x) => (this.confirmationModal = x)} />

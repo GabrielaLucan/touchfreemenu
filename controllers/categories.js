@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+const Product = require('../models/product');
 
 exports.create = async (req, res, next) => {
   try {
@@ -76,6 +77,8 @@ exports.delete = async (req, res, next) => {
     const { categoryId } = req.params;
 
     await Category.findByIdAndRemove(categoryId);
+
+    await Product.find({ categoryId }).remove();
 
     await uniformizeIndexes();
 

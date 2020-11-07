@@ -19,7 +19,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 export default class Category extends Component<any> {
   state = {
-    isExpanded: this.props.category.index == 1,
+    isExpanded: false,
   };
 
   sortProducts = (a, b) => a.index - b.index;

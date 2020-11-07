@@ -381,6 +381,7 @@ export const JiggleModeIndicator = styled.div`
   overflow: hidden;
   margin-top: -8px;
   margin-bottom: 16px;
+  padding: 0 16px;
 
   @media (max-width: 768px) {
     width: min(395px, calc(100vw - 32px)) !important;
