@@ -56,7 +56,7 @@ export const Product = styled.div`
   background: ${(props) => props.theme.foreground};
   border-radius: 8px;
   padding: 10px 12px;
-  margin: 8px;
+  margin: 0 8px;
   border: 1px solid ${(props) => props.theme.border};
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   font-weight: 500;
@@ -381,7 +381,6 @@ export const JiggleModeIndicator = styled.div`
   overflow: hidden;
   margin-top: -8px;
   margin-bottom: 16px;
-  padding: 0 16px;
 
   @media (max-width: 768px) {
     width: min(395px, calc(100vw - 32px)) !important;

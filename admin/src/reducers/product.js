@@ -30,19 +30,33 @@ export default (state = initialState, action) => {
     case REMOVE_PRODUCT_PENDING:
       return { ...state, loading: true };
     case MOVE_PRODUCT_PENDING:
-      const list = [...state.list];
       const { productId, destinationIndex } = action;
 
-      const draggedItem = list.find((x) => x.id === productId);
-      const listWithoutItem = list.filter((x) => x.id !== productId);
+      const productCategoryId = state.list.find((x) => x.id == productId).categoryId;
+      const productsInCategory = [...state.list].filter((x) => x.categoryId == productCategoryId);
 
-      const newList = [...listWithoutItem.slice(0, destinationIndex - 1), draggedItem, ...listWithoutItem.slice(destinationIndex - 1)];
+      const draggedItem = productsInCategory.find((x) => x.id === productId);
+      const listWithoutItem = productsInCategory.filter((x) => x.id !== productId).sort((a, b) => a.index - b.index);
 
-      newList.forEach((x, i) => {
+      const newListInCategory = [...listWithoutItem.slice(0, destinationIndex - 1), draggedItem, ...listWithoutItem.slice(destinationIndex - 1)];
+
+      newListInCategory.forEach((x, i) => {
         x.index = i + 1;
       });
 
-      return { ...state, list: newList };
+      const updatedFullList = [...state.list].map((product) => {
+        const newProduct = newListInCategory.find((x) => x.id == product.id);
+        if (newProduct) {
+          return {
+            ...product,
+            index: newProduct.index,
+          };
+        } else {
+          return { ...product };
+        }
+      });
+
+      return { ...state, list: updatedFullList };
 
     // ---SUCCESSES---
     case CREATE_PRODUCT_SUCCESS:
@@ -58,9 +72,22 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case MOVE_PRODUCT_SUCCESS:
+      const { newProductsFromCategory } = action;
+      const updatedList = [...state.list].map((product) => {
+        const newProduct = newProductsFromCategory.find((x) => x.id == product.id);
+        if (newProduct) {
+          return {
+            ...product,
+            index: newProduct.index,
+          };
+        } else {
+          return { ...product };
+        }
+      });
+
       return {
         ...state,
-        list: action.newProducts,
+        // list: updatedList,
       };
     case EDIT_PRODUCT_SUCCESS:
       return {

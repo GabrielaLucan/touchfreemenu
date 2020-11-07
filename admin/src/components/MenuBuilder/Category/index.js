@@ -15,7 +15,7 @@ import {
   CountTag,
 } from '../styles';
 import { faCaretRight, faGripHorizontal, faGripVertical, faPencilAlt, faPlus, faThumbsDown, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 export default class Category extends Component<any> {
   state = {
@@ -47,6 +47,22 @@ export default class Category extends Component<any> {
   clearTimeout = () => {
     clearTimeout(this.longPressTimeout);
   };
+
+  
+  onProductDragEnd = (params) => {
+    const { destination, source, draggableId } = params;
+
+    if (!destination) {
+      return;
+    }
+
+    if (destination.index == source.index) {
+      return;
+    }
+
+    this.props.moveProduct(draggableId, destination.index);
+  };
+
 
   render() {
     const { category, query, inEditMode, provided, openProductModal, openCategoryModal, removeProductConfirm, removeCategoryConfirm, inJiggleMode } = this.props;
@@ -108,9 +124,26 @@ export default class Category extends Component<any> {
           </div>
         </PanelHeader>
 
-        {this.getProducts().map((product) => (
-          <Product key={product.id} product={product} provided={provided} inEditMode={inEditMode} openEditModal={() => openProductModal(product)} removeProduct={() => removeProductConfirm(product)} />
-        ))}
+        <DragDropContext onDragEnd={this.onProductDragEnd}>
+          <Droppable droppableId={'productsContainer' + category.id}>
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {this.getProducts().map((product) => (
+                  <Draggable key={product.id} {...provided.droppableProps} ref={provided.innerRef} draggableId={product.id} index={product.index}>
+                    {(provided) => (
+                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                        <div style={{ padding: '4px 0' }}>
+                          <Product product={product} inEditMode={inEditMode} openEditModal={() => openProductModal(product)} removeProduct={() => removeProductConfirm(product)} />
+                        </div>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
 
         {provided.placeholder}
       </Panel>
@@ -118,7 +151,7 @@ export default class Category extends Component<any> {
   }
 }
 
-const Product = ({ product, provided, inEditMode, openEditModal, removeProduct }) => (
+const Product = ({ product, inEditMode, openEditModal, removeProduct }) => (
   <ProductStyle className={inEditMode ? 'editable' : ''}>
     <div style={{ display: 'flex', alignItems: 'center' }}>
       {inEditMode && (

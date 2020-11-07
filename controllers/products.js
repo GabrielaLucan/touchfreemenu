@@ -34,7 +34,7 @@ exports.create = async (req, res, next) => {
   try {
     const { name, ingredients, quantities, price, discountedPrice, categoryId, isDiscounted } = req.body;
 
-    const highestProductIndex = (await Product.findOne().sort({ index: -1 }))?.index || 0;
+    const highestProductIndex = (await Product.findOne({ categoryId }).sort({ index: -1 }))?.index || 0;
 
     const product = await Product.create({
       name,
@@ -73,8 +73,10 @@ exports.getAll = async (req, res, next) => {
 
 exports.move = async (req, res, next) => {
   try {
-    const products = await Product.find({});
     const { productId, destinationIndex } = req.body;
+    const productCategoryId = (await Product.findById(productId)).categoryId;
+
+    const products = await Product.find({ categoryId: productCategoryId });
 
     const draggedItem = products.find((x) => x.id === productId);
     const listWithoutItem = products.filter((x) => x.id !== productId).sort((a, b) => a.index - b.index);
@@ -147,9 +149,10 @@ exports.delete = async (req, res, next) => {
   try {
     const { productId } = req.params;
 
-    await Product.findByIdAndRemove(productId);
+    const productCategoryId = (await Product.findById(productId)).categoryId;
 
-    await uniformizeIndexes();
+    await Product.findByIdAndRemove(productId);
+    await uniformizeProductIndexes(productCategoryId);
 
     res.status(200).json({ success: true });
   } catch (err) {
@@ -157,8 +160,8 @@ exports.delete = async (req, res, next) => {
   }
 };
 
-const uniformizeIndexes = async () => {
-  const products = (await Product.find({})).sort((a, b) => a.index - b.index);
+const uniformizeProductIndexes = async (categoryId) => {
+  const products = (await Product.find({ categoryId })).sort((a, b) => a.index - b.index);
   const newList = [...products];
   newList.forEach((x, i) => {
     x.index = i + 1;

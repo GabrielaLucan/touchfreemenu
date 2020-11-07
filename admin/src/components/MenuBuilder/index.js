@@ -39,7 +39,7 @@ export default class MenuBuilder extends React.Component {
 
   getCategories = () => this.props.categories.sort(this.sortCategories);
 
-  onDragEnd = (params) => {
+  onCategoryDragEnd = (params) => {
     const { destination, source, draggableId } = params;
 
     if (!destination) {
@@ -64,7 +64,10 @@ export default class MenuBuilder extends React.Component {
   };
 
   removeCategory = async (category) => {
-    await this.confirmationModal.open({ title: `Șterge categoria "${category.name}"`, text: `\nToate produsele din cadrul acestei categorii vor fi șterse. Ești sigur că dorești să ștergi această categorie?` });
+    await this.confirmationModal.open({
+      title: `Șterge categoria "${category.name}"`,
+      text: `\nToate produsele din cadrul acestei categorii vor fi șterse. Ești sigur că dorești să ștergi această categorie?`,
+    });
     this.props.removeCategory(category.id);
   };
 
@@ -107,7 +110,7 @@ export default class MenuBuilder extends React.Component {
           </Button>
         </JiggleModeIndicator>
 
-        <DragDropContext onDragEnd={this.onDragEnd}>
+        <DragDropContext onDragEnd={this.onCategoryDragEnd}>
           <Droppable droppableId="categoriesContainer">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -139,7 +142,7 @@ export default class MenuBuilder extends React.Component {
         </DragDropContext>
 
         {this.getCategories().length > 0 && !localStorage.hasEnteredJiggleMode && !inJiggleMode && (
-          <JiggleModeIndicator style={{ height: '20px', justifyContent: 'flex-start', opacity: 0.6 }}>
+          <JiggleModeIndicator style={{ height: '32px', justifyContent: 'flex-start', opacity: 0.6 }}>
             <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '8px' }} />
             Ține apăsat pe o categorie pentru a intra în modul de edit.
           </JiggleModeIndicator>

@@ -89,9 +89,9 @@ export const moveProduct = (productId, destinationIndex) => async (dispatch) => 
   dispatch({ type: MOVE_PRODUCT_PENDING, productId, destinationIndex });
 
   try {
-    const newProducts = await productEndpoints.move(productId, destinationIndex);
+    const newProductsFromCategory = await productEndpoints.move(productId, destinationIndex);
 
-    dispatch({ type: MOVE_PRODUCT_SUCCESS, newProducts });
+    dispatch({ type: MOVE_PRODUCT_SUCCESS, newProductsFromCategory });
   } catch (error) {
     dispatch({ type: MOVE_PRODUCT_ERROR, error });
   }

@@ -13,9 +13,9 @@ import {
   DropArea,
   ProductImageWrapper,
   ChangeImageButton,
-  FieldWrapper
+  FieldWrapper,
 } from './styles';
-import { FormInput, Label, FormInputWrapper,  Suffix, CameraIconWrapper } from '../styles';
+import { FormInput, Label, FormInputWrapper, Suffix, CameraIconWrapper } from '../styles';
 import { faCheck, faTimes, faPlus, faCamera, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '../../shared/Button';
@@ -29,14 +29,18 @@ export default class ProductModal extends Component {
     inEditMode: false,
     product: { ...emptyProduct },
     selectedImageBase64: '',
+    selectedImage: null,
   };
 
   open = (productOrCategoryId) => {
     if (typeof productOrCategoryId == 'object') {
-      this.setState({ isOpen: true, inEditMode: true, product: { ...productOrCategoryId }, selectedImageBase64: '' });
+      const productToEdit = productOrCategoryId;
+      this.setState({ inEditMode: true, product: { ...productToEdit } });
     } else {
-      this.setState({ isOpen: true, inEditMode: false, product: { ...emptyProduct, categoryId: productOrCategoryId, selectedImageBase64: '' } });
+      const categoryId = productOrCategoryId;
+      this.setState({ inEditMode: false, product: { ...emptyProduct, categoryId } });
     }
+    this.setState({ selectedImageBase64: '', selectedImage: null, isOpen: true });
   };
 
   save = () => {
@@ -166,13 +170,7 @@ export default class ProductModal extends Component {
         <Backdrop className={isOpen ? 'open' : 'closed'} />
         <Modal className={isOpen ? 'open' : 'closed'}>
           <Header>
-            {inEditMode ? (
-              'Editează produsul'
-            ) : (
-              <span>
-                Adaugă produs în "{(categories.find((x) => x.id == product.categoryId) || {}).name || ''}"
-              </span>
-            )}
+            {inEditMode ? 'Editează produsul' : <span>Adaugă produs în "{(categories.find((x) => x.id == product.categoryId) || {}).name || ''}"</span>}
             <CloseButtonWrapper onClick={this.close} title="Închide">
               <FontAwesomeIcon icon={faTimes} />
             </CloseButtonWrapper>
