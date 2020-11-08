@@ -13,7 +13,7 @@ import {
   Button,
   CategoryActions,
   CountTag,
-  MatchedString
+  MatchedString,
 } from '../styles';
 import { faCaretRight, faGripHorizontal, faGripVertical, faPencilAlt, faPlus, faThumbsDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -32,7 +32,7 @@ export default class Category extends Component<any> {
 
   sortProducts = (a, b) => a.index - b.index;
   filterProducts = (x) =>
-    x.categoryId == this.props.category.id && x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.props.query.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').trim());
+    x.categoryId == this.props.category.id && x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.props.query.toLowerCase().normalize('NFKD').replace(/[^\w]/g, ''));
   getProducts = () => this.props.products.filter(this.filterProducts).sort(this.sortProducts);
 
   getCategoryHeight = () =>
@@ -159,14 +159,26 @@ export default class Category extends Component<any> {
 }
 
 const Product = ({ product, inEditMode, openEditModal, removeProduct, query: rawQuery }) => {
-  const query = rawQuery.toLowerCase().normalize('NFKD');
-  const productName = product.name.toLowerCase().normalize('NFKD');
+  const query = rawQuery
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^(\w|\s)]/g, '');
+  const productName = product.name
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^(\w|\s)]/g, '');
 
   const indexOfMatch = productName.indexOf(query);
 
   const beforeMatchedString = product.name.substring(0, indexOfMatch);
   const matchedString = product.name.substring(indexOfMatch, indexOfMatch + query.length);
   const afterMatchedString = product.name.substring(indexOfMatch + query.length);
+
+  console.log('query', query);
+  console.log('productName', productName);
+  console.log('beforeMatchedString', beforeMatchedString);
+  console.log('matchedString', matchedString);
+  console.log('afterMatchedString', afterMatchedString);
 
   return (
     <ProductStyle className={inEditMode ? 'editable' : ''}>
