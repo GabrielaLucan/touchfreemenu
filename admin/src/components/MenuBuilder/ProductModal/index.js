@@ -12,7 +12,7 @@ import {
   DiscountToggle,
   DropArea,
   ProductImageWrapper,
-  ChangeImageButton,
+  RemoveImageButton,
   FieldWrapper,
 } from './styles';
 import { FormInput, Label, FormInputWrapper, Suffix, CameraIconWrapper } from '../styles';
@@ -123,12 +123,17 @@ export default class ProductModal extends Component {
     return true;
   };
 
-  Field = ({ label, for: propertyName, suffix, asNumber, addNewField, maxLength, max, description, style, ...otherInputProps }) => {
+  Field = ({ label, for: propertyName, required, suffix, asNumber, addNewField, maxLength, max, description, style, ...otherInputProps }) => {
     const { product } = this.state;
     const currentValue = product[propertyName] || '';
     return (
       <FieldWrapper style={style}>
-        {label && <Label>{label}</Label>}
+        {label && (
+          <Label>
+            {label}
+            {required && <span style={{ color: '#ff5723' }}> *</span>}
+          </Label>
+        )}
         <FormInputWrapper>
           <FormInput
             className={[asNumber ? 'small' : '', suffix ? 'with-suffix' : ''].join(' ')}
@@ -176,46 +181,35 @@ export default class ProductModal extends Component {
             </CloseButtonWrapper>
           </Header>
           <ModalContent>
-            <div style={{ width: '100%' }}>
-              <Field for="name" label="Nume" placeholder="Nume produs" maxLength={50} />
+            <Field for="name" required label="Nume" placeholder="Nume produs" maxLength={50} />
+            <Field style={{ marginLeft: '16px' }} required for="price" label={product.isDiscounted ? 'Preț original' : 'Preț'} asNumber max={9999} suffix="RON" />
+            {product.isDiscounted && <Field for="discountedPrice" required style={{ marginLeft: '16px' }} label="Preț redus" asNumber max={9999} suffix="RON" />}
+            <div style={{ display: 'flex', alignItems: 'center', margin: '24px 0 0 16px' }}>
+              <DiscountToggle checked={product.isDiscounted} title="La reducere?" icons={false} onChange={this.toggleDiscounted} />
+              <div style={{ marginLeft: '8px' }}>{product.isDiscounted ? 'La reducere' : 'La reducere?'}</div>
             </div>
 
-            <Field for="ingredients" label="Ingrediente (opțional)" placeholder="e.g. piept de pui, ou, pesmet" />
+            <Field for="ingredients" label="Ingrediente" placeholder="e.g. piept de pui, ou, pesmet" />
             <Field for="quantities" style={{ marginLeft: '16px' }} label="Gramaj(e)" placeholder="e.g. 450ml/150g/50g" />
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '-8px' }}>
-                  <Field for="price" label={product.isDiscounted ? 'Preț original' : 'Preț'} asNumber max={9999} suffix="RON" />
-                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', marginLeft: '16px' }}>
-                    <DiscountToggle checked={product.isDiscounted} title="La reducere?" icons={false} onChange={this.toggleDiscounted} />
-                    <div style={{ marginLeft: '8px' }}>{product.isDiscounted ? 'La reducere' : 'La reducere?'}</div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '-8px' }}>
-                  {product.isDiscounted && <Field for="discountedPrice" label="Preț redus" asNumber max={9999} suffix="RON" />}
-                </div>
-              </div>
-              <div style={{ paddingTop: '12px', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <div style={{ paddingTop: '12px', marginBottom: '8px', width: '100%' }}>
                 {!product.imageUrl && !selectedImageBase64 ? (
                   <Dropzone onDrop={this.setProductImage}>
                     {({ getRootProps, getInputProps, isDragActive }) => (
-                      <DropArea {...getRootProps()} style={{ backgroundColor: isDragActive ? '#fff' : undefined }}>
+                      <DropArea {...getRootProps()} className={isDragActive ? 'dragged' : ''}>
                         <CameraIconWrapper>
                           <FontAwesomeIcon icon={faCamera} />
                         </CameraIconWrapper>
                         <input {...getInputProps()} />
-                        <p style={{ maxWidth: '250px', textAlign: 'center' }}>Trage o poză aici sau fă click pentru a alege manual.</p>
+                        <p>Trage o poză aici sau fă click pentru a alege manual.</p>
                       </DropArea>
                     )}
                   </Dropzone>
                 ) : (
                   <ProductImageWrapper>
                     <img src={product.imageUrl || selectedImageBase64} style={{ width: '100%' }} />
-                    <ChangeImageButton onClick={this.changeProductImage}>Schimbă</ChangeImageButton>
-                    <ChangeImageButton className="remove" onClick={this.removeProductImage}>
-                      Șterge
-                    </ChangeImageButton>
+                    <RemoveImageButton onClick={this.removeProductImage}>Șterge</RemoveImageButton>
                   </ProductImageWrapper>
                 )}
               </div>

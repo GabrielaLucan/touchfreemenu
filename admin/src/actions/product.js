@@ -17,6 +17,8 @@ export const createProduct = (product) => async (dispatch) => {
   try {
     const createdProduct = await productEndpoints.create(productData);
 
+    window.openCategory[createdProduct.categoryId]();
+
     dispatch({ type: CREATE_PRODUCT_SUCCESS, createdProduct });
   } catch (error) {
     dispatch({ type: CREATE_PRODUCT_ERROR, error });

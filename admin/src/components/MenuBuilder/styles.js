@@ -274,7 +274,7 @@ export const EditButton = styled.div`
 // `;
 
 export const FormInput = styled(Input)`
-  width: 318px;
+  width: calc(((780px - (16px * 3)) / 2) - 2px);
   height: 41px;
   padding: 8px 12px;
   border-radius: 8px;
@@ -329,8 +329,9 @@ export const FormInputWrapper = styled.div`
 export const Suffix = styled.div`
   position: absolute;
   right: 12px;
-  top: 18px;
+  top: 20px;
   z-index: 15;
+  font-size: 14px;
   color: ${(props) => props.theme.mutedText}bb;
   pointer-events: none;
 `;
@@ -347,6 +348,10 @@ export const CameraIconWrapper = styled.div`
 export const CategoryActions = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const MatchedString = styled.span`
+  color: ${(props) => props.theme.accent};
 `;
 
 export const CountTag = styled.div`

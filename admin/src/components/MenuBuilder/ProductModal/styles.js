@@ -20,7 +20,7 @@ export const Backdrop = styled.div`
 export const Modal = styled.div`
   position: fixed;
   z-index: 100;
-  width: 686px;
+  width: 780px;
   top: 160px;
   left: 0;
   right: 0;
@@ -149,36 +149,36 @@ export const DropArea = styled.div`
   background-color: ${(props) => props.theme.inputBackground};
   border: 1px solid ${(props) => props.theme.border};
   border-radius: 8px;
-  width: 318px;
-  height: 106px;
-  padding: 16px;
+  width: 100%;
+  height: 62px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   position: relative;
-`;
+  color: #bcc3c8;
 
-export const ProductImageWrapper = styled.div`
-  border-radius: 8px;
-  width: 318px;
-  overflow: hidden;
-  position: relative;
-  justify-content: flex-end;
-  display: flex;
+  &.dragged {
+    background: ${(props) => props.theme.accent}10;
+    border: 1px solid ${(props) => props.theme.accent};
+    color: ${(props) => props.theme.accent};
 
-  div {
-    display: none;
-  }
-
-  :hover {
-    div {
-      display: block;
+    > div {
+      color: ${(props) => props.theme.accent};
     }
   }
 `;
 
-export const ChangeImageButton = styled.div`
+export const ProductImageWrapper = styled.div`
+  border-radius: 8px;
+  width: calc(((780px - (16px * 3)) / 2) - 2px);
+  overflow: hidden;
+  position: relative;
+  justify-content: flex-end;
+  display: flex;
+`;
+
+export const RemoveImageButton = styled.div`
   position: absolute;
   top: 8px;
   right: 8px;
@@ -186,13 +186,8 @@ export const ChangeImageButton = styled.div`
   cursor: pointer;
   color: white;
   border-radius: 8px;
-  background: ${(props) => props.theme.accent};
   box-shadow: 0 4px 12px ${(props) => props.theme.shadow};
-
-  &.remove {
-    background: ${(props) => props.theme.red};
-    top: 42px;
-  }
+  background: ${(props) => props.theme.red};
 
   :hover {
     opacity: 0.95;

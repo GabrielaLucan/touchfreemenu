@@ -141,7 +141,7 @@ export default class MenuBuilder extends React.Component {
           </Droppable>
         </DragDropContext>
 
-        {this.getCategories().length > 0 && !localStorage.hasEnteredJiggleMode && !inJiggleMode && (
+        {this.getCategories().length && !inJiggleMode && (
           <JiggleModeIndicator style={{ height: '32px', justifyContent: 'flex-start', opacity: 0.6 }}>
             <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '8px' }} />
             Ține apăsat pe o categorie pentru a intra în modul de edit.

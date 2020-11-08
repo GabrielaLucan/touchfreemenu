@@ -13,6 +13,7 @@ import {
   Button,
   CategoryActions,
   CountTag,
+  MatchedString
 } from '../styles';
 import { faCaretRight, faGripHorizontal, faGripVertical, faPencilAlt, faPlus, faThumbsDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -22,14 +23,22 @@ export default class Category extends Component<any> {
     isExpanded: false,
   };
 
+  componentDidMount() {
+    if (!window.openCategory) {
+      window.openCategory = {};
+    }
+    window.openCategory[this.props.category.id] = () => this.setState({ isExpanded: true });
+  }
+
   sortProducts = (a, b) => a.index - b.index;
-  filterProducts = (x) => x.categoryId == this.props.category.id && x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.props.query.toLowerCase().trim());
+  filterProducts = (x) =>
+    x.categoryId == this.props.category.id && x.name.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').includes(this.props.query.toLowerCase().normalize('NFKD').replace(/[^\w]/g, '').trim());
   getProducts = () => this.props.products.filter(this.filterProducts).sort(this.sortProducts);
 
   getCategoryHeight = () =>
-    76 +
+    74 +
     this.getProducts()
-      .map((x) => (x.imageUrl ? 130 : 74 + (x.quantities ? 22 : 0) + (x.ingredients ? 22 : 0)))
+      .map((x) => (x.imageUrl ? 130 : 72 + (x.quantities ? 22 : 0) + (x.ingredients ? 22 : 0)))
       .reduce((a, b) => a + b, 0);
 
   startTimer = () => {
@@ -48,7 +57,6 @@ export default class Category extends Component<any> {
     clearTimeout(this.longPressTimeout);
   };
 
-  
   onProductDragEnd = (params) => {
     const { destination, source, draggableId } = params;
 
@@ -62,7 +70,6 @@ export default class Category extends Component<any> {
 
     this.props.moveProduct(draggableId, destination.index);
   };
-
 
   render() {
     const { category, query, inEditMode, provided, openProductModal, openCategoryModal, removeProductConfirm, removeCategoryConfirm, inJiggleMode } = this.props;
@@ -133,7 +140,7 @@ export default class Category extends Component<any> {
                     {(provided) => (
                       <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                         <div style={{ padding: '4px 0' }}>
-                          <Product product={product} inEditMode={inEditMode} openEditModal={() => openProductModal(product)} removeProduct={() => removeProductConfirm(product)} />
+                          <Product query={query} product={product} inEditMode={inEditMode} openEditModal={() => openProductModal(product)} removeProduct={() => removeProductConfirm(product)} />
                         </div>
                       </div>
                     )}
@@ -151,51 +158,66 @@ export default class Category extends Component<any> {
   }
 }
 
-const Product = ({ product, inEditMode, openEditModal, removeProduct }) => (
-  <ProductStyle className={inEditMode ? 'editable' : ''}>
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      {inEditMode && (
-        <DragIconWrapper>
-          <FontAwesomeIcon icon={faGripVertical} />
-        </DragIconWrapper>
-      )}
-      <div style={{ display: 'flex' }}>
-        {product.imageUrl && (
-          <ProductImageWrapper>
-            <ProductImage src={product.imageUrl} />
-          </ProductImageWrapper>
+const Product = ({ product, inEditMode, openEditModal, removeProduct, query: rawQuery }) => {
+  const query = rawQuery.toLowerCase().normalize('NFKD');
+  const productName = product.name.toLowerCase().normalize('NFKD');
+
+  const indexOfMatch = productName.indexOf(query);
+
+  const beforeMatchedString = product.name.substring(0, indexOfMatch);
+  const matchedString = product.name.substring(indexOfMatch, indexOfMatch + query.length);
+  const afterMatchedString = product.name.substring(indexOfMatch + query.length);
+
+  return (
+    <ProductStyle className={inEditMode ? 'editable' : ''}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {inEditMode && (
+          <DragIconWrapper>
+            <FontAwesomeIcon icon={faGripVertical} />
+          </DragIconWrapper>
         )}
-        <div>
-          <div>{product.name}</div>
-          {product.weightInGrams && <SmallDescription>Gramaj: {product.weightInGrams}g</SmallDescription>}
-          {product.price && (
-            <SmallDescription>
-              {product.isDiscounted ? 'Preț original: ' : 'Preț: '}
-              <span style={{ fontWeight: product.isDiscounted ? '300' : '600' }}>{product.price} RON</span>
-              {product.isDiscounted && (
-                <span>
-                  {' '}
-                  / Preț redus: <span style={{ fontWeight: '600' }}>{product.discountedPrice} RON</span>
-                </span>
-              )}
-            </SmallDescription>
+        <div style={{ display: 'flex' }}>
+          {product.imageUrl && (
+            <ProductImageWrapper>
+              <ProductImage src={product.imageUrl} />
+            </ProductImageWrapper>
           )}
-          {product.ingredients.length > 0 && <SmallDescription>Ingrediente: {product.ingredients}</SmallDescription>}
-          {product.quantities.length > 0 && (
-            <SmallDescription>
-              Gramaj{product.quantities.includes('/') || product.quantities.includes(',') ? 'e' : ''}: {product.quantities}
-            </SmallDescription>
-          )}
+          <div>
+            <div>
+              <span>{beforeMatchedString}</span>
+              <MatchedString>{matchedString}</MatchedString>
+              <span>{afterMatchedString}</span>
+            </div>
+            {product.weightInGrams && <SmallDescription>Gramaj: {product.weightInGrams}g</SmallDescription>}
+            {product.price && (
+              <SmallDescription>
+                {product.isDiscounted ? 'Preț original: ' : 'Preț: '}
+                <span style={{ fontWeight: product.isDiscounted ? '300' : '600' }}>{product.price} RON</span>
+                {product.isDiscounted && (
+                  <span>
+                    {' '}
+                    / Preț redus: <span style={{ fontWeight: '600' }}>{product.discountedPrice} RON</span>
+                  </span>
+                )}
+              </SmallDescription>
+            )}
+            {product.ingredients.length > 0 && <SmallDescription>Ingrediente: {product.ingredients}</SmallDescription>}
+            {product.quantities.length > 0 && (
+              <SmallDescription>
+                Gramaj{product.quantities.includes('/') || product.quantities.includes(',') ? 'e' : ''}: {product.quantities}
+              </SmallDescription>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-    <ButtonsWrapper>
-      <Button title="Editează produsul" onClick={() => openEditModal(product)}>
-        <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
-      </Button>
-      <Button title="Șterge produsul" className="destructive" onClick={() => removeProduct(product)}>
-        <FontAwesomeIcon icon={faTrash} />
-      </Button>
-    </ButtonsWrapper>
-  </ProductStyle>
-);
+      <ButtonsWrapper>
+        <Button title="Editează produsul" onClick={() => openEditModal(product)}>
+          <FontAwesomeIcon style={{ margin: '0 -1px' }} icon={faPencilAlt} />
+        </Button>
+        <Button title="Șterge produsul" className="destructive" onClick={() => removeProduct(product)}>
+          <FontAwesomeIcon icon={faTrash} />
+        </Button>
+      </ButtonsWrapper>
+    </ProductStyle>
+  );
+};

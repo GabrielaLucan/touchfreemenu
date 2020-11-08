@@ -17,8 +17,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::placeholder {
-  color: #BDBDBD;
-  opacity: 1; 
+input {
+  font-family: 'IBM Plex Sans', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
+::placeholder {
+  color: #bcc3c8;
+  opacity: 1;
+}
